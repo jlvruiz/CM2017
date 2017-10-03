@@ -15,21 +15,31 @@ namespace CM2017.Negocio
     }
     public class UDN
     {
-        BaseDeDatos.BaseDeDatos db = new BaseDeDatos.BaseDeDatos("");
+        public string _cadena = string.Empty;
+
+        public UDN(string cadena)
+        {
+            _cadena = cadena;
+        }
+
+        BaseDeDatos.BaseDeDatos db;
 
         public DataTable UDNSelect()
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from UDN");
             return db.Select();
         }
         public DataTable UDNSelectById(UDNEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from UDN where IdUDN=?");
             db.AddParameter("?", item.Id.ToString());
             return db.Select();
         }
         public int UDNDesactivar(UDNEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("update UDN set Visible=? where IdUDN=? ");
             db.AddParameter("?", item.Activo.ToString());
             db.AddParameter("?", item.Id.ToString());
@@ -37,6 +47,7 @@ namespace CM2017.Negocio
         }
         public int UDNUpdate(UDNEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("update UDN set Descripcion=?, Visible=? where IdUDN=? ");
             db.AddParameter("?", item.Descripcion);
             db.AddParameter("?", item.Activo.ToString());

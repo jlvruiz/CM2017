@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace CM2017.Sistema
 {
-    public partial class Inicio : System.Web.UI.Page
+    public partial class Inicio : Comun
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -47,9 +47,20 @@ namespace CM2017.Sistema
 
         protected void LigaEditar_Click(object sender, EventArgs e)
         {
-            LinkButton btn = sender as LinkButton;
-            GridViewRow row = btn.NamingContainer as GridViewRow;
-            string val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
+            string val = "";
+            if (sender is LinkButton)
+            {
+                LinkButton btn = sender as LinkButton;
+                GridViewRow row = btn.NamingContainer as GridViewRow;
+                val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
+            }
+            else if (sender is ImageButton)
+            {
+                ImageButton imgbtn = sender as ImageButton;
+                GridViewRow row2 = imgbtn.NamingContainer as GridViewRow;
+                val = GridView1.DataKeys[row2.RowIndex].Values[0].ToString();
+            }
+            
             Response.Redirect("frmCaptura.aspx?e=1&Id=" + val);
         }
 
@@ -63,16 +74,15 @@ namespace CM2017.Sistema
 
         protected void CargarEventos()
         {
-            Negocio.Eventos eventos = new Negocio.Eventos();
-            GridView1.DataSource = eventos.EventosSelect();
+            GridView1.DataSource = objEventos.EventosSelect();
             GridView1.DataBind();
         }
 
         public void cargarDetalle(string Id)
         {
-            Negocio.Eventos eventos = new Negocio.Eventos();
-            GridView2.DataSource = eventos.EventosDetalleSelect(Id);
+            GridView2.DataSource = objEventos.EventosDetalleSelect(Id);
             GridView2.DataBind();
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
         

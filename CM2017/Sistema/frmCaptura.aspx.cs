@@ -37,17 +37,14 @@ namespace CM2017.Sistema
         }
         protected void CargarTipoEvento()
         {           
-            //Negocio.TipoEvento objTipoEvento = new Negocio.TipoEvento();
             LlenarDropDownList(ddlTipoEvento, objTipoEvento.TipoEventoActivoSelect(), "Descripcion", "IdTipEve");
         }
         protected void CargarGerenteProducto()
         {
-            //Negocio.Gerentes objGerentes = new Negocio.Gerentes();
             LlenarDropDownList(ddlGteProd, objGerentes.GerentesActivoSelect(), "Nombre", "IdGerente");
         }
         protected void CargarProducto()
         {
-            //Negocio.Productos objProductos = new Negocio.Productos();
             chkProducto.DataSource = objProductos.ProductosSelectActivos(); ;
             chkProducto.DataTextField= "Descripcion";
             chkProducto.DataValueField = "IdProducto";
@@ -55,33 +52,31 @@ namespace CM2017.Sistema
         }
         protected void CargarTipoAudiencia()
         {
-            Negocio.TipoAudiencia objTipoAudiencia = new Negocio.TipoAudiencia();
+            //Negocio.TipoAudiencia objTipoAudiencia = new Negocio.TipoAudiencia();
             LlenarDropDownList(ddlAudiencia, objTipoAudiencia.TipoAudienciaActivoSelect(), "Descripcion", "IdAudiencia");
         }
         protected void CargarLocacion()
         {
-            Negocio.Localizacion objLocalizacion = new Negocio.Localizacion();
+            //Negocio.Localizacion objLocalizacion = new Negocio.Localizacion();
             LlenarDropDownList(ddlLocalizacion, objLocalizacion.LocalizacionesActivoSelect(), "Nombre", "IdLoc");
         }
         protected void CargarDivision()
         {
-            Negocio.Divisiones objDivisiones = new Negocio.Divisiones();
+            //Negocio.Divisiones objDivisiones = new Negocio.Divisiones();
             LlenarRadioButtonList(rblDivision, objDivisiones.DivisionesActivoSelect(), "Descripcion", "IdDivision");
         }
         protected void CargarAreaTerapeutica()
         {
-            Negocio.AreaTerapeutica objAreaTerapeutica = new Negocio.AreaTerapeutica();
+            //Negocio.AreaTerapeutica objAreaTerapeutica = new Negocio.AreaTerapeutica();
             LlenarRadioButtonList(rblAT, objAreaTerapeutica.AreaTerapeuticaActivoSelect(), objAreaTerapeutica.DataText, objAreaTerapeutica.DataValue);
         }
         protected void CargarTeamLeader()
         {
-            Negocio.GerenteTL objGerenteTL = new Negocio.GerenteTL();
+            //Negocio.GerenteTL objGerenteTL = new Negocio.GerenteTL();
             LlenarDropDownList(ddlTeamLeader, objGerenteTL.GerentesTLActivoSelect(), "Nombre", "IdTL");
         }
         protected void CargarEvento(string id)
         {
-            Negocio.Eventos objEventos = new Negocio.Eventos();
-
             foreach (System.Data.DataRow row in objEventos.EventosSelectById(id).Rows)
             {
                 TextBox1.Text = row["NombreEvento"] == DBNull.Value ? "" : row["NombreEvento"].ToString();
@@ -149,7 +144,6 @@ namespace CM2017.Sistema
             eventosentity.Division = rblDivision.SelectedValue == string.Empty ? 0 : int.Parse(rblDivision.SelectedValue);
             eventosentity.AreaTerapeutica = rblAT.SelectedValue == string.Empty ? 0 : int.Parse(rblAT.SelectedValue);
             eventosentity.TeamLeader = ddlTeamLeader.SelectedValue == string.Empty ? 0 : int.Parse(ddlTeamLeader.SelectedValue);
-            Negocio.Eventos objEventos = new Negocio.Eventos();
             string procesado = objEventos.EventoInsert(eventosentity);
             lblMsg.Text = "Se guardó el evento.";
         }

@@ -102,9 +102,20 @@
     <Content Include="Estilos\bootstrap-theme.min.css" />
     <Content Include="Estilos\bootstrap.css" />
     <Content Include="Estilos\bootstrap.min.css" />
+    <Content Include="Estilos\toastmessage.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Imagenes\boton_aceptar.png" />
+    <Content Include="Imagenes\boton_alerta.png" />
+    <Content Include="Imagenes\boton_calendario.png" />
+    <Content Include="Imagenes\boton_cancelar.png" />
+    <Content Include="js\Admin\frmUsuarios.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jQuery.js" />
+    <Content Include="js\jquery.ui.datepicker-es.js" />
+    <Content Include="js\jQueryUI.css" />
+    <Content Include="js\Sistema\frmCaptura.js" />
+    <Content Include="js\toastmessage.js" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

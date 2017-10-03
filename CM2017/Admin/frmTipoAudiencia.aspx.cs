@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace CM2017.Admin
 {
-    public partial class frmTipoAudiencia : System.Web.UI.Page
+    public partial class frmTipoAudiencia : Comun
     {
         Negocio.TipoAudiencia tipoaudiencia;
         Negocio.TipoAudienciaEntity tipoaudienciaEntity;
@@ -22,8 +22,7 @@ namespace CM2017.Admin
         }
         protected void CargarTipoAudiencia()
         {
-            tipoaudiencia = new Negocio.TipoAudiencia();
-            GridView1.DataSource = tipoaudiencia.TipoAudienciaSelect();
+            GridView1.DataSource = objTipoAudiencia.TipoAudienciaSelect();
             GridView1.DataBind();
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
@@ -33,18 +32,15 @@ namespace CM2017.Admin
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            tipoaudiencia = new Negocio.TipoAudiencia();
-            tipoaudienciaEntity = new Negocio.TipoAudienciaEntity();
-
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
             int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);
-            tipoaudienciaEntity.Id = Id;
+            TipoAudienciaEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
             else
                 activo = 1;
-            tipoaudienciaEntity.Activo = activo;
-            int obt = tipoaudiencia.TipoAudienciaDesactivar(tipoaudienciaEntity);
+            TipoAudienciaEntity.Activo = activo;
+            int obt = objTipoAudiencia.TipoAudienciaDesactivar(TipoAudienciaEntity);
             CargarTipoAudiencia();
         }
 
@@ -69,17 +65,16 @@ namespace CM2017.Admin
             {
                 if (currentCommand == "Select")
                 {
-                    tblAgregar.Visible = true;
-                    tipoaudiencia = new Negocio.TipoAudiencia();
-                    tipoaudienciaEntity = new Negocio.TipoAudienciaEntity();
-                    tipoaudienciaEntity.Id = val;
-                    foreach (System.Data.DataRow row in tipoaudiencia.TipoAudienciaSelectById(tipoaudienciaEntity).Rows)
+                    TipoAudienciaEntity.Id = val;
+                    foreach (System.Data.DataRow row in objTipoAudiencia.TipoAudienciaSelectById(TipoAudienciaEntity).Rows)
                     {
                         IdTipoAudiencia = val;
                         txtDescripcion.Text = row["Descripcion"] == DBNull.Value ? "" : row["Descripcion"].ToString();
                         chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
                         editar = 1;
+                        lblTitulo.Text = "Editar";
                     }
+                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
                 }
             }
             catch (Exception ex)
@@ -90,33 +85,33 @@ namespace CM2017.Admin
 
         protected void lnbAgregar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = true;
-
+            lblTitulo.Text = "Agregar";
+            txtDescripcion.Text = "";
+            chkActivo.Checked = false;
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = false;
-            tipoaudiencia = new Negocio.TipoAudiencia();
-            tipoaudienciaEntity = new Negocio.TipoAudienciaEntity();
-            tipoaudienciaEntity.Id = IdTipoAudiencia;
-            tipoaudienciaEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
+            TipoAudienciaEntity.Id = IdTipoAudiencia;
+            TipoAudienciaEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
             if (chkActivo.Checked == true)
-                tipoaudienciaEntity.Activo = 1;
+                TipoAudienciaEntity.Activo = 1;
             else
-                tipoaudienciaEntity.Activo = 0;
+                TipoAudienciaEntity.Activo = 0;
             if (editar == 0)
             {
                 //usuarios.UsuarioInsert(usuariosEntity);
             }
             else if (editar == 1)
             {
-                tipoaudiencia.TipoAudienciaUpdate(tipoaudienciaEntity);
+                objTipoAudiencia.TipoAudienciaUpdate(TipoAudienciaEntity);
                 editar = 0;
             }
             txtDescripcion.Text = "";
             chkActivo.Checked = false;
             CargarTipoAudiencia();
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide(); $('#divEncima').hide();", true);
         }
     }
 }

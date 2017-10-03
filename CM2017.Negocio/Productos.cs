@@ -15,7 +15,14 @@ namespace CM2017.Negocio
     }
     public class Productos
     {
-        BaseDeDatos.BaseDeDatos db = new BaseDeDatos.BaseDeDatos("");
+        public string _cadena = string.Empty;
+
+        public Productos(string cadena)
+        {
+            _cadena = cadena;
+        }
+
+        BaseDeDatos.BaseDeDatos db;
 
         /// <summary>
         /// Selecciona todos los registros de la tabla
@@ -23,6 +30,7 @@ namespace CM2017.Negocio
         /// <returns></returns>
         public DataTable ProductosSelect()
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from Productos order by Descripcion");
             return db.Select();
         }
@@ -32,6 +40,7 @@ namespace CM2017.Negocio
         /// <returns></returns>
         public DataTable ProductosSelectActivos()
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from Productos where Visible=1");
             return db.Select();
         }
@@ -42,6 +51,7 @@ namespace CM2017.Negocio
         /// <returns></returns>
         public DataTable ProductosSelectById(ProductosEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from Productos where IdProducto=?");
             db.AddParameter("?", item.Id.ToString());
             return db.Select();
@@ -53,6 +63,7 @@ namespace CM2017.Negocio
         /// <returns></returns>
         public int ProductosDesactivar(ProductosEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("update Productos set Visible=? where IdProducto=? ");
             db.AddParameter("?", item.Activo.ToString());
             db.AddParameter("?", item.Id.ToString());
@@ -65,6 +76,7 @@ namespace CM2017.Negocio
         /// <returns></returns>
         public string ProductoInsert(ProductosEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("insert into Productos (Descripcion, Visible) values (?,?)");
             db.AddParameter("?", item.Descripcion);
             db.AddParameter("?", item.Activo.ToString());
@@ -77,6 +89,7 @@ namespace CM2017.Negocio
         /// <returns></returns>
         public int ProductoUpdate(ProductosEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("update Productos set Descripcion=?, Visible=? where IdProducto=? ");
             db.AddParameter("?", item.Descripcion);
             db.AddParameter("?", item.Activo.ToString());

@@ -11,27 +11,59 @@ namespace CM2017
     public class Comun : System.Web.UI.Page
     {
 
-        private string cadenaConexion = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=c:\users\joseluis\documents\visual studio 2015\Projects\CM2017\CM2017\DB\CM.mdb;";
+        private string cadenaConexion = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\JoseLuis\Documents\CM2017\CM2017\CM2017\DB\CM.mdb;";
 
-        public CM2017.Negocio.Usuarios Usuarios;
+        public CM2017.Negocio.Eventos objEventos;
+        public CM2017.Negocio.EventosEntity EventosEntity;
+        public CM2017.Negocio.Usuarios objUsuarios;
         public CM2017.Negocio.UsuariosEntity UsuariosEntity;
         public CM2017.Negocio.TipoEvento objTipoEvento;
         public CM2017.Negocio.TipoEventoEntity TipoEventoEntity;
         public CM2017.Negocio.Gerentes objGerentes;
-        public CM2017.Negocio.GerentesEntity TipoGerentesEntity;
+        public CM2017.Negocio.GerentesEntity GerentesEntity;
         public CM2017.Negocio.Productos objProductos;
-        public CM2017.Negocio.ProductosEntity TipoProductosEntity;
+        public CM2017.Negocio.ProductosEntity ProductosEntity;
+        public CM2017.Negocio.TipoAudiencia objTipoAudiencia;
+        public CM2017.Negocio.TipoAudienciaEntity TipoAudienciaEntity;
+        public CM2017.Negocio.Localizacion objLocalizacion;
+        public CM2017.Negocio.LocalizacionEntity LocalizacionEntity;
+        public CM2017.Negocio.Divisiones objDivisiones;
+        public CM2017.Negocio.DivisionesEntity DivisionesEntity;
+        public CM2017.Negocio.AreaTerapeutica objAreaTerapeutica;
+        public CM2017.Negocio.AreaTerapeuticaEntity AreaTerapeuticaEntity;
+        public CM2017.Negocio.GerenteTL objGerenteTL;
+        public CM2017.Negocio.GerenteTLEntity GerenteTLEntity;
+        public CM2017.Negocio.ClienteInterno objClienteInterno;
+        public CM2017.Negocio.ClienteInternoEntity ClienteInternoEntity;
+        public CM2017.Negocio.UDN objUDN;
+        public CM2017.Negocio.UDNEntity UDNEntity;
 
         public Comun()
         {
-            Usuarios = new Negocio.Usuarios(cadenaConexion);
+            objEventos = new Negocio.Eventos(cadenaConexion);
+            EventosEntity = new Negocio.EventosEntity();
+            objUsuarios = new Negocio.Usuarios(cadenaConexion);
             UsuariosEntity = new Negocio.UsuariosEntity();
-            objTipoEvento = new Negocio.TipoEvento();
+            objTipoEvento = new Negocio.TipoEvento(cadenaConexion);
             TipoEventoEntity = new Negocio.TipoEventoEntity();
-            objGerentes = new Negocio.Gerentes();
-            TipoGerentesEntity = new Negocio.GerentesEntity();
-            objProductos = new Negocio.Productos();
-            TipoProductosEntity = new Negocio.ProductosEntity();
+            objGerentes = new Negocio.Gerentes(cadenaConexion);
+            GerentesEntity = new Negocio.GerentesEntity();
+            objProductos = new Negocio.Productos(cadenaConexion);
+            ProductosEntity = new Negocio.ProductosEntity();
+            objAreaTerapeutica = new Negocio.AreaTerapeutica(cadenaConexion);
+            AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
+            objTipoAudiencia = new Negocio.TipoAudiencia(cadenaConexion);
+            TipoAudienciaEntity = new Negocio.TipoAudienciaEntity();
+            objGerenteTL = new Negocio.GerenteTL(cadenaConexion);
+            GerenteTLEntity = new Negocio.GerenteTLEntity();
+            objClienteInterno = new Negocio.ClienteInterno(cadenaConexion);
+            ClienteInternoEntity = new Negocio.ClienteInternoEntity();
+            objDivisiones = new Negocio.Divisiones(cadenaConexion);
+            DivisionesEntity = new Negocio.DivisionesEntity();
+            objUDN = new Negocio.UDN(cadenaConexion);
+            UDNEntity = new Negocio.UDNEntity();
+            objLocalizacion = new Negocio.Localizacion(cadenaConexion);
+            LocalizacionEntity = new Negocio.LocalizacionEntity();
         }
 
         public void LlenarGridView(GridView gridview, DataTable datatable)

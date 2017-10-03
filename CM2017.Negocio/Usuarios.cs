@@ -30,22 +30,30 @@ namespace CM2017.Negocio
         public DataTable UsuariosSelect()
         {
             db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("select * from ResponsableCM order by Nombre");
+            db.CreateTextCommand("SELECT * FROM ResponsableCM ORDER BY Nombre");
             return db.Select();
         }
 
         public DataTable UsuariosSelectById(UsuariosEntity item)
         {
             db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("select * from ResponsableCM where IdResCM=?");
+            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE IdResCM=?");
             db.AddParameter("?", item.Id.ToString());
+            return db.Select();
+        }
+
+        public DataTable UsuariosBuscar(UsuariosEntity item)
+        {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE Nombre LIKE ? ");
+            db.AddParameter("?", "%" + item.Nombre + "%");
             return db.Select();
         }
 
         public int UsuarioDesactivar(UsuariosEntity item)
         {
             db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("update ResponsableCM set Activo=? where IdResCM=? ");
+            db.CreateTextCommand("UPDATE ResponsableCM SET Activo=? WHERE IdResCM=? ");
             db.AddParameter("?", item.Activo.ToString());
             db.AddParameter("?", item.Id.ToString());
             return db.Update();
@@ -54,7 +62,7 @@ namespace CM2017.Negocio
         public string UsuarioInsert(UsuariosEntity item)
         {
             db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("insert into ResponsableCM (Nombre, Correo, Clave, Contra, Activo) values (?,?,?,?,?)");
+            db.CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
             db.AddParameter("?", item.Nombre);
             db.AddParameter("?", item.Correo);
             db.AddParameter("?", item.Clave);
@@ -66,7 +74,7 @@ namespace CM2017.Negocio
         public int UsuarioUpdate(UsuariosEntity item)
         {
             db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("update ResponsableCM set Nombre=?, Correo=?, clave=?, contra=?, Activo=? where IdResCM=? ");
+            db.CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
             db.AddParameter("?", item.Nombre);
             db.AddParameter("?", item.Correo);
             db.AddParameter("?", item.Clave);

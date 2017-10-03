@@ -7,11 +7,8 @@ using System.Web.UI.WebControls;
 
 namespace CM2017.Admin
 {
-    public partial class frmDivision : System.Web.UI.Page
+    public partial class frmDivision : Comun
     {
-        Negocio.Divisiones divisiones;
-        Negocio.DivisionesEntity divisionesEntity;
-
         public static int IdDivision = 0;
         public static int editar = 0;
 
@@ -22,8 +19,7 @@ namespace CM2017.Admin
         }
         protected void CargarDivisiones()
         {
-            divisiones = new Negocio.Divisiones();
-            GridView1.DataSource = divisiones.DivisionesSelect();
+            GridView1.DataSource = objDivisiones.DivisionesSelect();
             GridView1.DataBind();
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
@@ -33,18 +29,15 @@ namespace CM2017.Admin
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            divisiones = new Negocio.Divisiones();
-            divisionesEntity = new Negocio.DivisionesEntity();
-
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
             int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);
-            divisionesEntity.Id = Id;
+            DivisionesEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
             else
                 activo = 1;
-            divisionesEntity.Activo = activo;
-            int obt = divisiones.DivisionDesactivar(divisionesEntity);
+            DivisionesEntity.Activo = activo;
+            int obt = objDivisiones.DivisionDesactivar(DivisionesEntity);
             CargarDivisiones();
         }
 
@@ -69,17 +62,16 @@ namespace CM2017.Admin
             {
                 if (currentCommand == "Select")
                 {
-                    tblAgregar.Visible = true;
-                    divisiones = new Negocio.Divisiones();
-                    divisionesEntity = new Negocio.DivisionesEntity();
-                    divisionesEntity.Id = val;
-                    foreach (System.Data.DataRow row in divisiones.DivisionesSelectById(divisionesEntity).Rows)
+                    DivisionesEntity.Id = val;
+                    foreach (System.Data.DataRow row in objDivisiones.DivisionesSelectById(DivisionesEntity).Rows)
                     {
                         IdDivision = val;
                         txtDescripcion.Text = row["Descripcion"] == DBNull.Value ? "" : row["Descripcion"].ToString();
                         chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
                         editar = 1;
+                        lblTitulo.Text = "Editar";
                     }
+                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
                 }
             }
             catch (Exception ex)
@@ -90,33 +82,33 @@ namespace CM2017.Admin
 
         protected void lnbAgregar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = true;
-
+            lblTitulo.Text = "Agregar";
+            txtDescripcion.Text = "";
+            chkActivo.Checked = false;
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = false;
-            divisiones = new Negocio.Divisiones();
-            divisionesEntity = new Negocio.DivisionesEntity();
-            divisionesEntity.Id = IdDivision;
-            divisionesEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
+            DivisionesEntity.Id = IdDivision;
+            DivisionesEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
             if (chkActivo.Checked == true)
-                divisionesEntity.Activo = 1;
+                DivisionesEntity.Activo = 1;
             else
-                divisionesEntity.Activo = 0;
+                DivisionesEntity.Activo = 0;
             if (editar == 0)
             {
                 //usuarios.UsuarioInsert(usuariosEntity);
             }
             else if (editar == 1)
             {
-                divisiones.DivisionUpdate(divisionesEntity);
+                objDivisiones.DivisionUpdate(DivisionesEntity);
                 editar = 0;
             }
             txtDescripcion.Text = "";
             chkActivo.Checked = false;
             CargarDivisiones();
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide(); $('#divEncima').hide();", true);
         }
 
 

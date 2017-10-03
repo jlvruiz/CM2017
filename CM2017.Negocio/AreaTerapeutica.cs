@@ -15,29 +15,40 @@ namespace CM2017.Negocio
     }
     public class AreaTerapeutica
     {
-        BaseDeDatos.BaseDeDatos db = new BaseDeDatos.BaseDeDatos("");
+        public string _cadena = string.Empty;
+
+        public AreaTerapeutica(string cadena)
+        {
+            _cadena = cadena;
+        }
+
+        BaseDeDatos.BaseDeDatos db;
 
         public string DataText = "Descripcion";
         public string DataValue = "IdAT";
 
         public DataTable AreaTerapeuticaSelect()
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from AreaTerapeutica");
             return db.Select();
         }
         public DataTable AreaTerapeuticaActivoSelect()
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from AreaTerapeutica where Visible=1");
             return db.Select();
         }
         public DataTable AreaTerapeuticaSelectById(AreaTerapeuticaEntity entidad)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("select * from AreaTerapeutica where IdAT=?");
             db.AddParameter("?", entidad.Id.ToString());
             return db.Select();
         }
         public int AreaTerapeuticaDesactivar(AreaTerapeuticaEntity entidad)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("update AreaTerapeutica set Visible=? where IdAT=? ");
             db.AddParameter("?", entidad.Activo.ToString());
             db.AddParameter("?", entidad.Id.ToString());
@@ -45,6 +56,7 @@ namespace CM2017.Negocio
         }
         public int AreaTerapeuticaUpdate(AreaTerapeuticaEntity entidad)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("update AreaTerapeutica set Descripcion=?, Visible=? where IdAT=? ");
             db.AddParameter("?", entidad.Descripcion);
             db.AddParameter("?", entidad.Activo.ToString());

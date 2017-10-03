@@ -30,10 +30,19 @@ namespace CM2017.Negocio
     }
     public class Eventos
     {
-        BaseDeDatos.BaseDeDatos db = new BaseDeDatos.BaseDeDatos("");
+        public string _cadena = string.Empty;
+
+        public Eventos(string cadena)
+        {
+            _cadena = cadena;
+        }
+
+        BaseDeDatos.BaseDeDatos db;
+        
 
         public DataTable EventosSelect()
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], "
             + "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], "
             + " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente] "
@@ -44,13 +53,15 @@ namespace CM2017.Negocio
             return db.Select();
         }
         public DataTable EventosSelectById(string id)
-        {            
+        {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             db.CreateTextCommand("SELECT * FROM Eventos WHERE Id=?");
             db.AddParameter("?", id);
             return db.Select();
         }
         public DataTable EventosDetalleSelect(string id)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             string consulta = "SELECT a.flujoautorizacion AS [Flujo Autorizacion], a.producto as Producto, c.descripcion AS Audiencia, "
                 + " a.invitados AS invitados, a.objetivo AS Objetivo, "
                 + " a.locacion1 AS [Locación 1], d.nombre AS [Locación 2], "
@@ -71,6 +82,7 @@ namespace CM2017.Negocio
         }
         public string EventoInsert(EventosEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             string consulta = "insert into eventos (NombreEvento,FechaSolicitud,FechaInicioEvento,FechaFinEvento,TipoEvento,"
                 + "FlujoAutorizacion,GteProducto,Producto,TipoAudiencia,Invitados,Objetivo,Locacion1,Locacion2,Agenda,Division,"
                 + "AreaTerapeutica,TeamLeader) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -96,6 +108,7 @@ namespace CM2017.Negocio
         }
         public int EventoUpdate(EventosEntity item)
         {
+            db = new BaseDeDatos.BaseDeDatos(_cadena);
             string consulta = "update eventos set NombreEvento=?,FechaSolicitud=?,FechaInicioEvento=?,FechaFinEvento=?,"
                 + "TipoEvento=?,FlujoAutorizacion=?,GteProducto=?,Producto=?,TipoAudiencia=?,Invitados=?,Objetivo=?,Locacion1=?,"
                 + "Locacion2=?,Agenda=?,Division=?,AreaTerapeutica=?,TeamLeader=? where Id=?";

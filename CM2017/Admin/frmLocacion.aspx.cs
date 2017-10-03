@@ -7,11 +7,8 @@ using System.Web.UI.WebControls;
 
 namespace CM2017.Admin
 {
-    public partial class frmLocacion : System.Web.UI.Page
+    public partial class frmLocacion : Comun
     {
-        Negocio.Localizacion localizacion;
-        Negocio.LocalizacionEntity localizacionEntity;
-
         public static int IdLoc = 0;
         public static int editar = 0;
 
@@ -24,8 +21,7 @@ namespace CM2017.Admin
 
         protected void CargarLocalizaciones()
         {
-            localizacion = new Negocio.Localizacion();
-            GridView1.DataSource = localizacion.LocalizacionesSelect();
+            GridView1.DataSource = objLocalizacion.LocalizacionesSelect();
             GridView1.DataBind();
         }
 
@@ -36,18 +32,15 @@ namespace CM2017.Admin
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            localizacion = new Negocio.Localizacion();
-            localizacionEntity = new Negocio.LocalizacionEntity();
-
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
             int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[6].Text);
-            localizacionEntity.Id = Id;
+            LocalizacionEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
             else
                 activo = 1;
-            localizacionEntity.Activo = activo;
-            int obt = localizacion.LocalizacionDesactivar(localizacionEntity);
+            LocalizacionEntity.Activo = activo;
+            int obt = objLocalizacion.LocalizacionDesactivar(LocalizacionEntity);
             CargarLocalizaciones();
         }
 
@@ -72,11 +65,8 @@ namespace CM2017.Admin
             {
                 if (currentCommand == "Select")
                 {
-                    tblAgregar.Visible = true;
-                    localizacion = new Negocio.Localizacion();
-                    localizacionEntity = new Negocio.LocalizacionEntity();
-                    localizacionEntity.Id = val;
-                    foreach (System.Data.DataRow row in localizacion.LocalizacionSelectById(localizacionEntity).Rows)
+                    LocalizacionEntity.Id = val;
+                    foreach (System.Data.DataRow row in objLocalizacion.LocalizacionSelectById(LocalizacionEntity).Rows)
                     {
                         IdLoc = val;
                         txtNombre.Text = row["Nombre"] == DBNull.Value ? "" : row["Nombre"].ToString();
@@ -84,7 +74,9 @@ namespace CM2017.Admin
                         txtMotivo.Text = row["Motivo"] == DBNull.Value ? "" : row["Motivo"].ToString();
                         chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
                         editar = 1;
+                        lblTitulo.Text = "Editar";
                     }
+                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
                 }
             }
             catch (Exception ex)
@@ -95,28 +87,29 @@ namespace CM2017.Admin
 
         protected void lnbAgregar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = true;
-
+            lblTitulo.Text = "Agregar";
+            txtNombre.Text = "";
+            rblTipo.SelectedIndex = 0;
+            txtMotivo.Text = "";
+            chkActivo.Checked = false;
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = false;
-            localizacion = new Negocio.Localizacion();
-            localizacionEntity = new Negocio.LocalizacionEntity();
-            localizacionEntity.Id = IdLoc;
-            localizacionEntity.Nombre = txtNombre.Text == string.Empty ? "" : txtNombre.Text;
-            localizacionEntity.Tipo = rblTipo.SelectedIndex;
-            localizacionEntity.Motivo = txtMotivo.Text == string.Empty ? "" : txtMotivo.Text;
+            LocalizacionEntity.Id = IdLoc;
+            LocalizacionEntity.Nombre = txtNombre.Text == string.Empty ? "" : txtNombre.Text;
+            LocalizacionEntity.Tipo = rblTipo.SelectedIndex;
+            LocalizacionEntity.Motivo = txtMotivo.Text == string.Empty ? "" : txtMotivo.Text;
             if (chkActivo.Checked == true)
-                localizacionEntity.Activo = 1;
+                LocalizacionEntity.Activo = 1;
             else
-                localizacionEntity.Activo = 0;
+                LocalizacionEntity.Activo = 0;
             if (editar == 0)
-                localizacion.LocalizacionInsert(localizacionEntity);
+                objLocalizacion.LocalizacionInsert(LocalizacionEntity);
             else if (editar == 1)
             {
-                localizacion.LocalizacionUpdate(localizacionEntity);
+                objLocalizacion.LocalizacionUpdate(LocalizacionEntity);
                 editar = 0;
             }
             txtNombre.Text = "";
@@ -124,6 +117,7 @@ namespace CM2017.Admin
             txtMotivo.Text = "";
             chkActivo.Checked = false;
             CargarLocalizaciones();
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide(); $('#divEncima').hide();", true);
         }
 
 

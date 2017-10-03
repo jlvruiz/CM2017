@@ -7,11 +7,8 @@ using System.Web.UI.WebControls;
 
 namespace CM2017.Admin
 {
-    public partial class frmProductos : System.Web.UI.Page
+    public partial class frmProductos : Comun
     {
-        Negocio.Productos productos;
-        Negocio.ProductosEntity productosEntity;
-
         public static int IdProducto = 0;
         public static int editar = 0;
         int cont = 0;
@@ -26,8 +23,7 @@ namespace CM2017.Admin
         }
         protected void CargarProductos()
         {
-            productos = new Negocio.Productos();
-            GridView1.DataSource = productos.ProductosSelect();
+            GridView1.DataSource = objProductos.ProductosSelect();
             GridView1.DataBind();
         }
 
@@ -50,33 +46,32 @@ namespace CM2017.Admin
 
         protected void lnbAgregar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = true;
+            lblTitulo.Text = "Agregar";
 
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = false;
-            productos = new Negocio.Productos();
-            productosEntity = new Negocio.ProductosEntity();
-            productosEntity.Id = IdProducto;
-            productosEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
+            ProductosEntity.Id = IdProducto;
+            ProductosEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
             if (chkActivo.Checked == true)
-                productosEntity.Activo = 1;
+                ProductosEntity.Activo = 1;
             else
-                productosEntity.Activo = 0;
+                ProductosEntity.Activo = 0;
             if (editar == 0)
             {
-                productos.ProductoInsert(productosEntity);
+                objProductos.ProductoInsert(ProductosEntity);
             }
             else if (editar == 1)
             {
-                productos.ProductoUpdate(productosEntity);
+                objProductos.ProductoUpdate(ProductosEntity);
                 editar = 0;
             }
             txtDescripcion.Text = "";
             chkActivo.Checked = false;
             CargarProductos();
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide(); $('#divEncima').hide();", true);
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -94,38 +89,34 @@ namespace CM2017.Admin
 
         protected void LigaEditar_Click(object sender, EventArgs e)
         {
-            tblAgregar.Visible = true;
             LinkButton btn = sender as LinkButton;
             GridViewRow row = btn.NamingContainer as GridViewRow;
             string val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
-            productos = new Negocio.Productos();
-            productosEntity = new Negocio.ProductosEntity();
-            productosEntity.Id = int.Parse(val);
-            foreach (System.Data.DataRow fila in productos.ProductosSelectById(productosEntity).Rows)
+            ProductosEntity.Id = int.Parse(val);
+            foreach (System.Data.DataRow fila in objProductos.ProductosSelectById(ProductosEntity).Rows)
             {
                 IdProducto = int.Parse(val);
                 txtDescripcion.Text = fila["Descripcion"] == DBNull.Value ? "" : fila["Descripcion"].ToString();
                 chkActivo.Checked = fila["Visible"] == DBNull.Value ? int.Parse(fila["Visible"].ToString()) == 0 ? false : true : int.Parse(fila["Visible"].ToString()) == 1 ? true : false;
                 editar = 1;
+                lblTitulo.Text = "Editar";
             }
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
         protected void LigaBorrar_Click(object sender, EventArgs e)
         {
-            productos = new Negocio.Productos();
-            productosEntity = new Negocio.ProductosEntity();
-
             LinkButton btn = sender as LinkButton;
             GridViewRow row = btn.NamingContainer as GridViewRow;
             string val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
             int activo = int.Parse(GridView1.DataKeys[row.RowIndex].Values[1].ToString());
-            productosEntity.Id = int.Parse(val);
+            ProductosEntity.Id = int.Parse(val);
             if (activo == 1)
                 activo = 0;
             else
                 activo = 1;
-            productosEntity.Activo = activo;
-            int obt = productos.ProductosDesactivar(productosEntity);
+            ProductosEntity.Activo = activo;
+            int obt = objProductos.ProductosDesactivar(ProductosEntity);
             CargarProductos();
         }
     }

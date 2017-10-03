@@ -4,22 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Data.Common;
 
 namespace BaseDeDatos
 {
-    public class BaseDeDatos
+    public class BaseDeDatosSQL
     {
         private string sConectionString { get; set; }
+        //public string CadenaConexion
+        //{
+        //    get { return _cadenaConexion; }
+        //    set { _cadenaConexion = value ; }
+        //}
+        protected SqlConnection DBConnection = null;
+        //private String sConectionString = string.Empty;
 
-        protected OleDbConnection DBConnection = null;
+        private SqlCommand cmd = new SqlCommand();
 
-        private OleDbCommand cmd = new OleDbCommand();
-
-        public BaseDeDatos(string cadena)
+        public BaseDeDatosSQL()
         {
-            sConectionString = cadena;
         }
 
         public void CreateTextCommand(string consulta)
@@ -115,20 +119,20 @@ namespace BaseDeDatos
         }
         public void AddParameter(string nombre, string valor)
         {
-            OleDbParameter param = new OleDbParameter();
+            SqlParameter param = new SqlParameter();
             param.ParameterName = nombre;
             param.Value = valor;
             this.cmd.Parameters.Add(param);
         }
         public void AddParameterWithReturnValue(string name)
         {
-            OleDbParameter param = new OleDbParameter(name, SqlDbType.Int);
+            SqlParameter param = new SqlParameter(name, SqlDbType.Int);
             param.Direction = ParameterDirection.Output;
             this.cmd.Parameters.Add(param);
         }
         protected void OpenConecction()
         {
-            DBConnection = new OleDbConnection(sConectionString);
+            DBConnection = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CM2017;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             DBConnection.Open();
         }
         protected void CloseConnection()
