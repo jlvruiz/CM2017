@@ -21,8 +21,7 @@ namespace CM2017.Admin
 
         protected void CargarLocalizaciones()
         {
-            GridView1.DataSource = objLocalizacion.LocalizacionesSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objLocalizacion.LocalizacionesSelect());
         }
 
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)

@@ -19,8 +19,7 @@ namespace CM2017.Admin
         }
         protected void CargarUDN()
         {
-            GridView1.DataSource = objUDN.UDNSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objUDN.UDNSelect());
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {

@@ -27,7 +27,6 @@ namespace CM2017.Admin
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-
             int Id = System.Int32.Parse(GridView1.DataKeys[e.RowIndex].Value.ToString());
             int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[6].Text);
             string estatus = string.Empty;

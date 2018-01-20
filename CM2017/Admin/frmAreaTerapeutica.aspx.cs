@@ -19,8 +19,7 @@ namespace CM2017.Admin
         }
         protected void CargarAreaTerapeutica()
         {
-            GridView1.DataSource = objAreaTerapeutica.AreaTerapeuticaSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objAreaTerapeutica.AreaTerapeuticaSelect());
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {

@@ -19,8 +19,7 @@ namespace CM2017.Admin
         }
         protected void CargarClienteInterno()
         {
-            GridView1.DataSource = objClienteInterno.ClienteInternoSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objClienteInterno.ClienteInternoSelect());
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {

@@ -20,8 +20,7 @@ namespace CM2017.Admin
 
         protected void CargarGerentes()
         {
-            GridView1.DataSource = objGerenteTL.GerentesTLSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objGerenteTL.GerentesTLSelect());
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)

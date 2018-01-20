@@ -19,8 +19,7 @@ namespace CM2017.Admin
         }
         protected void CargarDivisiones()
         {
-            GridView1.DataSource = objDivisiones.DivisionesSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objDivisiones.DivisionesSelect());
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {

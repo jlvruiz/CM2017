@@ -19,8 +19,7 @@ namespace CM2017.Admin
         }
         protected void CargarTipoEvento()
         {
-            GridView1.DataSource = objTipoEvento.TipoEventoSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objTipoEvento.TipoEventoSelect());
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {

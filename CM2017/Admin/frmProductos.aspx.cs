@@ -23,8 +23,7 @@ namespace CM2017.Admin
         }
         protected void CargarProductos()
         {
-            GridView1.DataSource = objProductos.ProductosSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objProductos.ProductosSelect());
         }
 
         int indexOfColumn = 1;

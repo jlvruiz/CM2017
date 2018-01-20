@@ -22,8 +22,7 @@ namespace CM2017.Admin
         }
         protected void CargarTipoAudiencia()
         {
-            GridView1.DataSource = objTipoAudiencia.TipoAudienciaSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objTipoAudiencia.TipoAudienciaSelect());
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {
