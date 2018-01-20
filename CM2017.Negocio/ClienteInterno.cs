@@ -16,25 +16,18 @@ namespace CM2017.Negocio
 
     public class ClienteInterno
     {
-        public string _cadena = string.Empty;
-
-        public ClienteInterno(string cadena)
-        {
-            _cadena = cadena;
-        }
-
         BaseDeDatos.BaseDeDatos db;
 
         public DataTable ClienteInternoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("select * from ClienteInterno order by Descripcion");
             return db.Select();
         }
 
         public DataTable ClienteInternoSelectById(ClienteInternoEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("select * from ClienteInterno where IdCteInt=?");
             db.AddParameter("?", item.Id.ToString());
             return db.Select();
@@ -42,7 +35,7 @@ namespace CM2017.Negocio
 
         public int ClienteInternoDesactivar(ClienteInternoEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("update ClienteInterno set Visible=? where IdCteInt=? ");
             db.AddParameter("?", item.Activo.ToString());
             db.AddParameter("?", item.Id.ToString());
@@ -51,7 +44,7 @@ namespace CM2017.Negocio
 
         public int ClienteInternoUpdate(ClienteInternoEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("update ClienteInterno set Descripcion=?, Visible=? where IdCteInt=? ");
             db.AddParameter("?", item.Descripcion);
             db.AddParameter("?", item.Activo.ToString());

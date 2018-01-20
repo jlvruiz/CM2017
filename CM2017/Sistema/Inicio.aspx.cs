@@ -85,6 +85,13 @@ namespace CM2017.Sistema
             ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
         }
 
-        
+        protected void LigaDesactivar_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = sender as LinkButton;
+            GridViewRow row = btn.NamingContainer as GridViewRow;
+            string val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
+            objEventos.EventoDesactivar(val);
+            CargarEventos();
+        }
     }
 }

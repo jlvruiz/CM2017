@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaTerapeutica.cs" />
+    <Compile Include="AreaTerapeuticaNegocio.cs" />
     <Compile Include="ClienteInterno.cs" />
     <Compile Include="Divisiones.cs" />
     <Compile Include="Eventos.cs" />

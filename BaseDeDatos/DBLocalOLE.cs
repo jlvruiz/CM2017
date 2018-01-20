@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
-using System.Data.Common;
+
 
 namespace BaseDeDatos
 {
-    public class BaseDeDatos
+    public class DBLocalOLE
     {
-        private OleDbConnection DBConnection = null;
+        protected OleDbConnection DBConnection = null;
         private OleDbCommand cmd = new OleDbCommand();
 
         protected void CreateTextCommand(string consulta)
@@ -73,7 +69,11 @@ namespace BaseDeDatos
                 this.cmd.ExecuteScalar();
                 for (int i = 0; i < cmd.Parameters.Count; i++)
                 {
-                    if (cmd.Parameters[i].Direction == ParameterDirection.Output || cmd.Parameters[i].Direction == ParameterDirection.InputOutput || cmd.Parameters[i].Direction == ParameterDirection.ReturnValue)
+                    if (
+                        cmd.Parameters[i].Direction == ParameterDirection.Output || 
+                        cmd.Parameters[i].Direction == ParameterDirection.InputOutput || 
+                        cmd.Parameters[i].Direction == ParameterDirection.ReturnValue
+                        )
                     {
                         returned = (int)cmd.Parameters[i].Value;
                     }
@@ -119,12 +119,12 @@ namespace BaseDeDatos
             param.Direction = ParameterDirection.Output;
             this.cmd.Parameters.Add(param);
         }
-        private void OpenConecction()
+        protected void OpenConecction()
         {
             DBConnection = new OleDbConnection(ConfigurationManager.ConnectionStrings["ConxnOleDb"].ConnectionString);
             DBConnection.Open();
         }
-        private void CloseConnection()
+        protected void CloseConnection()
         {
             if (DBConnection != null && DBConnection.State == ConnectionState.Open)
             {

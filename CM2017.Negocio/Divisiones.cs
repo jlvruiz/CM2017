@@ -15,37 +15,30 @@ namespace CM2017.Negocio
     }
     public class Divisiones
     {
-        public string _cadena = string.Empty;
-
-        public Divisiones(string cadena)
-        {
-            _cadena = cadena;
-        }
-
         BaseDeDatos.BaseDeDatos db;
 
         public DataTable DivisionesSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("select * from Divisiones");
             return db.Select();
         }
         public DataTable DivisionesActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("select * from Divisiones where Visible=1");
             return db.Select();
         }
         public DataTable DivisionesSelectById(DivisionesEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("select * from Divisiones where IdDivision=?");
             db.AddParameter("?", item.Id.ToString());
             return db.Select();
         }
         public int DivisionDesactivar(DivisionesEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("update Divisiones set Visible=? where IdDivision=? ");
             db.AddParameter("?", item.Activo.ToString());
             db.AddParameter("?", item.Id.ToString());
@@ -53,7 +46,7 @@ namespace CM2017.Negocio
         }
         public int DivisionUpdate(DivisionesEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
+            db = new BaseDeDatos.BaseDeDatos();
             db.CreateTextCommand("update Divisiones set Descripcion=?, Visible=? where IdDivision=? ");
             db.AddParameter("?", item.Descripcion);
             db.AddParameter("?", item.Activo.ToString());

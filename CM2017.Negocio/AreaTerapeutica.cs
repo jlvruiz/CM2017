@@ -7,61 +7,32 @@ using System.Data;
 
 namespace CM2017.Negocio
 {
-    public class AreaTerapeuticaEntity
-    {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
     public class AreaTerapeutica
     {
-        public string _cadena = string.Empty;
-
-        public AreaTerapeutica(string cadena)
-        {
-            _cadena = cadena;
-        }
-
-        BaseDeDatos.BaseDeDatos db;
-
         public string DataText = "Descripcion";
         public string DataValue = "IdAT";
 
+        BaseDeDatos.Tablas.AreaTerapeutica at = new BaseDeDatos.Tablas.AreaTerapeutica();
+
         public DataTable AreaTerapeuticaSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("select * from AreaTerapeutica");
-            return db.Select();
+            return at.AreaTerapeuticaSelect();
         }
         public DataTable AreaTerapeuticaActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("select * from AreaTerapeutica where Visible=1");
-            return db.Select();
+            return at.AreaTerapeuticaActivoSelect();
         }
         public DataTable AreaTerapeuticaSelectById(AreaTerapeuticaEntity entidad)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("select * from AreaTerapeutica where IdAT=?");
-            db.AddParameter("?", entidad.Id.ToString());
-            return db.Select();
+            return at.AreaTerapeuticaSelectById(entidad);
         }
         public int AreaTerapeuticaDesactivar(AreaTerapeuticaEntity entidad)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("update AreaTerapeutica set Visible=? where IdAT=? ");
-            db.AddParameter("?", entidad.Activo.ToString());
-            db.AddParameter("?", entidad.Id.ToString());
-            return db.Update();
+            return at.AreaTerapeuticaDesactivar(entidad);
         }
         public int AreaTerapeuticaUpdate(AreaTerapeuticaEntity entidad)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("update AreaTerapeutica set Descripcion=?, Visible=? where IdAT=? ");
-            db.AddParameter("?", entidad.Descripcion);
-            db.AddParameter("?", entidad.Activo.ToString());
-            db.AddParameter("?", entidad.Id.ToString());
-            return db.Update();
+            return at.AreaTerapeuticaUpdate(entidad);
         }
     }
 }

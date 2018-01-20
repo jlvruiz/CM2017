@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
     public class EventosEntity
     {
@@ -28,14 +28,10 @@ namespace CM2017.Negocio
         public int AreaTerapeutica { get; set; }
         public int TeamLeader { get; set; }
     }
-    public class Eventos
+    public class Eventos : BaseDeDatos
     {
-        BaseDeDatos.BaseDeDatos db;
-        
-
         public DataTable EventosSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], "
             + "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], "
             + " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], "
@@ -44,12 +40,11 @@ namespace CM2017.Negocio
             + " WHERE b.IdTipEve = a.TipoEvento "
             + " AND c.IdGerente = a.GteProducto "
             + " AND a.Estatus = True ";
-            db.CreateTextCommand(consulta);
-            return db.Select();
+            CreateTextCommand(consulta);
+            return Select();
         }
         public DataTable EventosDesactivadosSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], "
             + "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], "
             + " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], "
@@ -58,19 +53,17 @@ namespace CM2017.Negocio
             + " WHERE b.IdTipEve = a.TipoEvento "
             + " AND c.IdGerente = a.GteProducto "
             + " AND a.Estatus = False ";
-            db.CreateTextCommand(consulta);
-            return db.Select();
+            CreateTextCommand(consulta);
+            return Select();
         }
         public DataTable EventosSelectById(string id)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM Eventos WHERE Id=?");
-            db.AddParameter("?", id);
-            return db.Select();
+            CreateTextCommand("SELECT * FROM Eventos WHERE Id=?");
+            AddParameter("?", id);
+            return Select();
         }
         public DataTable EventosDetalleSelect(string id)
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "SELECT a.flujoautorizacion AS [Flujo Autorizacion], a.producto as Producto, c.descripcion AS Audiencia, "
                 + " a.invitados AS invitados, a.objetivo AS Objetivo, "
                 + " a.locacion1 AS [Locación 1], d.nombre AS [Locación 2], "
@@ -85,78 +78,74 @@ namespace CM2017.Negocio
                 + " ANd e.iddivision = a.division "
                 + " AND f.idAT  = a.areaterapeutica "
                 + " AND g.idtl = a.teamleader ";
-            db.CreateTextCommand(consulta);
-            db.AddParameter("?", id);
-            return db.Select();
+            CreateTextCommand(consulta);
+            AddParameter("?", id);
+            return Select();
         }
         public string EventoInsert(EventosEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "insert into eventos (NombreEvento,FechaSolicitud,FechaInicioEvento,FechaFinEvento,TipoEvento,"
                 + "FlujoAutorizacion,GteProducto,Producto,TipoAudiencia,Invitados,Objetivo,Locacion1,Locacion2,Agenda,Division,"
                 + "AreaTerapeutica,TeamLeader) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            db.CreateTextCommand(consulta);
-            db.AddParameter("?",item.NombreEvento);
-            db.AddParameter("?",item.FechaSolicitud.ToString());
-            db.AddParameter("?",item.FechaInicioEvento.ToString());
-            db.AddParameter("?",item.FechaFinEvento.ToString());
-            db.AddParameter("?",item.TipoEvento.ToString());
-            db.AddParameter("?",item.FlujoAutorizacion.ToString());
-            db.AddParameter("?",item.GteProducto.ToString());
-            db.AddParameter("?",item.Producto.ToString());
-            db.AddParameter("?",item.TipoAudiencia.ToString());
-            db.AddParameter("?",item.Invitados.ToString());
-            db.AddParameter("?",item.Objetivo);
-            db.AddParameter("?",item.Locacion1.ToString());
-            db.AddParameter("?",item.Locacion2.ToString());
-            db.AddParameter("?",item.Agenda);
-            db.AddParameter("?",item.Division.ToString());
-            db.AddParameter("?",item.AreaTerapeutica.ToString());
-            db.AddParameter("?",item.TeamLeader.ToString());
-            return db.Insert();
+            CreateTextCommand(consulta);
+            AddParameter("?",item.NombreEvento);
+            AddParameter("?",item.FechaSolicitud.ToString());
+            AddParameter("?",item.FechaInicioEvento.ToString());
+            AddParameter("?",item.FechaFinEvento.ToString());
+            AddParameter("?",item.TipoEvento.ToString());
+            AddParameter("?",item.FlujoAutorizacion.ToString());
+            AddParameter("?",item.GteProducto.ToString());
+            AddParameter("?",item.Producto.ToString());
+            AddParameter("?",item.TipoAudiencia.ToString());
+            AddParameter("?",item.Invitados.ToString());
+            AddParameter("?",item.Objetivo);
+            AddParameter("?",item.Locacion1.ToString());
+            AddParameter("?",item.Locacion2.ToString());
+            AddParameter("?",item.Agenda);
+            AddParameter("?",item.Division.ToString());
+            AddParameter("?",item.AreaTerapeutica.ToString());
+            AddParameter("?",item.TeamLeader.ToString());
+            return Insert();
         }
         public int EventoUpdate(EventosEntity item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "update eventos set NombreEvento=?,FechaSolicitud=?,FechaInicioEvento=?,FechaFinEvento=?,"
                 + "TipoEvento=?,FlujoAutorizacion=?,GteProducto=?,Producto=?,TipoAudiencia=?,Invitados=?,Objetivo=?,Locacion1=?,"
                 + "Locacion2=?,Agenda=?,Division=?,AreaTerapeutica=?,TeamLeader=? where Id=?";
-            db.CreateTextCommand(consulta);
-            db.AddParameter("?", item.NombreEvento);
-            db.AddParameter("?", item.FechaSolicitud.ToString());
-            db.AddParameter("?", item.FechaInicioEvento.ToString());
-            db.AddParameter("?", item.FechaFinEvento.ToString());
-            db.AddParameter("?", item.TipoEvento.ToString());
-            db.AddParameter("?", item.FlujoAutorizacion.ToString());
-            db.AddParameter("?", item.GteProducto.ToString());
-            db.AddParameter("?", item.Producto.ToString());
-            db.AddParameter("?", item.TipoAudiencia.ToString());
-            db.AddParameter("?", item.Invitados.ToString());
-            db.AddParameter("?", item.Objetivo);
-            db.AddParameter("?", item.Locacion1.ToString());
-            db.AddParameter("?", item.Locacion2.ToString());
-            db.AddParameter("?", item.Agenda);
-            db.AddParameter("?", item.Division.ToString());
-            db.AddParameter("?", item.AreaTerapeutica.ToString());
-            db.AddParameter("?", item.TeamLeader.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand(consulta);
+            AddParameter("?", item.NombreEvento);
+            AddParameter("?", item.FechaSolicitud.ToString());
+            AddParameter("?", item.FechaInicioEvento.ToString());
+            AddParameter("?", item.FechaFinEvento.ToString());
+            AddParameter("?", item.TipoEvento.ToString());
+            AddParameter("?", item.FlujoAutorizacion.ToString());
+            AddParameter("?", item.GteProducto.ToString());
+            AddParameter("?", item.Producto.ToString());
+            AddParameter("?", item.TipoAudiencia.ToString());
+            AddParameter("?", item.Invitados.ToString());
+            AddParameter("?", item.Objetivo);
+            AddParameter("?", item.Locacion1.ToString());
+            AddParameter("?", item.Locacion2.ToString());
+            AddParameter("?", item.Agenda);
+            AddParameter("?", item.Division.ToString());
+            AddParameter("?", item.AreaTerapeutica.ToString());
+            AddParameter("?", item.TeamLeader.ToString());
+            AddParameter("?", item.Id.ToString());
+            return Update();
         }
         public void EventoDesactivar(string id)
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "UPDATE eventos SET Estatus=0 WHERE Id=?";
-            db.CreateTextCommand(consulta);
-            db.AddParameter("?", id.ToString());
-            db.Update();
+            CreateTextCommand(consulta);
+            AddParameter("?", id.ToString());
+            Update();
         }
         public void EventoReactivar(string id)
         {
-            db = new BaseDeDatos.BaseDeDatos();
             string consulta = "UPDATE eventos SET Estatus=1 WHERE Id=?";
-            db.CreateTextCommand(consulta);
-            db.AddParameter("?", id.ToString());
-            db.Update();
+            CreateTextCommand(consulta);
+            AddParameter("?", id.ToString());
+            Update();
         }
 
 

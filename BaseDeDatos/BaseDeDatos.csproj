@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,7 +43,21 @@
   <ItemGroup>
     <Compile Include="BaseDeDatos.cs" />
     <Compile Include="BaseDeDatosSQL.cs" />
+    <Compile Include="DBLocalOLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tablas\AreaTerapeutica.cs" />
+    <Compile Include="Tablas\AreaTerapeuticaNegocio.cs" />
+    <Compile Include="Tablas\ClienteInterno.cs" />
+    <Compile Include="Tablas\Divisiones.cs" />
+    <Compile Include="Tablas\Eventos.cs" />
+    <Compile Include="Tablas\Gerentes.cs" />
+    <Compile Include="Tablas\Localizacion.cs" />
+    <Compile Include="Tablas\Productos.cs" />
+    <Compile Include="Tablas\TeamLeader.cs" />
+    <Compile Include="Tablas\TipoAudiencia.cs" />
+    <Compile Include="Tablas\TipoEvento.cs" />
+    <Compile Include="Tablas\UDN.cs" />
+    <Compile Include="Tablas\Usuarios.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

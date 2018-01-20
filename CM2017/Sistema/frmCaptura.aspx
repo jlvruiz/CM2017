@@ -39,7 +39,7 @@
     <tr><td align="right">Tipo de Audiencia:</td><td><asp:DropDownList ID="ddlAudiencia" runat="server" CssClass="form-control" Width="200px">
         </asp:DropDownList></td></tr>
     <tr><td align="right">Número de Invitados:</td><td>
-        <asp:TextBox ID="TextBox5" runat="server" Width="19px" CssClass="form-control"></asp:TextBox></td></tr>
+        <asp:TextBox ID="TextBox5" runat="server" Width="50px" CssClass="form-control"></asp:TextBox></td></tr>
     <tr><td align="right">Objetivo del Evento:</td><td>
         <asp:TextBox ID="TextBox6" runat="server" TextMode="MultiLine" CssClass="form-control"></asp:TextBox></td></tr>
     <tr><td align="right">Locación:</td><td>

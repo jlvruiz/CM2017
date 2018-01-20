@@ -91,7 +91,7 @@ namespace CM2017.Admin
             }
             catch (Exception ex)
             {
-
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', '<br />Ha habido un problema en la aplicación: " + ex.Message +"');", true);
             }
         }
 
@@ -135,7 +135,10 @@ namespace CM2017.Admin
                 System.Data.DataTable dt = new System.Data.DataTable();
                 dt = objUsuarios.UsuariosBuscar(UsuariosEntity);
                 if (dt.Rows.Count > 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", "$('#divPantallaBloqueo').hide('slow');", true);
                     LlenarGridView(GridView1, objUsuarios.UsuariosBuscar(UsuariosEntity));
+                }
                 else
                     ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No hay registros que coincidan con su búsqueda.');", true);
 

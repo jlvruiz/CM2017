@@ -11,7 +11,7 @@ namespace CM2017
     public class Comun : System.Web.UI.Page
     {
 
-        private string cadenaConexion = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\JoseLuis\Documents\CM2017\CM2017\CM2017\DB\CM.mdb;";
+        //private string cadenaConexion = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\JoseLuis\Documents\CM2017\CM2017\CM2017\DB\CM.mdb;";
 
         public CM2017.Negocio.Eventos objEventos;
         public CM2017.Negocio.EventosEntity EventosEntity;
@@ -40,29 +40,29 @@ namespace CM2017
 
         public Comun()
         {
-            objEventos = new Negocio.Eventos(cadenaConexion);
+            objEventos = new Negocio.Eventos();
             EventosEntity = new Negocio.EventosEntity();
-            objUsuarios = new Negocio.Usuarios(cadenaConexion);
+            objUsuarios = new Negocio.Usuarios();
             UsuariosEntity = new Negocio.UsuariosEntity();
-            objTipoEvento = new Negocio.TipoEvento(cadenaConexion);
+            objTipoEvento = new Negocio.TipoEvento();
             TipoEventoEntity = new Negocio.TipoEventoEntity();
-            objGerentes = new Negocio.Gerentes(cadenaConexion);
+            objGerentes = new Negocio.Gerentes();
             GerentesEntity = new Negocio.GerentesEntity();
-            objProductos = new Negocio.Productos(cadenaConexion);
+            objProductos = new Negocio.Productos();
             ProductosEntity = new Negocio.ProductosEntity();
-            objAreaTerapeutica = new Negocio.AreaTerapeutica(cadenaConexion);
+            objAreaTerapeutica = new Negocio.AreaTerapeutica();
             AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
-            objTipoAudiencia = new Negocio.TipoAudiencia(cadenaConexion);
+            objTipoAudiencia = new Negocio.TipoAudiencia();
             TipoAudienciaEntity = new Negocio.TipoAudienciaEntity();
-            objGerenteTL = new Negocio.GerenteTL(cadenaConexion);
+            objGerenteTL = new Negocio.GerenteTL();
             GerenteTLEntity = new Negocio.GerenteTLEntity();
-            objClienteInterno = new Negocio.ClienteInterno(cadenaConexion);
+            objClienteInterno = new Negocio.ClienteInterno();
             ClienteInternoEntity = new Negocio.ClienteInternoEntity();
-            objDivisiones = new Negocio.Divisiones(cadenaConexion);
+            objDivisiones = new Negocio.Divisiones();
             DivisionesEntity = new Negocio.DivisionesEntity();
-            objUDN = new Negocio.UDN(cadenaConexion);
+            objUDN = new Negocio.UDN();
             UDNEntity = new Negocio.UDNEntity();
-            objLocalizacion = new Negocio.Localizacion(cadenaConexion);
+            objLocalizacion = new Negocio.Localizacion();
             LocalizacionEntity = new Negocio.LocalizacionEntity();
         }
 

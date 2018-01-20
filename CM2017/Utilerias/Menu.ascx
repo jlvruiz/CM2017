@@ -73,6 +73,7 @@
                                 <li><a href="../Admin/frmProductos.aspx">Productos</a></li>
                                 <li><a href="../Admin/frmClienteInterno.aspx">Cliente Interno</a></li>
                                 <li><a href="../Admin/frmAreaTerapeutica.aspx">Area Terapéutica</a></li>
+                                <li><a href="../Admin/frmEventosDesactivados.aspx">Eventos Desactivados</a></li>
                             </ul>
                         </li>
                         <li class="active">
