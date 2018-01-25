@@ -12,6 +12,8 @@ namespace CM2017.Sistema
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = captura._title;
+
             if (!IsPostBack)
             {
                 CargaInicial();
@@ -116,7 +118,7 @@ namespace CM2017.Sistema
 
         protected void Button4_Click(object sender, EventArgs e)
         {
-            Negocio.EventosEntity eventosentity = new Negocio.EventosEntity();
+            Propiedades.Eventos eventosentity = new Propiedades.Eventos();
             eventosentity.NombreEvento = TextBox1.Text == string.Empty ? "" : TextBox1.Text;
             eventosentity.FechaSolicitud = TextBox2.Text == string.Empty ? DateTime.Now : DateTime.Parse(TextBox2.Text);
             eventosentity.FechaInicioEvento = TextBox3.Text == string.Empty ? DateTime.Now : DateTime.Parse(TextBox3.Text);
@@ -129,7 +131,7 @@ namespace CM2017.Sistema
             {
                 if (item.Selected)
                 {
-                    seleccionados += item.Value + ",";
+                    seleccionados += item.Text + ", ";
                 }
             }
             eventosentity.Producto = seleccionados.Substring(0, seleccionados.Length - 1);

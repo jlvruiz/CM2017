@@ -14,6 +14,8 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objClienteInterno._title;
+
             if (!IsPostBack)
                 CargarClienteInterno();
         }
@@ -28,7 +30,7 @@ namespace CM2017.Admin
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            ClienteInternoEntity = new Negocio.ClienteInternoEntity();
+            ClienteInternoEntity = new Propiedades.ClienteInterno();
 
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
             int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);

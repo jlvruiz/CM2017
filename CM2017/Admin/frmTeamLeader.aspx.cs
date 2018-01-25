@@ -14,6 +14,8 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objGerenteTL._title;
+
             if (!IsPostBack)
                 CargarGerentes();
         }

@@ -4,77 +4,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class UsuariosEntity
+    public class Usuarios : BaseDeDatos
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public int Activo { get; set; }
-        public string Clave { get; set; }
-        public string Contrasena { get; set; }
-    }
-    public class Usuarios
-    {
-        BaseDeDatos.BaseDeDatos db;
-
         public DataTable UsuariosSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM ORDER BY Nombre");
-            return db.Select();
+            CreateTextCommand("SELECT * FROM ResponsableCM ORDER BY Nombre");
+            return Select();
         }
 
-        public DataTable UsuariosSelectById(UsuariosEntity item)
+        public DataTable UsuariosSelectById(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE IdResCM=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            CreateTextCommand("SELECT * FROM ResponsableCM WHERE IdResCM=?");
+            AddParameter("?", item.Id.ToString());
+            return Select();
         }
 
-        public DataTable UsuariosBuscar(UsuariosEntity item)
+        public DataTable UsuariosBuscar(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE Nombre LIKE ? ");
-            db.AddParameter("?", "%" + item.Nombre + "%");
-            return db.Select();
+            CreateTextCommand("SELECT * FROM ResponsableCM WHERE Nombre LIKE ? ");
+            AddParameter("?", "%" + item.Nombre + "%");
+            return Select();
         }
 
-        public int UsuarioDesactivar(UsuariosEntity item)
+        public string UsuarioInsert(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("UPDATE ResponsableCM SET Activo=? WHERE IdResCM=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
+            AddParameter("?", item.Nombre);
+            AddParameter("?", item.Correo);
+            AddParameter("?", item.Clave);
+            AddParameter("?", item.Contrasena);
+            AddParameter("?", item.Activo.ToString());
+            return Insert();
         }
 
-        public string UsuarioInsert(UsuariosEntity item)
+        public int UsuarioDesactivar(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Clave);
-            db.AddParameter("?", item.Contrasena);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            CreateTextCommand("UPDATE ResponsableCM SET Activo=? WHERE IdResCM=? ");
+            AddParameter("?", item.Activo.ToString());
+            AddParameter("?", item.Id.ToString());
+            return Update();
         }
 
-        public int UsuarioUpdate(UsuariosEntity item)
+        public int UsuarioUpdate(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Clave);
-            db.AddParameter("?", item.Contrasena);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
+            AddParameter("?", item.Nombre);
+            AddParameter("?", item.Correo);
+            AddParameter("?", item.Clave);
+            AddParameter("?", item.Contrasena);
+            AddParameter("?", item.Activo.ToString());
+            AddParameter("?", item.Id.ToString());
+            return Update();
         }
 
     }

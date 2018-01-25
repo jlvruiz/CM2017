@@ -4,65 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class GerenteTLEntity
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public int Activo { get; set; }
-    }
     public class GerenteTL
     {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Team Leader";
+
+        BaseDeDatos.Tablas.GerenteTL tl = new BaseDeDatos.Tablas.GerenteTL();
 
         public DataTable GerentesTLSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TeamLeaders");
-            return db.Select();
+            return tl.GerentesTLSelect();
         }
+
         public DataTable GerentesTLActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TeamLeaders where Activo=1");
-            return db.Select();
+            return tl.GerentesTLActivoSelect();
         }
-        public DataTable GerenteTLSelectById(GerenteTLEntity item)
+
+        public DataTable GerenteTLSelectById(prop.TeamLeader item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TeamLeaders where IdTL=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return tl.GerenteTLSelectById(item);
         }
-        public int GerenteTLDesactivar(GerenteTLEntity item)
+
+        public int GerenteTLDesactivar(prop.TeamLeader item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update TeamLeaders set Activo=? where IdTL=?");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return tl.GerenteTLDesactivar(item);
         }
-        public string GerenteTLInsert(GerenteTLEntity item)
+
+        public string GerenteTLInsert(prop.TeamLeader item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("insert into TeamLeaders (Nombre, Correo, Activo) values (?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            return tl.GerenteTLInsert(item);
         }
-        public int GerenteTLUpdate(GerenteTLEntity item)
+
+        public int GerenteTLUpdate(prop.TeamLeader item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update TeamLeaders set Nombre=?, Correo=?, Activo=? where IdTL=?");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return tl.GerenteTLUpdate(item);
         }
     }
 }

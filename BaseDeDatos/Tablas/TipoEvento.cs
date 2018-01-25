@@ -4,54 +4,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class TipoEventoEntity
+    public class TipoEvento : BaseDeDatos
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-    public class TipoEvento
-    {
-        BaseDeDatos.BaseDeDatos db;
-
         public DataTable TipoEventoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TipoEvento order by descripcion");
-            return db.Select();
+            CreateTextCommand("SELECT * FROM TipoEvento ORDER BY descripcion");
+            return Select();
         }
+
         public DataTable TipoEventoActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TipoEvento where Visible=1 order by descripcion");
-            return db.Select();
+            CreateTextCommand("SELECT * FROM TipoEvento WHERE Visible=1 ORDER BY descripcion");
+            return Select();
         }
-        public DataTable TipoEventoSelectById(TipoEventoEntity item)
+
+        public DataTable TipoEventoSelectById(prop.TipoEvento item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TipoEvento where IdTipEve=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            CreateTextCommand("SELECT * FROM TipoEvento WHERE IdTipEve=?");
+            AddParameter("?", item.Id.ToString());
+            return Select();
         }
-        public int TipoEventoDesactivar(TipoEventoEntity item)
+
+        public string TipoEventoEstatus(object id)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update TipoEvento set Visible=? where IdTipEve=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("SELECT visible FROM TipoEvento WHERE IdTipEve=? ");
+            AddParameter("?", id);
+            return Select().Rows[0][0].ToString();
         }
-        public int TipoEventoUpdate(TipoEventoEntity item)
+
+        public string TipoEventoInsert(prop.TipoEvento item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update TipoEvento set Descripcion=?, Visible=? where IdTipEve=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("INSERT INTO tipoevento (Descripcion, Visible) VALUES (?,?)");
+            AddParameter("?", item.Descripcion);
+            AddParameter("?", item.Activo.ToString());
+            return Insert();
         }
+
+        public int TipoEventoUpdate(prop.TipoEvento item)
+        {
+            CreateTextCommand("UPDATE TipoEvento SET Descripcion=?, Visible=? WHERE IdTipEve=? ");
+            AddParameter("?", item.Descripcion);
+            AddParameter("?", item.Activo.ToString());
+            AddParameter("?", item.Id.ToString());
+            return Update();
+        }
+
+        public int TipoEventoDesactivar(prop.TipoEvento item)
+        {
+            CreateTextCommand("UPDATE TipoEvento SET Visible=? WHERE IdTipEve=? ");
+            AddParameter("?", item.Activo.ToString());
+            AddParameter("?", item.Id.ToString());
+            return Update();
+        }
+
     }
 }

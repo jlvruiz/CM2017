@@ -10,13 +10,15 @@ namespace CM2017.Admin
     public partial class frmTipoAudiencia : Comun
     {
         Negocio.TipoAudiencia tipoaudiencia;
-        Negocio.TipoAudienciaEntity tipoaudienciaEntity;
+        Propiedades.TipoAudiencia tipoaudienciaEntity;
 
         public static int IdTipoAudiencia = 0;
         public static int editar = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objTipoAudiencia._title;
+
             if (!IsPostBack)
                 CargarTipoAudiencia();
         }
@@ -40,7 +42,10 @@ namespace CM2017.Admin
                 activo = 1;
             TipoAudienciaEntity.Activo = activo;
             int obt = objTipoAudiencia.TipoAudienciaDesactivar(TipoAudienciaEntity);
-            CargarTipoAudiencia();
+            if (obt == 0)
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede desactivar este Tipo de Audiencia porque esta asignado a un evento que se desarrollará proximamente');", true);
+            else
+                CargarTipoAudiencia();
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)

@@ -13,6 +13,8 @@ namespace CM2017.Admin
         {
             if (!IsPostBack)
             {
+                Page.Title = eventosdesactivados._title;
+
                 //GridView1.PageIndex = 0;
                 CargarEventos();
             }
@@ -20,8 +22,7 @@ namespace CM2017.Admin
 
         protected void CargarEventos()
         {
-            GridView1.DataSource = objEventos.EventosDesactivadosSelect();
-            GridView1.DataBind();
+            LlenarGridView(GridView1, objEventos.EventosDesactivadosSelect());
         }
 
         protected void LigaActivar_Click(object sender, EventArgs e)
@@ -29,8 +30,10 @@ namespace CM2017.Admin
             LinkButton btn = sender as LinkButton;
             GridViewRow row = btn.NamingContainer as GridViewRow;
             string val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
-            objEventos.EventoReactivar(val);
-            CargarEventos();
+            if (objEventos.EventoReactivar(val))
+                CargarEventos();
+            else
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede reactivar este evento porque unos de sus elementos esta inactivo, debe crear uno nuevo');", true);
         }
     }
 }

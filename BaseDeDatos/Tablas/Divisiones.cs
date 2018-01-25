@@ -4,43 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace BaseDeDatos.Tablas
 {
-    public class DivisionesEntity
-    {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
     public class Divisiones : BaseDeDatos
     {
         public DataTable DivisionesSelect()
         {
-            CreateTextCommand("select * from Divisiones");
+            CreateTextCommand("SELECT * FROM Divisiones");
             return Select();
         }
         public DataTable DivisionesActivoSelect()
         {
-            CreateTextCommand("select * from Divisiones where Visible=1");
+            CreateTextCommand("SELECT * FROM Divisiones WHERE Visible=1");
             return Select();
         }
-        public DataTable DivisionesSelectById(DivisionesEntity item)
+        public DataTable DivisionesSelectById(prop.Divisiones item)
         {
-            CreateTextCommand("select * from Divisiones where IdDivision=?");
+            CreateTextCommand("SELECT * FROM Divisiones WHERE IdDivision=?");
             AddParameter("?", item.Id.ToString());
             return Select();
         }
-        public int DivisionDesactivar(DivisionesEntity item)
+        public int DivisionDesactivar(prop.Divisiones item)
         {
-            CreateTextCommand("update Divisiones set Visible=? where IdDivision=? ");
+            CreateTextCommand("UPDATE Divisiones SET Visible=? WHERE IdDivision=? ");
             AddParameter("?", item.Activo.ToString());
             AddParameter("?", item.Id.ToString());
             return Update();
         }
-        public int DivisionUpdate(DivisionesEntity item)
+        public int DivisionUpdate(prop.Divisiones item)
         {
-            CreateTextCommand("update Divisiones set Descripcion=?, Visible=? where IdDivision=? ");
+            CreateTextCommand("UPDATE Divisiones SET Descripcion=?, Visible=? WHERE IdDivision=? ");
             AddParameter("?", item.Descripcion);
             AddParameter("?", item.Activo.ToString());
             AddParameter("?", item.Id.ToString());

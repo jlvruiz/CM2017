@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2015\Projects\Local\Local\bin\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -96,6 +99,7 @@
   <ItemGroup>
     <Content Include="Admin\frmClienteInterno.aspx" />
     <Content Include="Admin\frmEventosDesactivados.aspx" />
+    <Content Include="Admin\frmEventosTerminados.aspx" />
     <Content Include="Admin\frmProductos.aspx" />
     <Content Include="Admin\frmTipoEvento.aspx" />
     <Content Include="Admin\frmUDN.aspx" />
@@ -115,12 +119,14 @@
     <Content Include="Imagenes\boton_expandir.png" />
     <Content Include="Imagenes\boton_info.png" />
     <Content Include="Imagenes\boton_pregunta.png" />
+    <Content Include="Imagenes\m-wait.gif" />
     <Content Include="js\Admin\frmUsuarios.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jQuery.js" />
     <Content Include="js\jquery.ui.datepicker-es.js" />
     <Content Include="js\jQueryUI.css" />
+    <Content Include="js\loader.js" />
     <Content Include="js\Sistema\frmCaptura.js" />
     <Content Include="js\toastmessage.js" />
     <Content Include="packages.config" />
@@ -185,6 +191,13 @@
     </Compile>
     <Compile Include="Admin\frmEventosDesactivados.aspx.designer.cs">
       <DependentUpon>frmEventosDesactivados.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\frmEventosTerminados.aspx.cs">
+      <DependentUpon>frmEventosTerminados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\frmEventosTerminados.aspx.designer.cs">
+      <DependentUpon>frmEventosTerminados.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\frmGerenteProducto.aspx.cs">
       <DependentUpon>frmGerenteProducto.aspx</DependentUpon>
@@ -286,6 +299,10 @@
     <ProjectReference Include="..\CM2017.Negocio\CM2017.Negocio.csproj">
       <Project>{bb78fccd-cad7-4cb3-b62e-e1193bbfa788}</Project>
       <Name>CM2017.Negocio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CM2017.Propiedades\CM2017.Propiedades.csproj">
+      <Project>{fbc09ce7-a816-4941-b5cc-70102283c3af}</Project>
+      <Name>CM2017.Propiedades</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

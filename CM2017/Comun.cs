@@ -13,57 +13,65 @@ namespace CM2017
 
         //private string cadenaConexion = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\JoseLuis\Documents\CM2017\CM2017\CM2017\DB\CM.mdb;";
 
+        public CM2017.Negocio.Inicio inicio;
+        public CM2017.Negocio.Captura captura;
         public CM2017.Negocio.Eventos objEventos;
-        public CM2017.Negocio.EventosEntity EventosEntity;
+        public CM2017.Propiedades.Eventos EventosEntity;
+        public CM2017.Negocio.EventosDesactivados eventosdesactivados;
+        public CM2017.Negocio.EventosTerminados eventosterminados;
         public CM2017.Negocio.Usuarios objUsuarios;
-        public CM2017.Negocio.UsuariosEntity UsuariosEntity;
+        public CM2017.Propiedades.Usuarios UsuariosEntity;
         public CM2017.Negocio.TipoEvento objTipoEvento;
-        public CM2017.Negocio.TipoEventoEntity TipoEventoEntity;
+        public CM2017.Propiedades.TipoEvento TipoEventoEntity;
         public CM2017.Negocio.Gerentes objGerentes;
-        public CM2017.Negocio.GerentesEntity GerentesEntity;
+        public CM2017.Propiedades.Gerentes GerentesEntity;
         public CM2017.Negocio.Productos objProductos;
-        public CM2017.Negocio.ProductosEntity ProductosEntity;
+        public CM2017.Propiedades.Productos ProductosEntity;
         public CM2017.Negocio.TipoAudiencia objTipoAudiencia;
-        public CM2017.Negocio.TipoAudienciaEntity TipoAudienciaEntity;
+        public CM2017.Propiedades.TipoAudiencia TipoAudienciaEntity;
         public CM2017.Negocio.Localizacion objLocalizacion;
-        public CM2017.Negocio.LocalizacionEntity LocalizacionEntity;
+        public CM2017.Propiedades.Localizacion LocalizacionEntity;
         public CM2017.Negocio.Divisiones objDivisiones;
-        public CM2017.Negocio.DivisionesEntity DivisionesEntity;
+        public CM2017.Propiedades.Divisiones DivisionesEntity;
         public CM2017.Negocio.AreaTerapeutica objAreaTerapeutica;
-        public CM2017.Negocio.AreaTerapeuticaEntity AreaTerapeuticaEntity;
+        public CM2017.Propiedades.AreaTerapeutica AreaTerapeuticaEntity;
         public CM2017.Negocio.GerenteTL objGerenteTL;
-        public CM2017.Negocio.GerenteTLEntity GerenteTLEntity;
+        public CM2017.Propiedades.TeamLeader GerenteTLEntity;
         public CM2017.Negocio.ClienteInterno objClienteInterno;
-        public CM2017.Negocio.ClienteInternoEntity ClienteInternoEntity;
+        public CM2017.Propiedades.ClienteInterno ClienteInternoEntity;
         public CM2017.Negocio.UDN objUDN;
-        public CM2017.Negocio.UDNEntity UDNEntity;
+        public CM2017.Propiedades.UDN UDNEntity;
 
         public Comun()
         {
+            inicio = new Negocio.Inicio();
+            captura = new Negocio.Captura();
             objEventos = new Negocio.Eventos();
-            EventosEntity = new Negocio.EventosEntity();
+            EventosEntity = new Propiedades.Eventos();
+            eventosdesactivados = new Negocio.EventosDesactivados();
+            eventosterminados = new Negocio.EventosTerminados();
             objUsuarios = new Negocio.Usuarios();
-            UsuariosEntity = new Negocio.UsuariosEntity();
+            UsuariosEntity = new Propiedades.Usuarios();
             objTipoEvento = new Negocio.TipoEvento();
-            TipoEventoEntity = new Negocio.TipoEventoEntity();
+            TipoEventoEntity = new Propiedades.TipoEvento();
             objGerentes = new Negocio.Gerentes();
-            GerentesEntity = new Negocio.GerentesEntity();
+            GerentesEntity = new Propiedades.Gerentes();
             objProductos = new Negocio.Productos();
-            ProductosEntity = new Negocio.ProductosEntity();
+            ProductosEntity = new Propiedades.Productos();
             objAreaTerapeutica = new Negocio.AreaTerapeutica();
-            AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
+            AreaTerapeuticaEntity = new Propiedades.AreaTerapeutica();
             objTipoAudiencia = new Negocio.TipoAudiencia();
-            TipoAudienciaEntity = new Negocio.TipoAudienciaEntity();
+            TipoAudienciaEntity = new Propiedades.TipoAudiencia();
             objGerenteTL = new Negocio.GerenteTL();
-            GerenteTLEntity = new Negocio.GerenteTLEntity();
+            GerenteTLEntity = new Propiedades.TeamLeader();
             objClienteInterno = new Negocio.ClienteInterno();
-            ClienteInternoEntity = new Negocio.ClienteInternoEntity();
+            ClienteInternoEntity = new Propiedades.ClienteInterno();
             objDivisiones = new Negocio.Divisiones();
-            DivisionesEntity = new Negocio.DivisionesEntity();
+            DivisionesEntity = new Propiedades.Divisiones();
             objUDN = new Negocio.UDN();
-            UDNEntity = new Negocio.UDNEntity();
+            UDNEntity = new Propiedades.UDN();
             objLocalizacion = new Negocio.Localizacion();
-            LocalizacionEntity = new Negocio.LocalizacionEntity();
+            LocalizacionEntity = new Propiedades.Localizacion();
         }
 
         public void LlenarGridView(GridView gridview, DataTable datatable)

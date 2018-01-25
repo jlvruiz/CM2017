@@ -4,54 +4,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class TipoAudienciaEntity
-    {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
     public class TipoAudiencia
     {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Tipo de Audiencia";
+
+        BaseDeDatos.Tablas.TipoAudiencia ta = new BaseDeDatos.Tablas.TipoAudiencia();
 
         public DataTable TipoAudienciaSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Audiencia order by Descripcion");
-            return db.Select();
+            return ta.TipoAudienciaSelect();
         }
+
         public DataTable TipoAudienciaActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Audiencia where Visible=1");
-            return db.Select();
+            return ta.TipoAudienciaActivoSelect();
         }
-        public DataTable TipoAudienciaSelectById(TipoAudienciaEntity item)
+
+        public DataTable TipoAudienciaSelectById(prop.TipoAudiencia item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Audiencia where IdAudiencia=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return ta.TipoAudienciaSelectById(item);
         }
-        public int TipoAudienciaDesactivar(TipoAudienciaEntity item)
+
+        public int TipoAudienciaDesactivar(prop.TipoAudiencia item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Audiencia set Visible=? where IdAudiencia=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            if (validarTipoAudiencia(item.Id))
+                return ta.TipoAudienciaDesactivar(item);
+            else
+                return 0;
         }
-        public int TipoAudienciaUpdate(TipoAudienciaEntity item)
+
+        public int TipoAudienciaUpdate(prop.TipoAudiencia item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Audiencia set Descripcion=?, Visible=? where IdAudiencia=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return ta.TipoAudienciaUpdate(item);
         }
+
+        public bool validarTipoAudiencia(object idtipoaudiencia)
+        {
+            BaseDeDatos.Tablas.Eventos ev = new BaseDeDatos.Tablas.Eventos();
+            return ev.validarAudiencia(idtipoaudiencia);
+        }
+
+        public bool TipoAudienciaEstatus(object id)
+        {
+            string obtenido = ta.TipoAudienciaEstatus(id);
+            if (obtenido == "0")
+                return false;
+            else
+                return true;
+        }
+
+
+
     }
 }

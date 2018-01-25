@@ -6,12 +6,12 @@
           top: 53px;
           color: white;
           background: #A2C;
-          z-index: 999; /* above items */
+          z-index: 1999; /* above items */
         }
 		#stickyheader 
 		{
 			width: 100%;
-            z-index: 100
+            z-index: 10000
 		}
     </style>
     <script type="text/javascript">
@@ -47,7 +47,7 @@
     </script>
 
     <div id="stickyheader">
-        <nav class="navbar navbar-default" style="border-bottom: 2px solid black">
+        <nav class="navbar navbar-inverse" style="border-bottom: 2px solid black">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
@@ -61,7 +61,7 @@
                             <a href="../Admin/frmUsuarios.aspx" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios</a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catalogos<span class="caret"></span></a>
+                            <a href="../Admin/frmDivision.aspx" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catalogos<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="../Admin/frmDivision.aspx">División</a></li>
                                 <li><a href="../Admin/frmGerenteProducto.aspx">Gerente de Producto</a></li>
@@ -74,6 +74,7 @@
                                 <li><a href="../Admin/frmClienteInterno.aspx">Cliente Interno</a></li>
                                 <li><a href="../Admin/frmAreaTerapeutica.aspx">Area Terapéutica</a></li>
                                 <li><a href="../Admin/frmEventosDesactivados.aspx">Eventos Desactivados</a></li>
+                                <li><a href="../Admin/frmEventosTerminados.aspx">Eventos Terminados</a></li>
                             </ul>
                         </li>
                         <li class="active">

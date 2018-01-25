@@ -4,77 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class UsuariosEntity
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public int Activo { get; set; }
-        public string Clave { get; set; }
-        public string Contrasena { get; set; }
-    }
     public class Usuarios
     {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Usuarios";
+
+        BaseDeDatos.Tablas.Usuarios us = new BaseDeDatos.Tablas.Usuarios();
 
         public DataTable UsuariosSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM ORDER BY Nombre");
-            return db.Select();
+            return us.UsuariosSelect();
         }
 
-        public DataTable UsuariosSelectById(UsuariosEntity item)
+        public DataTable UsuariosSelectById(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE IdResCM=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return us.UsuariosSelectById(item);
         }
 
-        public DataTable UsuariosBuscar(UsuariosEntity item)
+        public DataTable UsuariosBuscar(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE Nombre LIKE ? ");
-            db.AddParameter("?", "%" + item.Nombre + "%");
-            return db.Select();
+            return us.UsuariosBuscar(item);
         }
 
-        public int UsuarioDesactivar(UsuariosEntity item)
+        public int UsuarioDesactivar(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("UPDATE ResponsableCM SET Activo=? WHERE IdResCM=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return us.UsuarioDesactivar(item);
         }
 
-        public string UsuarioInsert(UsuariosEntity item)
+        public string UsuarioInsert(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Clave);
-            db.AddParameter("?", item.Contrasena);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            return us.UsuarioInsert(item);
         }
 
-        public int UsuarioUpdate(UsuariosEntity item)
+        public int UsuarioUpdate(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Clave);
-            db.AddParameter("?", item.Contrasena);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return us.UsuarioUpdate(item);
         }
 
     }

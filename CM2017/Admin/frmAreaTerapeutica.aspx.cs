@@ -9,23 +9,20 @@ namespace CM2017.Admin
 {
     public partial class frmAreaTerapeutica : Comun
     {
+        
         public static int IdAreaTerapeutica = 0;
         public static int editar = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objAreaTerapeutica._title;
             if (!IsPostBack)
                 CargarAreaTerapeutica();
+
         }
         protected void CargarAreaTerapeutica()
         {
-            //LlenarGridView(GridView1, objAreaTerapeutica.AreaTerapeuticaSelect());
-
-            //Nueva implementacion 12/01/2017
-            CM2017.Negocio.AreaTerapeuticaNegocio cmatn = new Negocio.AreaTerapeuticaNegocio();
-            GridView1.DataSource = cmatn.AreaTerapeuticaSelect();
-            GridView1.DataBind(); 
-            //Fin nueva implementacion
+            LlenarGridView(GridView1, objAreaTerapeutica.AreaTerapeuticaSelect());            
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {
@@ -43,7 +40,10 @@ namespace CM2017.Admin
                 activo = 1;
             AreaTerapeuticaEntity.Activo = activo;
             int obt = objAreaTerapeutica.AreaTerapeuticaDesactivar(AreaTerapeuticaEntity);
-            CargarAreaTerapeutica();
+            if (obt == 0)
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede desactivar esta Área Terapeútica porque esta asignada a un evento que se desarrollará proximamente');", true);
+            else
+                CargarAreaTerapeutica();
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -67,7 +67,7 @@ namespace CM2017.Admin
             {
                 if (currentCommand == "Select")
                 {
-                    AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
+                    AreaTerapeuticaEntity = new Propiedades.AreaTerapeutica();
                     AreaTerapeuticaEntity.Id = val;
                     foreach (System.Data.DataRow row in objAreaTerapeutica.AreaTerapeuticaSelectById(AreaTerapeuticaEntity).Rows)
                     {
@@ -96,7 +96,7 @@ namespace CM2017.Admin
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
+            AreaTerapeuticaEntity = new Propiedades.AreaTerapeutica();
             AreaTerapeuticaEntity.Id = IdAreaTerapeutica;
             AreaTerapeuticaEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
             if (chkActivo.Checked == true)

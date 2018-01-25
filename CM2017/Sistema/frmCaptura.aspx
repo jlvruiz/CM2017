@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmCaptura.aspx.cs" Inherits="CM2017.Sistema.frmCaptura" %>
-<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -7,8 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <uc1:Menu ID="Menu1" runat="server" />
-    &nbsp;<h2>Captura para Eventos</h2>
+    <h2><%= captura._title %></h2>
     <script src="../js/Sistema/frmCaptura.js"></script>
 
     <table class="table">

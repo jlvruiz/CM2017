@@ -4,54 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class DivisionesEntity
-    {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
     public class Divisiones
     {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Divisiones";
+
+        BaseDeDatos.Tablas.Divisiones di = new BaseDeDatos.Tablas.Divisiones();
 
         public DataTable DivisionesSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Divisiones");
-            return db.Select();
+            return di.DivisionesSelect();
         }
+
         public DataTable DivisionesActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Divisiones where Visible=1");
-            return db.Select();
+            return di.DivisionesActivoSelect();
         }
-        public DataTable DivisionesSelectById(DivisionesEntity item)
+
+        public DataTable DivisionesSelectById(prop.Divisiones item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Divisiones where IdDivision=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return di.DivisionesSelectById(item);
         }
-        public int DivisionDesactivar(DivisionesEntity item)
+
+        public int DivisionDesactivar(prop.Divisiones item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Divisiones set Visible=? where IdDivision=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return di.DivisionDesactivar(item);
         }
-        public int DivisionUpdate(DivisionesEntity item)
+
+        public int DivisionUpdate(prop.Divisiones item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Divisiones set Descripcion=?, Visible=? where IdDivision=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return di.DivisionUpdate(item);
         }
 
 
