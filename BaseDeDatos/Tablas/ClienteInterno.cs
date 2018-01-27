@@ -4,36 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
 
 namespace BaseDeDatos.Tablas
 {
+    public class ClienteInternoEntity
+    {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public int Activo { get; set; }
+    }
+
     public class ClienteInterno : BaseDeDatos
     {
         public DataTable ClienteInternoSelect()
         {
-            CreateTextCommand("SELECT * FROM ClienteInterno ORDER BY Descripcion");
+            CreateTextCommand("select * from ClienteInterno order by Descripcion");
             return Select();
         }
 
-        public DataTable ClienteInternoSelectById(prop.ClienteInterno item)
+        public DataTable ClienteInternoSelectById(ClienteInternoEntity item)
         {
-            CreateTextCommand("SELECT * FROM ClienteInterno WHERE IdCteInt=?");
+            CreateTextCommand("select * from ClienteInterno where IdCteInt=?");
             AddParameter("?", item.Id.ToString());
             return Select();
         }
 
-        public int ClienteInternoDesactivar(prop.ClienteInterno item)
+        public int ClienteInternoDesactivar(ClienteInternoEntity item)
         {
-            CreateTextCommand("UPDATE ClienteInterno SET Visible=? WHERE IdCteInt=?");
+            CreateTextCommand("update ClienteInterno set Visible=? where IdCteInt=? ");
             AddParameter("?", item.Activo.ToString());
             AddParameter("?", item.Id.ToString());
             return Update();
         }
 
-        public int ClienteInternoUpdate(prop.ClienteInterno item)
+        public int ClienteInternoUpdate(ClienteInternoEntity item)
         {
-            CreateTextCommand("UPDATE ClienteInterno SET Descripcion=?, Visible=? WHERE IdCteInt=?");
+            CreateTextCommand("update ClienteInterno set Descripcion=?, Visible=? where IdCteInt=? ");
             AddParameter("?", item.Descripcion);
             AddParameter("?", item.Activo.ToString());
             AddParameter("?", item.Id.ToString());

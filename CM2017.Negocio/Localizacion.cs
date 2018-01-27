@@ -4,44 +4,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
+    public class LocalizacionEntity
+    {
+        public int Id { get; set; }
+        public string Nombre{ get; set; }
+        public int Tipo { get; set; }
+        public string Motivo { get; set; }
+        public int Activo { get; set; }
+    }
     public class Localizacion
     {
-        public string _title = "Localización";
-
-        BaseDeDatos.Tablas.Localizacion lo = new BaseDeDatos.Tablas.Localizacion();
+        BaseDeDatos.BaseDeDatos db;
 
         public DataTable LocalizacionesSelect()
         {
-            return lo.LocalizacionesSelect();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Localizacion order by Nombre");
+            return db.Select();
         }
-
         public DataTable LocalizacionesActivoSelect()
         {
-            return lo.LocalizacionesActivoSelect();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Localizacion where Visible=1");
+            return db.Select();
+        }
+        public DataTable LocalizacionSelectById(LocalizacionEntity item)
+        {
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Localizacion where IdLoc=?");
+            db.AddParameter("?", item.Id.ToString());
+            return db.Select();
         }
 
-        public DataTable LocalizacionSelectById(prop.Localizacion item)
+        public int LocalizacionDesactivar(LocalizacionEntity item)
         {
-            return lo.LocalizacionSelectById(item);
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update Localizacion set Visible=? where IdLoc=? ");
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
 
-        public int LocalizacionDesactivar(prop.Localizacion item)
+        public string LocalizacionInsert(LocalizacionEntity item)
         {
-            return lo.LocalizacionDesactivar(item);
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("insert into Localizacion (Nombre,Tipo,Motivo,Visible) values (?,?,?,?)");
+            db.AddParameter("?", item.Nombre);
+            db.AddParameter("?", item.Tipo.ToString());
+            db.AddParameter("?", item.Motivo);
+            db.AddParameter("?", item.Activo.ToString());
+            return db.Insert();
         }
 
-        public string LocalizacionInsert(prop.Localizacion item)
+        public int LocalizacionUpdate(LocalizacionEntity item)
         {
-            return lo.LocalizacionInsert(item);
-        }
-
-        public int LocalizacionUpdate(prop.Localizacion item)
-        {
-            return lo.LocalizacionUpdate(item);
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update Localizacion set Nombre=?, Tipo=?, Motivo=?, Visible=? where IdLoc=? ");
+            db.AddParameter("?", item.Nombre);
+            db.AddParameter("?", item.Tipo.ToString());
+            db.AddParameter("?", item.Motivo);
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
     }
 }

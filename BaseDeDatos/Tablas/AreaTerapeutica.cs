@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
-
 
 namespace BaseDeDatos.Tablas
 {
+    public class AreaTerapeuticaEntity
+    {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public int Activo { get; set; }
+    }
     public class AreaTerapeutica : BaseDeDatos
     {
         public string _cadena = string.Empty;
@@ -17,36 +21,30 @@ namespace BaseDeDatos.Tablas
 
         public DataTable AreaTerapeuticaSelect()
         {
-            CreateTextCommand("SELECT * FROM AreaTerapeutica");
+            CreateTextCommand("select * from AreaTerapeutica");
             return Select();
         }
         public DataTable AreaTerapeuticaActivoSelect()
         {
-            CreateTextCommand("SELECT * FROM AreaTerapeutica WHERE Visible=1");
+            CreateTextCommand("select * from AreaTerapeutica where Visible=1");
             return Select();
         }
-        public DataTable AreaTerapeuticaSelectById(prop.AreaTerapeutica entidad)
+        public DataTable AreaTerapeuticaSelectById(AreaTerapeuticaEntity entidad)
         {
-            CreateTextCommand("SELECT * FROM AreaTerapeutica WHERE IdAT=?");
+            CreateTextCommand("select * from AreaTerapeutica where IdAT=?");
             AddParameter("?", entidad.Id.ToString());
             return Select();
         }
-        public string AreaTerapeuticaEstatus(object id)
+        public int AreaTerapeuticaDesactivar(AreaTerapeuticaEntity entidad)
         {
-            CreateTextCommand("SELECT visible FROM AreaTerapeutica WHERE IdAT=? ");
-            AddParameter("?", id);
-            return Select().Rows[0][0].ToString();
-        }
-        public int AreaTerapeuticaDesactivar(prop.AreaTerapeutica entidad)
-        {
-            CreateTextCommand("UPDATE AreaTerapeutica SET Visible=? WHERE IdAT=? ");
+            CreateTextCommand("update AreaTerapeutica set Visible=? where IdAT=? ");
             AddParameter("?", entidad.Activo.ToString());
             AddParameter("?", entidad.Id.ToString());
             return Update();
         }
-        public int AreaTerapeuticaUpdate(prop.AreaTerapeutica entidad)
+        public int AreaTerapeuticaUpdate(AreaTerapeuticaEntity entidad)
         {
-            CreateTextCommand("UPDATE AreaTerapeutica SET Descripcion=?, Visible=? WHERE IdAT=? ");
+            CreateTextCommand("update AreaTerapeutica set Descripcion=?, Visible=? where IdAT=? ");
             AddParameter("?", entidad.Descripcion);
             AddParameter("?", entidad.Activo.ToString());
             AddParameter("?", entidad.Id.ToString());

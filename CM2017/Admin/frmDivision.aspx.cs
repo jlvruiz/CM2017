@@ -14,7 +14,6 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Page.Title = objDivisiones._title;
             if (!IsPostBack)
                 CargarDivisiones();
         }

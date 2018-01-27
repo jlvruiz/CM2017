@@ -9,20 +9,16 @@ namespace CM2017.Sistema
 {
     public partial class Inicio : Comun
     {
-        int indexOfColumn = 1;
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                Page.Title = inicio._title;
-
                 GridView1.PageIndex = 0;
                 CargarEventos();
-                Page.Title = inicio._title;
             }
         }
 
+        int indexOfColumn = 1;
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.Cells.Count > indexOfColumn)
@@ -78,7 +74,8 @@ namespace CM2017.Sistema
 
         protected void CargarEventos()
         {
-            LlenarGridView(GridView1, objEventos.EventosSelect());
+            GridView1.DataSource = objEventos.EventosSelect();
+            GridView1.DataBind();
         }
 
         public void cargarDetalle(string Id)

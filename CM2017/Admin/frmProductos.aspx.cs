@@ -15,8 +15,6 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Page.Title = objProductos._title;
-
             if (!IsPostBack)
             {
                 GridView1.PageIndex = 0;

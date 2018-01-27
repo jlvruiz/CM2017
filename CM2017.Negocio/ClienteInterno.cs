@@ -4,34 +4,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
+    public class ClienteInternoEntity
+    {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public int Activo { get; set; }
+    }
+
     public class ClienteInterno
     {
-        public string _title = "Cliente Interno";
-
-        BaseDeDatos.Tablas.ClienteInterno ci = new BaseDeDatos.Tablas.ClienteInterno();
+        BaseDeDatos.BaseDeDatos db;
 
         public DataTable ClienteInternoSelect()
         {
-            return ci.ClienteInternoSelect();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from ClienteInterno order by Descripcion");
+            return db.Select();
         }
 
-        public DataTable ClienteInternoSelectById(prop.ClienteInterno item)
+        public DataTable ClienteInternoSelectById(ClienteInternoEntity item)
         {
-            return ci.ClienteInternoSelectById(item);
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from ClienteInterno where IdCteInt=?");
+            db.AddParameter("?", item.Id.ToString());
+            return db.Select();
         }
 
-        public int ClienteInternoDesactivar(prop.ClienteInterno item)
+        public int ClienteInternoDesactivar(ClienteInternoEntity item)
         {
-            return ci.ClienteInternoDesactivar(item);
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update ClienteInterno set Visible=? where IdCteInt=? ");
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
 
-        public int ClienteInternoUpdate(prop.ClienteInterno item)
+        public int ClienteInternoUpdate(ClienteInternoEntity item)
         {
-            return ci.ClienteInternoUpdate(item);
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update ClienteInterno set Descripcion=?, Visible=? where IdCteInt=? ");
+            db.AddParameter("?", item.Descripcion);
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
 
 

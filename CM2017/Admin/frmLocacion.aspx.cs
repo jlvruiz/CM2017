@@ -9,14 +9,11 @@ namespace CM2017.Admin
 {
     public partial class frmLocacion : Comun
     {
-
         public static int IdLoc = 0;
         public static int editar = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Page.Title = objLocalizacion._title;
-
             if (!IsPostBack)
                 CargarLocalizaciones();
 

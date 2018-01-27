@@ -4,53 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
 
-namespace BaseDeDatos.Tablas
+namespace CM2017.Negocio
 {
-    public class TipoAudiencia: BaseDeDatos
+    public class TipoAudienciaEntity
     {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public int Activo { get; set; }
+    }
+    public class TipoAudiencia
+    {
+        BaseDeDatos.BaseDeDatos db;
+
         public DataTable TipoAudienciaSelect()
         {
-            CreateTextCommand("SELECT * FROM Audiencia ORDER BY Descripcion");
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Audiencia order by Descripcion");
+            return db.Select();
         }
-
         public DataTable TipoAudienciaActivoSelect()
         {
-            CreateTextCommand("SELECT * FROM Audiencia WHERE Visible=1");
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Audiencia where Visible=1");
+            return db.Select();
         }
-
-        public DataTable TipoAudienciaSelectById(prop.TipoAudiencia item)
+        public DataTable TipoAudienciaSelectById(TipoAudienciaEntity item)
         {
-            CreateTextCommand("SELECT * FROM Audiencia WHERE IdAudiencia=?");
-            AddParameter("?", item.Id.ToString());
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Audiencia where IdAudiencia=?");
+            db.AddParameter("?", item.Id.ToString());
+            return db.Select();
         }
-
-        public string TipoAudienciaEstatus(object id)
+        public int TipoAudienciaDesactivar(TipoAudienciaEntity item)
         {
-            CreateTextCommand("SELECT visible FROM Audiencia WHERE IdAudiencia=? ");
-            AddParameter("?", id);
-            return Select().Rows[0][0].ToString();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update Audiencia set Visible=? where IdAudiencia=? ");
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
-
-        public int TipoAudienciaDesactivar(prop.TipoAudiencia item)
+        public int TipoAudienciaUpdate(TipoAudienciaEntity item)
         {
-            CreateTextCommand("UPDATE Audiencia SET Visible=? WHERE IdAudiencia=? ");
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
-            return Update();
-        }
-
-        public int TipoAudienciaUpdate(prop.TipoAudiencia item)
-        {
-            CreateTextCommand("UPDATE Audiencia SET Descripcion=?, Visible=? WHERE IdAudiencia=? ");
-            AddParameter("?", item.Descripcion);
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
-            return Update();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update Audiencia set Descripcion=?, Visible=? where IdAudiencia=? ");
+            db.AddParameter("?", item.Descripcion);
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
     }
 }

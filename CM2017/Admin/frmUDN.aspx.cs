@@ -14,8 +14,6 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Page.Title = objUDN._title;
-
             if (!IsPostBack)
                 CargarUDN();
         }

@@ -4,56 +4,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
 
-namespace BaseDeDatos.Tablas
+namespace CM2017.Negocio
 {
-    public class Localizacion : BaseDeDatos
+    public class LocalizacionEntity
     {
+        public int Id { get; set; }
+        public string Nombre{ get; set; }
+        public int Tipo { get; set; }
+        public string Motivo { get; set; }
+        public int Activo { get; set; }
+    }
+    public class Localizacion
+    {
+        BaseDeDatos.BaseDeDatos db;
+
         public DataTable LocalizacionesSelect()
         {
-            CreateTextCommand("SELECT * FROM Localizacion ORDER BY Nombre");
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Localizacion order by Nombre");
+            return db.Select();
         }
         public DataTable LocalizacionesActivoSelect()
         {
-            CreateTextCommand("SELECT * FROM Localizacion WHERE Visible=1");
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Localizacion where Visible=1");
+            return db.Select();
         }
-        public DataTable LocalizacionSelectById(prop.Localizacion item)
+        public DataTable LocalizacionSelectById(LocalizacionEntity item)
         {
-            CreateTextCommand("SELECT * FROM Localizacion WHERE IdLoc=?");
-            AddParameter("?", item.Id.ToString());
-            return Select();
-        }
-
-        public string LocalizacionInsert(prop.Localizacion item)
-        {
-            CreateTextCommand("INSERT INTO Localizacion (Nombre,Tipo,Motivo,Visible) VALUES (?,?,?,?)");
-            AddParameter("?", item.Nombre);
-            AddParameter("?", item.Tipo.ToString());
-            AddParameter("?", item.Motivo);
-            AddParameter("?", item.Activo.ToString());
-            return Insert();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from Localizacion where IdLoc=?");
+            db.AddParameter("?", item.Id.ToString());
+            return db.Select();
         }
 
-        public int LocalizacionDesactivar(prop.Localizacion item)
+        public int LocalizacionDesactivar(LocalizacionEntity item)
         {
-            CreateTextCommand("UPDATE Localizacion SET Visible=? WHERE IdLoc=? ");
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
-            return Update();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update Localizacion set Visible=? where IdLoc=? ");
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
 
-        public int LocalizacionUpdate(prop.Localizacion item)
+        public string LocalizacionInsert(LocalizacionEntity item)
         {
-            CreateTextCommand("UPDATE Localizacion SET Nombre=?, Tipo=?, Motivo=?, Visible=? WHERE IdLoc=? ");
-            AddParameter("?", item.Nombre);
-            AddParameter("?", item.Tipo.ToString());
-            AddParameter("?", item.Motivo);
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
-            return Update();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("insert into Localizacion (Nombre,Tipo,Motivo,Visible) values (?,?,?,?)");
+            db.AddParameter("?", item.Nombre);
+            db.AddParameter("?", item.Tipo.ToString());
+            db.AddParameter("?", item.Motivo);
+            db.AddParameter("?", item.Activo.ToString());
+            return db.Insert();
+        }
+
+        public int LocalizacionUpdate(LocalizacionEntity item)
+        {
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update Localizacion set Nombre=?, Tipo=?, Motivo=?, Visible=? where IdLoc=? ");
+            db.AddParameter("?", item.Nombre);
+            db.AddParameter("?", item.Tipo.ToString());
+            db.AddParameter("?", item.Motivo);
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
     }
 }

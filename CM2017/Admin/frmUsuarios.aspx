@@ -1,9 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmUsuarios.aspx.cs" Inherits="CM2017.Admin.frmUsuarios" %>
+<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
  
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <h2><%= objUsuarios._title %></h2>
+    <uc1:Menu ID="Menu1" runat="server" />
+    &nbsp;<h2>Control de Usuarios</h2>
     <script src="../js/Admin/frmUsuarios.js"></script>
 
     <h4><asp:LinkButton ID="lnbAgregar" runat="server" Text="Agregar Nuevo" OnClick="lnbAgregar_Click"></asp:LinkButton>&nbsp;|&nbsp;<asp:LinkButton ID="lnkBuscar" runat="server" Text="Buscar" OnClick="lnkBuscar_Click"></asp:LinkButton></h4>
@@ -74,7 +76,7 @@
                     </div>
                     <br /><br />
                     <div class="form-group">
-                            <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary btnAbajo3" OnClick="btnAceptar_Click" />
+                            <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
                     </div>
                 </div>
 

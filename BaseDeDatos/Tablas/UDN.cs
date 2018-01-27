@@ -4,40 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using prop = CM2017.Propiedades;
 
-namespace BaseDeDatos.Tablas
+namespace CM2017.Negocio
 {
-    public class UDN : BaseDeDatos
+    public class UDNEntity
     {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public int Activo { get; set; }
+    }
+    public class UDN
+    {
+        BaseDeDatos.BaseDeDatos db;
+
         public DataTable UDNSelect()
         {
-            CreateTextCommand("SELECT * FROM UDN");
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from UDN");
+            return db.Select();
         }
-
-        public DataTable UDNSelectById(prop.UDN item)
+        public DataTable UDNSelectById(UDNEntity item)
         {
-            CreateTextCommand("SELECT * FROM UDN WHERE IdUDN=?");
-            AddParameter("?", item.Id.ToString());
-            return Select();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("select * from UDN where IdUDN=?");
+            db.AddParameter("?", item.Id.ToString());
+            return db.Select();
         }
-
-        public int UDNDesactivar(prop.UDN item)
+        public int UDNDesactivar(UDNEntity item)
         {
-            CreateTextCommand("UPDATE UDN SET Visible=? WHERE IdUDN=? ");
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
-            return Update();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update UDN set Visible=? where IdUDN=? ");
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
-
-        public int UDNUpdate(prop.UDN item)
+        public int UDNUpdate(UDNEntity item)
         {
-            CreateTextCommand("UPDATE UDN SET Descripcion=?, Visible=? WHERE IdUDN=? ");
-            AddParameter("?", item.Descripcion);
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
-            return Update();
+            db = new BaseDeDatos.BaseDeDatos();
+            db.CreateTextCommand("update UDN set Descripcion=?, Visible=? where IdUDN=? ");
+            db.AddParameter("?", item.Descripcion);
+            db.AddParameter("?", item.Activo.ToString());
+            db.AddParameter("?", item.Id.ToString());
+            return db.Update();
         }
     }
 }

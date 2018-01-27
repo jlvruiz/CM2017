@@ -1,13 +1,13 @@
-﻿using System;
+﻿using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class Captura
+    public class AreaTerapeuticaNegocio
     {
-        public string _title = "Captura de Evento";
+
     }
 }
