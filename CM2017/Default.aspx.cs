@@ -11,12 +11,18 @@ namespace CM2017
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Form.FindControl("Menu").Visible = false;
 
         }
 
         protected void btnAceptar_Click1(object sender, EventArgs e)
         {
-
+            //EventosServicios.EventosClient eventoS = new EventosServicios.EventosClient();
+            //eventoS.TerminarEvento();
+            Negocio.Eventos ev = new Negocio.Eventos();
+            Negocio.TipoAudiencia ta = new Negocio.TipoAudiencia();
+            ev.TerminarEvento();
+            ta.TipoAudienciaBajaUltimoEvento();
             Response.Redirect("/Sistema/Inicio.aspx");
         }
     }

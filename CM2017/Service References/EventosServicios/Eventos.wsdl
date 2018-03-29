@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Eventos" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:57333/Eventos.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:57333/Eventos.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:57333/Eventos.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+      <xsd:import schemaLocation="http://localhost:57333/Eventos.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CM2017.Propiedades" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IEventos_EventosSelect_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventosSelect" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosSelect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventosSelectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosDesactivadosSelect_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventosDesactivadosSelect" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosDesactivadosSelect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventosDesactivadosSelectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosTerminadosSelect_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventosTerminadosSelect" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosTerminadosSelect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventosTerminadosSelectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosSelectById_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventosSelectById" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosSelectById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventosSelectByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosDetalleSelect_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventosDetalleSelect" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventosDetalleSelect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventosDetalleSelectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventoInsert" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventoInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventoUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventoUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoDesactivar_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventoDesactivar" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoDesactivar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventoDesactivarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoReactivar_InputMessage">
+    <wsdl:part name="parameters" element="tns:EventoReactivar" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_EventoReactivar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EventoReactivarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_TerminarEvento_InputMessage">
+    <wsdl:part name="parameters" element="tns:TerminarEvento" />
+  </wsdl:message>
+  <wsdl:message name="IEventos_TerminarEvento_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TerminarEventoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IEventos">
+    <wsdl:operation name="EventosSelect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventosSelect" message="tns:IEventos_EventosSelect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventosSelectResponse" message="tns:IEventos_EventosSelect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventosDesactivadosSelect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventosDesactivadosSelect" message="tns:IEventos_EventosDesactivadosSelect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventosDesactivadosSelectResponse" message="tns:IEventos_EventosDesactivadosSelect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventosTerminadosSelect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventosTerminadosSelect" message="tns:IEventos_EventosTerminadosSelect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventosTerminadosSelectResponse" message="tns:IEventos_EventosTerminadosSelect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventosSelectById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventosSelectById" message="tns:IEventos_EventosSelectById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventosSelectByIdResponse" message="tns:IEventos_EventosSelectById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventosDetalleSelect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventosDetalleSelect" message="tns:IEventos_EventosDetalleSelect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventosDetalleSelectResponse" message="tns:IEventos_EventosDetalleSelect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventoInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventoInsert" message="tns:IEventos_EventoInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventoInsertResponse" message="tns:IEventos_EventoInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventoUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventoUpdate" message="tns:IEventos_EventoUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventoUpdateResponse" message="tns:IEventos_EventoUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventoDesactivar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventoDesactivar" message="tns:IEventos_EventoDesactivar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventoDesactivarResponse" message="tns:IEventos_EventoDesactivar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EventoReactivar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/EventoReactivar" message="tns:IEventos_EventoReactivar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/EventoReactivarResponse" message="tns:IEventos_EventoReactivar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TerminarEvento">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEventos/TerminarEvento" message="tns:IEventos_TerminarEvento_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEventos/TerminarEventoResponse" message="tns:IEventos_TerminarEvento_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IEventos" type="tns:IEventos">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EventosSelect">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventosSelect" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventosDesactivadosSelect">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventosDesactivadosSelect" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventosTerminadosSelect">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventosTerminadosSelect" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventosSelectById">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventosSelectById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventosDetalleSelect">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventosDetalleSelect" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventoInsert">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventoInsert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventoUpdate">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventoUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventoDesactivar">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventoDesactivar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EventoReactivar">
+      <soap:operation soapAction="http://tempuri.org/IEventos/EventoReactivar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TerminarEvento">
+      <soap:operation soapAction="http://tempuri.org/IEventos/TerminarEvento" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Eventos">
+    <wsdl:port name="BasicHttpBinding_IEventos" binding="tns:BasicHttpBinding_IEventos">
+      <soap:address location="http://localhost:57333/Eventos.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

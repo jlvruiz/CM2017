@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>..\..\..\ADAWeb\ADAWeb\bin\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -76,6 +80,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -96,13 +102,18 @@
   <ItemGroup>
     <Content Include="Admin\frmClienteInterno.aspx" />
     <Content Include="Admin\frmEventosDesactivados.aspx" />
+    <Content Include="Admin\frmEventosTerminados.aspx" />
     <Content Include="Admin\frmProductos.aspx" />
     <Content Include="Admin\frmTipoEvento.aspx" />
     <Content Include="Admin\frmUDN.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="Estilos\bootstrap-theme.css" />
     <Content Include="Estilos\bootstrap-theme.min.css" />
     <Content Include="Estilos\bootstrap.css" />
     <Content Include="Estilos\bootstrap.min.css" />
+    <Content Include="Estilos\jquery.circliful.css" />
+    <Content Include="Estilos\material-design-iconic-font.css" />
+    <Content Include="Estilos\material-design-iconic-font.min.css" />
     <Content Include="Estilos\toastmessage.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Imagenes\boton_aceptar.png" />
@@ -115,12 +126,16 @@
     <Content Include="Imagenes\boton_expandir.png" />
     <Content Include="Imagenes\boton_info.png" />
     <Content Include="Imagenes\boton_pregunta.png" />
+    <Content Include="Imagenes\m-wait.gif" />
     <Content Include="js\Admin\frmUsuarios.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery.circliful.js" />
+    <Content Include="js\jquery.circliful.min.js" />
     <Content Include="js\jQuery.js" />
     <Content Include="js\jquery.ui.datepicker-es.js" />
     <Content Include="js\jQueryUI.css" />
+    <Content Include="js\loader.js" />
     <Content Include="js\Sistema\frmCaptura.js" />
     <Content Include="js\toastmessage.js" />
     <Content Include="packages.config" />
@@ -132,6 +147,21 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Properties\DataSources\System.Data.DataTable.datasource" />
+    <None Include="Properties\PublishProfiles\CM2017.pubxml" />
+    <None Include="Service References\EventosServicios\Eventos.wsdl" />
+    <None Include="Service References\EventosServicios\Eventos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EventosServicios\Eventos1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EventosServicios\Eventos2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\EventosServicios\Eventos3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -152,7 +182,15 @@
     <Content Include="Estilos\estilos.css" />
     <Content Include="Imagenes\bg_int.gif" />
     <Content Include="Imagenes\FondoIzquierdo.png" />
+    <None Include="Service References\EventosServicios\Eventos.disco" />
+    <None Include="Service References\EventosServicios\configuration91.svcinfo" />
+    <None Include="Service References\EventosServicios\configuration.svcinfo" />
+    <None Include="Service References\EventosServicios\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Sistema\frmCaptura.aspx" />
+    <Content Include="Sistema\frmEstadisticas.aspx" />
     <Content Include="Sistema\Inicio.aspx" />
     <Content Include="Utilerias\Menu.ascx" />
     <Content Include="Web.config" />
@@ -185,6 +223,13 @@
     </Compile>
     <Compile Include="Admin\frmEventosDesactivados.aspx.designer.cs">
       <DependentUpon>frmEventosDesactivados.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\frmEventosTerminados.aspx.cs">
+      <DependentUpon>frmEventosTerminados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\frmEventosTerminados.aspx.designer.cs">
+      <DependentUpon>frmEventosTerminados.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\frmGerenteProducto.aspx.cs">
       <DependentUpon>frmGerenteProducto.aspx</DependentUpon>
@@ -259,13 +304,32 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\EventosServicios\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Sistema\frmCaptura.aspx.cs">
       <DependentUpon>frmCaptura.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Sistema\frmCaptura.aspx.designer.cs">
       <DependentUpon>frmCaptura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Sistema\frmEstadisticas.aspx.cs">
+      <DependentUpon>frmEstadisticas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sistema\frmEstadisticas.aspx.designer.cs">
+      <DependentUpon>frmEstadisticas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Sistema\Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
@@ -287,6 +351,16 @@
       <Project>{bb78fccd-cad7-4cb3-b62e-e1193bbfa788}</Project>
       <Name>CM2017.Negocio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CM2017.Propiedades\CM2017.Propiedades.csproj">
+      <Project>{fbc09ce7-a816-4941-b5cc-70102283c3af}</Project>
+      <Name>CM2017.Propiedades</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\EventosServicios\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

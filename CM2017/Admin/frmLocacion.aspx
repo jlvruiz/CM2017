@@ -1,11 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmLocacion.aspx.cs" Inherits="CM2017.Admin.frmLocacion" %>
-<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmLocacion.aspx.cs" Inherits="CM2017.Admin.frmLocacion" ErrorPage="~/Error.aspx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <uc1:Menu ID="Menu1" runat="server" />
-&nbsp;<h2>Control de Localización</h2>
+    <h2><%= objLocalizacion._title %></h2>
+
     <h4><asp:LinkButton ID="lnbAgregar" runat="server" Text="Agregar Nuevo" OnClick="lnbAgregar_Click"></asp:LinkButton></h4>
     <div>
         <div style="float:left">
@@ -36,30 +35,34 @@
                                 <td>
                                     <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control"></asp:TextBox></td>
                             </tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
                             <tr>
                                 <td>
                                     <asp:Label ID="lblTipo" runat="server" Text="Tipo:"></asp:Label></td>
                                 <td>
-                                <asp:RadioButtonList ID="rblTipo" runat="server" RepeatDirection="Horizontal" >
+                                <asp:RadioButtonList ID="rblTipo" runat="server" RepeatDirection="Horizontal">
                                     <asp:ListItem Value="1">Local</asp:ListItem>
                                     <asp:ListItem Value="2">Nacional</asp:ListItem>
                                     <asp:ListItem Value="3">Internacional</asp:ListItem>
                                 </asp:RadioButtonList>    
                                 </td>
                             </tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
                             <tr>
                                 <td>
                                     <asp:Label ID="lblMotivo" runat="server" Text="Motivo:"></asp:Label></td>
                                 <td>
                                     <asp:TextBox ID="txtMotivo" runat="server" CssClass="form-control"></asp:TextBox></td>
                             </tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
                             <tr>
                                 <td>
                                     <asp:Label ID="lblStatus" runat="server" Text="Activo:"></asp:Label></td>
                                 <td>
                                     <asp:CheckBox ID="chkActivo" runat="server" /></td>
                             </tr>
-                            <tr><td colspan="2" align="center"><asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" /></td></tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
+                            <tr><td colspan="2" align="center"><asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary btnAbajo3" OnClick="btnAceptar_Click" /></td></tr>
 
                         </table>
 

@@ -1,49 +1,45 @@
 ﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace BaseDeDatos.Tablas
 {
-    public class DivisionesEntity
-    {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
     public class Divisiones : BaseDeDatos
     {
         public DataTable DivisionesSelect()
         {
-            CreateTextCommand("select * from Divisiones");
+            CreateTextCommand("SELECT IdDivision, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Divisiones");
             return Select();
         }
         public DataTable DivisionesActivoSelect()
         {
-            CreateTextCommand("select * from Divisiones where Visible=1");
+            CreateTextCommand("SELECT IdDivision, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Divisiones WHERE Visible=1");
             return Select();
         }
-        public DataTable DivisionesSelectById(DivisionesEntity item)
+        public DataTable DivisionesSelectById(prop.Divisiones item)
         {
-            CreateTextCommand("select * from Divisiones where IdDivision=?");
-            AddParameter("?", item.Id.ToString());
+            CreateTextCommand("SELECT IdDivision, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Divisiones WHERE IdDivision=?");
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Select();
         }
-        public int DivisionDesactivar(DivisionesEntity item)
+        public int DivisionDesactivar(prop.Divisiones item)
         {
-            CreateTextCommand("update Divisiones set Visible=? where IdDivision=? ");
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
+            CreateTextCommand("UPDATE Divisiones SET Visible=? WHERE IdDivision=? ");
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();
         }
-        public int DivisionUpdate(DivisionesEntity item)
+        public int DivisionUpdate(prop.Divisiones item)
         {
-            CreateTextCommand("update Divisiones set Descripcion=?, Visible=? where IdDivision=? ");
-            AddParameter("?", item.Descripcion);
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
+            CreateTextCommand("UPDATE Divisiones SET Descripcion=?, Visible=? WHERE IdDivision=? ");
+            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();
         }
 

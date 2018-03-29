@@ -14,23 +14,15 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objGerenteTL._title;
+
             if (!IsPostBack)
                 CargarGerentes();
         }
 
-        protected void CargarGerentes()
-        {
-            LlenarGridView(GridView1, objGerenteTL.GerentesTLSelect());
-        }
-
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //e.Row.Attributes["onmouseover"] = "javascript:setMouseOverColor(this);";
-                //e.Row.Attributes["onmouseout"] = "javascript:setMouseOutColor(this);";
-                //e.Row.Attributes["onclick"] = ClientScript.GetPostBackClientHyperlink(this.GridView1, "Select$" + e.Row.RowIndex);
-            }
+            
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -42,23 +34,23 @@ namespace CM2017.Admin
 
             try
             {
-                if (currentCommand == "Select")
+                if (currentCommand == "Select") //Editar
                 {
-                    GerentesEntity.Id = val;
+                    GerenteTLEntity.Id = val;
                     foreach (System.Data.DataRow row in objGerenteTL.GerenteTLSelectById(GerenteTLEntity).Rows)
                     {
                         IdGerente = val;
                         txtNombre.Text = row["Nombre"] == DBNull.Value ? "" : row["Nombre"].ToString();
                         txtCorreo.Text = row["Correo"] == DBNull.Value ? "" : row["Correo"].ToString();
-                        chkActivo.Checked = row["Activo"] == DBNull.Value ? int.Parse(row["Activo"].ToString()) == 0 ? false : true : int.Parse(row["Activo"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = activoInactivo(row["Activo"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
                     ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
                 }
-                if (currentCommand == "Delete")
+                if (currentCommand == "Delete") //Activar/Desactivar
                 {
-                    int activo = int.Parse(GridView1.Rows[rowIndex].Cells[4].Text);
+                    int activo = GridView1.Rows[rowIndex].Cells[4].Text == "Activo" ? 1 : 0;
                     GerenteTLEntity.Id = val;
                     if (activo == 1)
                         activo = 0;
@@ -71,7 +63,6 @@ namespace CM2017.Admin
             }
             catch (Exception ex)
             {
-
             }
         }
 
@@ -119,6 +110,17 @@ namespace CM2017.Admin
             }
         }
 
+        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            CargarGerentes();
+        }
+
+        protected void CargarGerentes()
+        {
+            LlenarGridView(GridView1, objGerenteTL.GerentesTLSelect());
+        }
+
         private void procesadoExitoso()
         {
             txtNombre.Text = "";
@@ -128,11 +130,6 @@ namespace CM2017.Admin
             ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide('slow'); $('#divEncima').hide();", true);        
         }
 
-        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            GridView1.PageIndex = e.NewPageIndex;
-            CargarGerentes();
-        }
 
 
     }

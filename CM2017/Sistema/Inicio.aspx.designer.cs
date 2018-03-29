@@ -13,13 +13,22 @@ namespace CM2017.Sistema {
     public partial class Inicio {
         
         /// <summary>
-        /// Control Menu1.
+        /// Control upPrincipal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::CM2017.Utilerias.Menu Menu1;
+        protected global::System.Web.UI.UpdatePanel upPrincipal;
+        
+        /// <summary>
+        /// Control lblFechaYHora.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFechaYHora;
         
         /// <summary>
         /// Control GridView1.

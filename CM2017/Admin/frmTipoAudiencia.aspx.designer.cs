@@ -13,15 +13,6 @@ namespace CM2017.Admin {
     public partial class frmTipoAudiencia {
         
         /// <summary>
-        /// Control Menu1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::CM2017.Utilerias.Menu Menu1;
-        
-        /// <summary>
         /// Control lnbAgregar.
         /// </summary>
         /// <remarks>
@@ -83,6 +74,15 @@ namespace CM2017.Admin {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkActivo;
+        
+        /// <summary>
+        /// Control chkBloqueo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkBloqueo;
         
         /// <summary>
         /// Control btnAceptar.

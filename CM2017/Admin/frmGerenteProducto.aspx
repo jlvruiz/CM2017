@@ -1,11 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmGerenteProducto.aspx.cs" Inherits="CM2017.Admin.frmGerenteProducto" %>
-<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmGerenteProducto.aspx.cs" Inherits="CM2017.Admin.frmGerenteProducto" ErrorPage="~/Error.aspx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <uc1:Menu ID="Menu1" runat="server" />
-&nbsp;<h2>Gerentes de Producto</h2>
+    <h2><%= objGerentes._title %></h2>
     <h4><asp:LinkButton ID="lnbAgregar" runat="server" Text="Agregar Nuevo" OnClick="lnbAgregar_Click"></asp:LinkButton></h4>
     <div>
         <div style="float:left">
@@ -31,7 +29,7 @@
 
         <div id="divEncima" style="position: fixed; z-index: 151; top: 0; width: 100%; height: 100%; display: none">
 
-            <div style="background-color: white; width: 15%; height:32%; position: relative; top: 10%; margin: auto">
+            <div style="background-color: white; width: 15%; height:35%; position: relative; top: 10%; margin: auto">
             
                 <div style="background-color: #161665; color: white; width: 100%; height: 30px;">
                     <span style="float:left; line-height: 30px; padding-left: 3px"><asp:Label ID="lblTitulo" runat="server" Text="Detalle de Evento Seleccionado" ForeColor="White" Font-Bold="true"></asp:Label></span>
@@ -45,14 +43,14 @@
                             <td>
                                 <asp:Label ID="lblNombre" runat="server" Text="Nombre:"></asp:Label></td>
                             <td>
-                                <asp:TextBox ID="txtNombre" runat="server"></asp:TextBox></td>
+                                <asp:TextBox ID="txtNombre" CssClass="form-control" runat="server"></asp:TextBox></td>
                         </tr>
                         <tr><td colspan="2">&nbsp;</td></tr>
                         <tr>
                             <td>
                                 <asp:Label ID="lblCorreo" runat="server" Text="Correo:"></asp:Label></td>
                             <td>
-                                <asp:TextBox ID="txtCorreo" runat="server"></asp:TextBox></td>
+                                <asp:TextBox ID="txtCorreo" CssClass="form-control" runat="server"></asp:TextBox></td>
                         </tr>
                         <tr><td colspan="2">&nbsp;</td></tr>
                         <tr>
@@ -62,7 +60,7 @@
                                 <asp:CheckBox ID="chkActivo" runat="server" /></td>
                         </tr>
                         <tr><td colspan="2">&nbsp;</td></tr>
-                        <tr><td colspan="2" align="center"><asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" /></td></tr>
+                        <tr><td colspan="2" align="center"><asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary btnAbajo3" OnClick="btnAceptar_Click" /></td></tr>
 
                     </table>
 

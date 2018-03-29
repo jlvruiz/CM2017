@@ -4,48 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class UDNEntity
+    public class UDN : Comun
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-    public class UDN
-    {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Unidad de Negocio";
 
         public DataTable UDNSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from UDN");
-            return db.Select();
+            return un.UDNSelect();
         }
-        public DataTable UDNSelectById(UDNEntity item)
+
+        public DataTable UDNSelectById(prop.UDN item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from UDN where IdUDN=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return un.UDNSelectById(item);
         }
-        public int UDNDesactivar(UDNEntity item)
+
+        public int UDNDesactivar(prop.UDN item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update UDN set Visible=? where IdUDN=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return un.UDNDesactivar(item);
         }
-        public int UDNUpdate(UDNEntity item)
+
+        public int UDNUpdate(prop.UDN item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update UDN set Descripcion=?, Visible=? where IdUDN=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return un.UDNUpdate(item);
         }
     }
 }

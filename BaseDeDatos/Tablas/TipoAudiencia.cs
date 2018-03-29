@@ -1,57 +1,90 @@
-﻿using System;
+﻿using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+using prop = CM2017.Propiedades;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class TipoAudienciaEntity
+    public class TipoAudiencia: BaseDeDatos
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-    public class TipoAudiencia
-    {
-        BaseDeDatos.BaseDeDatos db;
-
         public DataTable TipoAudienciaSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Audiencia order by Descripcion");
-            return db.Select();
+            string consulta = "SELECT IdAudiencia, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible, SWITCH (Bloqueado = 2, 'Bloqueado para no mostrarse más', Bloqueado = 0, '') AS Bloqueado FROM Audiencia ORDER BY Descripcion";
+            CreateTextCommand(consulta);
+            return Select();
         }
+
         public DataTable TipoAudienciaActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Audiencia where Visible=1");
-            return db.Select();
+            string consulta = "SELECT IdAudiencia, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Audiencia WHERE Visible=1";
+            CreateTextCommand(consulta);
+            return Select();
         }
-        public DataTable TipoAudienciaSelectById(TipoAudienciaEntity item)
+
+        public DataTable TipoAudienciaSelectById(prop.TipoAudiencia item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Audiencia where IdAudiencia=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            string consulta = "SELECT IdAudiencia, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible, Bloqueado FROM Audiencia WHERE IdAudiencia=?";
+            CreateTextCommand(consulta);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Select();
         }
-        public int TipoAudienciaDesactivar(TipoAudienciaEntity item)
+
+        public string TipoAudienciaEstatus(object id)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Audiencia set Visible=? where IdAudiencia=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            string consulta = "SELECT visible FROM Audiencia WHERE IdAudiencia=? ";
+            CreateTextCommand(consulta);
+            AddParameter("?", id, OleDbType.Numeric);
+            return Select().Rows[0][0].ToString();
         }
-        public int TipoAudienciaUpdate(TipoAudienciaEntity item)
+
+        public DataTable TipoAudienciaBajaUltimoEvento()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Audiencia set Descripcion=?, Visible=? where IdAudiencia=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            string consulta = "SELECT id from eventos WHERE estatus=2 and format([fechafinevento], 'dd/mm/yyyy') = date()";
+            CreateTextCommand(consulta);
+            return Select();
         }
+
+        public DataTable TipoAudienciaValidarSiBajaUltimoEvento(object id)
+        {
+            string consulta = "SELECT bloqueado from Audiencia WHERE idAudiencia=?";
+            CreateTextCommand(consulta);
+            AddParameter("?", id, OleDbType.Numeric);
+            return Select();
+        }
+
+        public int TipoAudienciaDesactivar(prop.TipoAudiencia item)
+        {
+            string consulta = "UPDATE Audiencia SET Visible=? WHERE IdAudiencia=? ";
+            CreateTextCommand(consulta);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Update();
+        }
+
+        public int TipoAudienciaUpdate(prop.TipoAudiencia item)
+        {
+            string consulta = "UPDATE Audiencia SET Descripcion=?, Visible=?, Bloqueado=? WHERE IdAudiencia=?";
+            CreateTextCommand(consulta);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Bloqueado, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Update();
+        }
+
+        public int TipoAudienciaBajaEnUltimoEvento(object item)
+        {
+            string consulta = "UPDATE Audiencia SET Visible=2 WHERE IdAudiencia=?";
+            CreateTextCommand(consulta);
+            AddParameter("?", item, OleDbType.Numeric);
+            return Update();
+        }
+
+
+
+
     }
 }

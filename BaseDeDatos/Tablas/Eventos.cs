@@ -1,150 +1,237 @@
 ﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace BaseDeDatos.Tablas
 {
-    public class EventosEntity
-    {
-        public int Id { get; set; } 
-        public string NombreEvento { get; set; }
-        public DateTime FechaSolicitud { get; set; }
-        public DateTime FechaInicioEvento { get; set; }
-        public DateTime FechaFinEvento { get; set; }
-        public int TipoEvento { get; set; }
-        public int FlujoAutorizacion { get; set; }
-        public int GteProducto { get; set; }
-        public string Producto { get; set; }
-        public int TipoAudiencia { get; set; }
-        public int Invitados { get; set; }
-        public string Objetivo { get; set; }
-        public int Locacion1 { get; set; }
-        public int Locacion2 { get; set; }
-        public string Agenda { get; set; }
-        public int Division { get; set; }
-        public int AreaTerapeutica { get; set; }
-        public int TeamLeader { get; set; }
-    }
     public class Eventos : BaseDeDatos
     {
         public DataTable EventosSelect()
         {
-            string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], "
-            + "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], "
-            + " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], "
-            + " SWITCH (a.Estatus = True, 'Activo', a.Estatus = False, 'Inactivo') AS Estatus "
-            + " FROM Eventos a, TipoEvento b, Gerentes c "
-            + " WHERE b.IdTipEve = a.TipoEvento "
-            + " AND c.IdGerente = a.GteProducto "
-            + " AND a.Estatus = True ";
+            string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], " +
+            "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], " +
+            " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], " +
+            " SWITCH (a.Estatus = 1, 'Activo', a.Estatus = 0, 'Inactivo', a.Estatus=2, 'Terminado') AS Estatus " +
+            " FROM Eventos a, TipoEvento b, Gerentes c " +
+            " WHERE b.IdTipEve = a.TipoEvento " +
+            " AND c.IdGerente = a.GteProducto " +
+            " AND a.Estatus = 1";
             CreateTextCommand(consulta);
             return Select();
         }
+        public prop.Eventos EventosSeleccionId()
+        {
+            prop.Eventos eventos = new prop.Eventos();
+            string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], " +
+            "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], " +
+            " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], " +
+            " SWITCH (a.Estatus = 1, 'Activo', a.Estatus = 0, 'Inactivo', a.Estatu s=2, 'Terminado') AS Estatus " +
+            " FROM Eventos a, TipoEvento b, Gerentes c " +
+            " WHERE b.IdTipEve = a.TipoEvento " +
+            " AND c.IdGerente = a.GteProducto " +
+            " AND a.Estatus = 1";
+            CreateTextCommand(consulta);
+            if (Select().Rows.Count > 0)
+            {
+                for (int i = 0; i < Select().Rows.Count; i++)
+                {
+                    eventos.Id = int.Parse(Select().Rows[i]["Id"].ToString());
+                }
+            }
+            return eventos;
+        }
+
         public DataTable EventosDesactivadosSelect()
         {
-            string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], "
-            + "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], "
-            + " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], "
-            + " SWITCH (a.Estatus = True, 'Activo', a.Estatus = False, 'Inactivo') AS Estatus "
-            + " FROM Eventos a, TipoEvento b, Gerentes c "
-            + " WHERE b.IdTipEve = a.TipoEvento "
-            + " AND c.IdGerente = a.GteProducto "
-            + " AND a.Estatus = False ";
+            string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], " +
+            "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], " +
+            " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], " +
+            " SWITCH (a.Estatus = 1, 'Activo', a.Estatus = 0, 'Inactivo', a.Estatus=2, 'Terminado') AS Estatus " +
+            " FROM Eventos a, TipoEvento b, Gerentes c " +
+            " WHERE b.IdTipEve = a.TipoEvento " +
+            " AND c.IdGerente = a.GteProducto " +
+            " AND a.Estatus = 0 ";
             CreateTextCommand(consulta);
             return Select();
         }
+
+        public DataTable EventosTerminadosSelect()
+        {
+            string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], " +
+            "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], " +
+            " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], " +
+            " SWITCH (a.Estatus = 1, 'Activo', a.Estatus = 0, 'Inactivo', a.Estatus=2, 'Terminado') AS Estatus " +
+            " FROM Eventos a, TipoEvento b, Gerentes c " +
+            " WHERE b.IdTipEve = a.TipoEvento " +
+            " AND c.IdGerente = a.GteProducto " +
+            " AND a.Estatus = 2 ";
+            CreateTextCommand(consulta);
+            return Select();
+        }
+
         public DataTable EventosSelectById(string id)
         {
             CreateTextCommand("SELECT * FROM Eventos WHERE Id=?");
-            AddParameter("?", id);
+            AddParameter("?", id, OleDbType.Numeric);
             return Select();
         }
+
         public DataTable EventosDetalleSelect(string id)
         {
-            string consulta = "SELECT a.flujoautorizacion AS [Flujo Autorizacion], a.producto as Producto, c.descripcion AS Audiencia, "
-                + " a.invitados AS invitados, a.objetivo AS Objetivo, "
-                + " a.locacion1 AS [Locación 1], d.nombre AS [Locación 2], "
-                + " a.agenda AS Agenda, "
-                + " e.descripcion AS División, "
-                + " f.descripcion AS [Area Terapéutica], "
-                + " g.nombre AS [Team Leader] "
-                + " FROM eventos a, audiencia c, localizacion d, divisiones e, areaterapeutica f, teamleaders g "
-                + " WHERE Id=? "
-                + " AND c.idaudiencia = a.tipoaudiencia "
-                + " AND d.idloc = a.locacion2 "
-                + " ANd e.iddivision = a.division "
-                + " AND f.idAT  = a.areaterapeutica "
-                + " AND g.idtl = a.teamleader ";
+            string consulta = "SELECT a.flujoautorizacion AS [Flujo Autorizacion], " +
+             "a.producto as Producto,  c.descripcion AS Audiencia, " +
+             "a.invitados AS invitados, a.objetivo AS Objetivo, " +
+             "a.locacion1 AS [Locación 1], d.nombre AS [Locación 2], " +
+             "a.agenda AS Agenda, " +
+             "e.descripcion AS División, " +
+             "f.descripcion AS [Area Terapéutica], " +
+             "g.nombre AS [Team Leader] " +
+             "FROM eventos a, audiencia c, localizacion d, divisiones e, areaterapeutica f, teamleaders g " +
+             "WHERE Id=? " +
+             "AND c.idaudiencia = a.tipoaudiencia " +
+             "AND d.idloc = a.locacion2 " +
+             "AND e.iddivision = a.division " +
+             "AND f.idAT  = a.areaterapeutica " +
+             "AND g.idtl = a.teamleader ";
             CreateTextCommand(consulta);
-            AddParameter("?", id);
+            AddParameter("?", id, OleDbType.Numeric);
             return Select();
         }
-        public string EventoInsert(EventosEntity item)
-        {
-            string consulta = "insert into eventos (NombreEvento,FechaSolicitud,FechaInicioEvento,FechaFinEvento,TipoEvento,"
-                + "FlujoAutorizacion,GteProducto,Producto,TipoAudiencia,Invitados,Objetivo,Locacion1,Locacion2,Agenda,Division,"
-                + "AreaTerapeutica,TeamLeader) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        public DataTable validarAreaTerapeutica(object idareaterapeutica)
+        {            
+            string consulta = "SELECT areaterapeutica, nombreevento FROM eventos WHERE areaterapeutica=? AND estatus=1";
             CreateTextCommand(consulta);
-            AddParameter("?",item.NombreEvento);
-            AddParameter("?",item.FechaSolicitud.ToString());
-            AddParameter("?",item.FechaInicioEvento.ToString());
-            AddParameter("?",item.FechaFinEvento.ToString());
-            AddParameter("?",item.TipoEvento.ToString());
-            AddParameter("?",item.FlujoAutorizacion.ToString());
-            AddParameter("?",item.GteProducto.ToString());
-            AddParameter("?",item.Producto.ToString());
-            AddParameter("?",item.TipoAudiencia.ToString());
-            AddParameter("?",item.Invitados.ToString());
-            AddParameter("?",item.Objetivo);
-            AddParameter("?",item.Locacion1.ToString());
-            AddParameter("?",item.Locacion2.ToString());
-            AddParameter("?",item.Agenda);
-            AddParameter("?",item.Division.ToString());
-            AddParameter("?",item.AreaTerapeutica.ToString());
-            AddParameter("?",item.TeamLeader.ToString());
+            AddParameter("areaterapeutica", idareaterapeutica, OleDbType.Numeric);
+            return Select();
+        }
+
+        public bool validarTipoEvento(object idtipoevento)
+        {
+            string obtenido = "0";
+            string consulta = "SELECT tipoevento FROM eventos WHERE tipoevento=? AND estatus=1";
+            CreateTextCommand(consulta);
+            AddParameter("tipoevento", idtipoevento, OleDbType.Numeric);
+            if (Select().Rows.Count > 0)
+                obtenido = Select().Rows[0][0].ToString();
+            if (obtenido == idtipoevento.ToString())
+                return false;
+            else
+                return true;
+        }
+
+        public bool validarAudiencia(object idtipoaudiencia)
+        {
+            string obtenido = "0";
+            string consulta = "SELECT tipoaudiencia FROM eventos WHERE tipoaudiencia=? AND estatus=1";
+            CreateTextCommand(consulta);
+            AddParameter("tipoaudiencia", idtipoaudiencia, OleDbType.Numeric);
+            if (Select().Rows.Count > 0)
+                obtenido = Select().Rows[0][0].ToString();
+            if (obtenido == idtipoaudiencia.ToString())
+                return false;
+            else
+                return true;
+        }
+
+        public DataTable EventosEstadisticas()
+        {
+            string consulta = "SELECT SWITCH(eventos.estatus=0, 'Inactivos', eventos.estatus=1,'Activos', " +
+            "eventos.estatus=2,'Terminados') AS Estatus, Count(eventos.estatus) AS Totales_Por_Estatus " +
+            "FROM eventos " +
+            "WHERE(((eventos.[estatus]) = 0) OR((eventos.[estatus]) = 1) OR((eventos.[estatus]) = 2)) " +
+            "GROUP BY eventos.estatus " +
+            "HAVING(((Count(eventos.[estatus])) <> false)); ";
+            CreateTextCommand(consulta);
+            return Select();
+        }
+
+        public string EventoInsert(prop.Eventos item)
+        {
+            string consulta = "INSERT into eventos (NombreEvento,FechaSolicitud,FechaInicioEvento,FechaFinEvento,TipoEvento," +
+            "FlujoAutorizacion,GteProducto,Producto,TipoAudiencia,Invitados,Objetivo,Locacion1,Locacion2,Agenda,Division," +
+            "AreaTerapeutica,TeamLeader) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            CreateTextCommand(consulta);
+            AddParameter("?",item.NombreEvento, OleDbType.VarChar);
+            AddParameter("?",item.FechaSolicitud, OleDbType.Date);
+            AddParameter("?",item.FechaInicioEvento, OleDbType.Date);
+            AddParameter("?",item.FechaFinEvento, OleDbType.Date);
+            AddParameter("?",item.TipoEvento, OleDbType.Numeric);
+            AddParameter("?",item.FlujoAutorizacion, OleDbType.Numeric);
+            AddParameter("?",item.GteProducto, OleDbType.Numeric);
+            AddParameter("?",item.Producto, OleDbType.VarChar);
+            AddParameter("?",item.TipoAudiencia, OleDbType.Numeric);
+            AddParameter("?",item.Invitados, OleDbType.Numeric);
+            AddParameter("?",item.Objetivo, OleDbType.VarChar);
+            AddParameter("?",item.Locacion1, OleDbType.Numeric);
+            AddParameter("?",item.Locacion2, OleDbType.Numeric);
+            AddParameter("?",item.Agenda, OleDbType.VarChar);
+            AddParameter("?",item.Division, OleDbType.Numeric);
+            AddParameter("?",item.AreaTerapeutica, OleDbType.Numeric);
+            AddParameter("?",item.TeamLeader, OleDbType.Numeric);
             return Insert();
         }
-        public int EventoUpdate(EventosEntity item)
+
+        public int EventoUpdate(prop.Eventos item)
         {
-            string consulta = "update eventos set NombreEvento=?,FechaSolicitud=?,FechaInicioEvento=?,FechaFinEvento=?,"
-                + "TipoEvento=?,FlujoAutorizacion=?,GteProducto=?,Producto=?,TipoAudiencia=?,Invitados=?,Objetivo=?,Locacion1=?,"
-                + "Locacion2=?,Agenda=?,Division=?,AreaTerapeutica=?,TeamLeader=? where Id=?";
+            string consulta = "UPDATE eventos set NombreEvento=?,FechaSolicitud=?,FechaInicioEvento=?,FechaFinEvento=?," +
+            "TipoEvento=?,FlujoAutorizacion=?,GteProducto=?,Producto=?,TipoAudiencia=?,Invitados=?,Objetivo=?,Locacion1=?," +
+            "Locacion2=?,Agenda=?,Division=?,AreaTerapeutica=?,TeamLeader=? WHERE Id=?";
             CreateTextCommand(consulta);
-            AddParameter("?", item.NombreEvento);
-            AddParameter("?", item.FechaSolicitud.ToString());
-            AddParameter("?", item.FechaInicioEvento.ToString());
-            AddParameter("?", item.FechaFinEvento.ToString());
-            AddParameter("?", item.TipoEvento.ToString());
-            AddParameter("?", item.FlujoAutorizacion.ToString());
-            AddParameter("?", item.GteProducto.ToString());
-            AddParameter("?", item.Producto.ToString());
-            AddParameter("?", item.TipoAudiencia.ToString());
-            AddParameter("?", item.Invitados.ToString());
-            AddParameter("?", item.Objetivo);
-            AddParameter("?", item.Locacion1.ToString());
-            AddParameter("?", item.Locacion2.ToString());
-            AddParameter("?", item.Agenda);
-            AddParameter("?", item.Division.ToString());
-            AddParameter("?", item.AreaTerapeutica.ToString());
-            AddParameter("?", item.TeamLeader.ToString());
-            AddParameter("?", item.Id.ToString());
+            AddParameter("?", item.NombreEvento, OleDbType.VarChar);
+            AddParameter("?", item.FechaSolicitud, OleDbType.Date);
+            AddParameter("?", item.FechaInicioEvento, OleDbType.Date);
+            AddParameter("?", item.FechaFinEvento, OleDbType.Date);
+            AddParameter("?", item.TipoEvento, OleDbType.Numeric);
+            AddParameter("?", item.FlujoAutorizacion, OleDbType.Numeric);
+            AddParameter("?", item.GteProducto, OleDbType.Numeric);
+            AddParameter("?", item.Producto, OleDbType.VarChar);
+            AddParameter("?", item.TipoAudiencia, OleDbType.Numeric);
+            AddParameter("?", item.Invitados, OleDbType.Numeric);
+            AddParameter("?", item.Objetivo, OleDbType.VarChar);
+            AddParameter("?", item.Locacion1, OleDbType.Numeric);
+            AddParameter("?", item.Locacion2, OleDbType.Numeric);
+            AddParameter("?", item.Agenda, OleDbType.VarChar);
+            AddParameter("?", item.Division, OleDbType.Numeric);
+            AddParameter("?", item.AreaTerapeutica, OleDbType.Numeric);
+            AddParameter("?", item.TeamLeader, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();
         }
+
         public void EventoDesactivar(string id)
         {
             string consulta = "UPDATE eventos SET Estatus=0 WHERE Id=?";
             CreateTextCommand(consulta);
-            AddParameter("?", id.ToString());
+            AddParameter("?", id, OleDbType.Numeric);
             Update();
         }
+
         public void EventoReactivar(string id)
         {
-            string consulta = "UPDATE eventos SET Estatus=1 WHERE Id=?";
+            string consulta = "UPDATE eventos SET Estatus=1 WHERE Id=? ";
             CreateTextCommand(consulta);
-            AddParameter("?", id.ToString());
+            AddParameter("?", id, OleDbType.Numeric);
+            Update();
+        }
+
+        public void EventoTerminado(object id)
+        {
+            string consulta = "UPDATE eventos SET Estatus=2 WHERE Id=?";
+            CreateTextCommand(consulta);
+            AddParameter("?", id, OleDbType.Numeric);
+            Update();
+        }
+
+        public void TerminarEvento()
+        {
+            string consulta = "UPDATE eventos SET estatus=2 WHERE format([fechafinevento], 'dd/mm/yyyy')< date() and estatus=1";
+            CreateTextCommand(consulta);
             Update();
         }
 

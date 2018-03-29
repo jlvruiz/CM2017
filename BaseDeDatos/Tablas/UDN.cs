@@ -4,48 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Data.OleDb;
+using prop = CM2017.Propiedades;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class UDNEntity
+    public class UDN : BaseDeDatos
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-    public class UDN
-    {
-        BaseDeDatos.BaseDeDatos db;
-
         public DataTable UDNSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from UDN");
-            return db.Select();
+            CreateTextCommand("SELECT IdUDN, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM UDN");
+            return Select();
         }
-        public DataTable UDNSelectById(UDNEntity item)
+
+        public DataTable UDNSelectById(prop.UDN item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from UDN where IdUDN=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            CreateTextCommand("SELECT IdUDN, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM UDN WHERE IdUDN=?");
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Select();
         }
-        public int UDNDesactivar(UDNEntity item)
+
+        public int UDNDesactivar(prop.UDN item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update UDN set Visible=? where IdUDN=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("UPDATE UDN SET Visible=? WHERE IdUDN=? ");
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Update();
         }
-        public int UDNUpdate(UDNEntity item)
+
+        public int UDNUpdate(prop.UDN item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update UDN set Descripcion=?, Visible=? where IdUDN=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("UPDATE UDN SET Descripcion=?, Visible=? WHERE IdUDN=? ");
+            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Update();
         }
     }
 }

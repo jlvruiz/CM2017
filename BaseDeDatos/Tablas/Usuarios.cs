@@ -4,77 +4,83 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Data.OleDb;
+using prop = CM2017.Propiedades;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class UsuariosEntity
+    public class Usuarios : BaseDeDatos
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public int Activo { get; set; }
-        public string Clave { get; set; }
-        public string Contrasena { get; set; }
-    }
-    public class Usuarios
-    {
-        BaseDeDatos.BaseDeDatos db;
-
         public DataTable UsuariosSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM ORDER BY Nombre");
-            return db.Select();
+            string consulta = "SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM ORDER BY Nombre";
+            CreateTextCommand(consulta);
+            return Select();
+        }
+        public List<prop.Usuarios> UsuariosSeleccion()
+        {
+            string consulta = "SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM ORDER BY Nombre";
+            CreateTextCommand(consulta);
+            List<prop.Usuarios> usuarios = new List<prop.Usuarios>();
+            for (int i = 0; i<Select().Rows.Count; i++)
+            {
+                prop.Usuarios usuario = new prop.Usuarios();
+                {
+                    usuario.IdResCM = int.Parse(Select().Rows[i]["IdResCM"].ToString());
+                    usuario.Nombre = Select().Rows[i]["Nombre"].ToString();
+                    usuario.Correo = Select().Rows[i]["Correo"].ToString();
+                    usuario.Visible = int.Parse(Select().Rows[i]["Visible"].ToString() == "Activo" ? "1" : "0");
+                    usuario.Clave = Select().Rows[i]["Clave"].ToString();
+                    usuario.Contra = Select().Rows[i]["Contra"].ToString();
+                }
+                usuarios.Add(usuario);
+            }
+            return usuarios;
         }
 
-        public DataTable UsuariosSelectById(UsuariosEntity item)
+        public DataTable UsuariosSelectById(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE IdResCM=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            CreateTextCommand("SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM WHERE IdResCM=?");
+            AddParameter("?", item.IdResCM, OleDbType.Numeric);
+            return Select();
         }
 
-        public DataTable UsuariosBuscar(UsuariosEntity item)
+        public DataTable UsuariosBuscar(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("SELECT * FROM ResponsableCM WHERE Nombre LIKE ? ");
-            db.AddParameter("?", "%" + item.Nombre + "%");
-            return db.Select();
+            CreateTextCommand("SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM WHERE Nombre LIKE ? ");
+            AddParameter("?", "%" + item.Nombre + "%", OleDbType.VarChar);
+            return Select();
         }
 
-        public int UsuarioDesactivar(UsuariosEntity item)
+        public string UsuarioInsert(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos(_cadena);
-            db.CreateTextCommand("UPDATE ResponsableCM SET Activo=? WHERE IdResCM=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
+            AddParameter("?", item.Nombre, OleDbType.VarChar);
+            AddParameter("?", item.Correo, OleDbType.VarChar);
+            AddParameter("?", item.Clave, OleDbType.VarChar);
+            AddParameter("?", item.Contra, OleDbType.VarChar);
+            AddParameter("?", item.Visible, OleDbType.Numeric);
+            return Insert();
         }
 
-        public string UsuarioInsert(UsuariosEntity item)
+        public int UsuarioDesactivar(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Clave);
-            db.AddParameter("?", item.Contrasena);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            CreateTextCommand("UPDATE ResponsableCM SET Activo=? WHERE IdResCM=? ");
+            AddParameter("?", item.Visible, OleDbType.Numeric);
+            AddParameter("?", item.IdResCM, OleDbType.Numeric);
+            return Update();
         }
 
-        public int UsuarioUpdate(UsuariosEntity item)
+        public int UsuarioUpdate(prop.Usuarios item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Clave);
-            db.AddParameter("?", item.Contrasena);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
+            AddParameter("?", item.Nombre, OleDbType.VarChar);
+            AddParameter("?", item.Correo, OleDbType.VarChar);
+            AddParameter("?", item.Clave, OleDbType.VarChar);
+            AddParameter("?", item.Contra, OleDbType.VarChar);
+            AddParameter("?", item.Visible, OleDbType.Numeric);
+            AddParameter("?", item.IdResCM, OleDbType.Numeric);
+            return Update();
         }
 
     }

@@ -9,23 +9,20 @@ namespace CM2017.Admin
 {
     public partial class frmAreaTerapeutica : Comun
     {
+        
         public static int IdAreaTerapeutica = 0;
         public static int editar = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objAreaTerapeutica._title;
             if (!IsPostBack)
                 CargarAreaTerapeutica();
+
         }
         protected void CargarAreaTerapeutica()
         {
-            //LlenarGridView(GridView1, objAreaTerapeutica.AreaTerapeuticaSelect());
-
-            //Nueva implementacion 12/01/2017
-            CM2017.Negocio.AreaTerapeuticaNegocio cmatn = new Negocio.AreaTerapeuticaNegocio();
-            GridView1.DataSource = cmatn.AreaTerapeuticaSelect();
-            GridView1.DataBind(); 
-            //Fin nueva implementacion
+            LlenarGridView(GridView1, objAreaTerapeutica.AreaTerapeuticaSelect());            
         }
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {
@@ -35,25 +32,24 @@ namespace CM2017.Admin
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
-            int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);
+            int activo = GridView1.Rows[e.RowIndex].Cells[4].Text == "Activo" ? 1 : 0;
             AreaTerapeuticaEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
             else
                 activo = 1;
             AreaTerapeuticaEntity.Activo = activo;
-            int obt = objAreaTerapeutica.AreaTerapeuticaDesactivar(AreaTerapeuticaEntity);
-            CargarAreaTerapeutica();
+            string nombreEvento = "";
+            int obt = objAreaTerapeutica.AreaTerapeuticaDesactivar(AreaTerapeuticaEntity, ref nombreEvento);
+            if (obt == 0)
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede desactivar <strong>"+ GridView1.Rows[e.RowIndex].Cells[3].Text + "</strong> porque esta asignada al evento <strong>" + nombreEvento + "</strong> que se desarrollará proximamente');", true);
+            else
+                CargarAreaTerapeutica();
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //e.Row.Attributes["onmouseover"] = "javascript:setMouseOverColor(this);";
-                //e.Row.Attributes["onmouseout"] = "javascript:setMouseOutColor(this);";
-                //e.Row.Attributes["onclick"] = ClientScript.GetPostBackClientHyperlink(this.GridView1, "Select$" + e.Row.RowIndex);
-            }
+           
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -67,13 +63,13 @@ namespace CM2017.Admin
             {
                 if (currentCommand == "Select")
                 {
-                    AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
+                    AreaTerapeuticaEntity = new Propiedades.AreaTerapeutica();
                     AreaTerapeuticaEntity.Id = val;
                     foreach (System.Data.DataRow row in objAreaTerapeutica.AreaTerapeuticaSelectById(AreaTerapeuticaEntity).Rows)
                     {
                         IdAreaTerapeutica = val;
                         txtDescripcion.Text = row["Descripcion"] == DBNull.Value ? "" : row["Descripcion"].ToString();
-                        chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = activoInactivo(row["Visible"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
@@ -96,7 +92,7 @@ namespace CM2017.Admin
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            AreaTerapeuticaEntity = new Negocio.AreaTerapeuticaEntity();
+            AreaTerapeuticaEntity = new Propiedades.AreaTerapeutica();
             AreaTerapeuticaEntity.Id = IdAreaTerapeutica;
             AreaTerapeuticaEntity.Descripcion = txtDescripcion.Text == string.Empty ? "" : txtDescripcion.Text;
             if (chkActivo.Checked == true)

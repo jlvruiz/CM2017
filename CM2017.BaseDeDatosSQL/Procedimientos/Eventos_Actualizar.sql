@@ -1,0 +1,40 @@
+﻿CREATE PROCEDURE [dbo].[Eventos_Actualizar]
+	@nombreevento nvarchar(50),
+	@fechasolicitud datetime,
+	@fechainicioevento datetime,
+	@fechafinevento datetime,
+	@idtipoevento int,
+	@flujoautorizacion int,
+	@idgerenteproducto int,
+	@idproducto nvarchar(50),
+	@idtipoaudiencia int,
+	@invitados int,
+	@objetivo nvarchar(50),
+	@locacion1 int,
+	@locacion2 int,
+	@agenda nvarchar(50),
+	@iddivision int,
+	@idareaterapeutica int,
+	@idteamleader int,
+	@idevento int
+AS
+	UPDATE eventos SET 
+	NombreEvento=@nombreevento,
+	FechaSolicitud=@fechasolicitud,
+	FechaInicioEvento=@fechainicioevento,
+	FechaFinEvento=@fechafinevento,
+    TipoEvento=@idtipoevento,
+	FlujoAutorizacion=@flujoautorizacion,
+	GteProducto=@idgerenteproducto,
+	Producto=@idproducto,
+	TipoAudiencia=@idtipoaudiencia,
+	Invitados=@invitados,
+	Objetivo=@objetivo,
+	Locacion1=@locacion1,
+    Locacion2=@locacion2,
+	Agenda=@agenda,
+	Division=@iddivision,
+	AreaTerapeutica=@idareaterapeutica,
+	TeamLeader=@idteamleader 
+	WHERE Id=@idevento
+RETURN 0

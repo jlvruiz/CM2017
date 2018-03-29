@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
-using System.Data.Common;
 
 namespace BaseDeDatos
 {
     public class BaseDeDatos
     {
         private OleDbConnection DBConnection = null;
-        private OleDbCommand cmd = new OleDbCommand();
+        private OleDbCommand cmd;
 
         protected void CreateTextCommand(string consulta)
         {
+            this.cmd = new OleDbCommand();
             this.cmd.CommandText = consulta;
+            this.cmd.Connection = DBConnection;
             this.cmd.CommandType = CommandType.Text;
         }
         protected void CreateProcedureCommand(string procedimiento)
@@ -36,86 +33,55 @@ namespace BaseDeDatos
         }
         protected int Update()
         {
-            int obt = 0;
-
             OpenConecction();
             cmd.Connection = DBConnection;
-            obt = this.cmd.ExecuteNonQuery();
+            int obtenido = this.cmd.ExecuteNonQuery();
             CloseConnection();
-            return obt;
-
+            return obtenido;
         }
         protected string Insert()
         {
-            try
-            {
-                OpenConecction();
-                cmd.Connection = DBConnection;
-                return (string)this.cmd.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error en la ejecución. " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
-            }
-
+            OpenConecction();
+            cmd.Connection = DBConnection;
+            string obtenido = (string)this.cmd.ExecuteScalar();
+            CloseConnection();
+            return obtenido;
         }
         protected int InsertWithReturnValue()
         {
             int returned = 0;
-            try
+            OpenConecction();
+            cmd.Connection = DBConnection;
+            this.cmd.ExecuteScalar();
+            for (int i = 0; i < cmd.Parameters.Count; i++)
             {
-                OpenConecction();
-                cmd.Connection = DBConnection;
-                this.cmd.ExecuteScalar();
-                for (int i = 0; i < cmd.Parameters.Count; i++)
+                if (cmd.Parameters[i].Direction == ParameterDirection.Output || cmd.Parameters[i].Direction == ParameterDirection.InputOutput || cmd.Parameters[i].Direction == ParameterDirection.ReturnValue)
                 {
-                    if (cmd.Parameters[i].Direction == ParameterDirection.Output || cmd.Parameters[i].Direction == ParameterDirection.InputOutput || cmd.Parameters[i].Direction == ParameterDirection.ReturnValue)
-                    {
-                        returned = (int)cmd.Parameters[i].Value;
-                    }
+                    returned = (int)cmd.Parameters[i].Value;
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error en la ejecución. " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
-            }
+            CloseConnection();
             return returned;
         }
         protected int Delete()
         {
-            try
-            {
-                OpenConecction();
-                cmd.Connection = DBConnection;
-                return this.cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error en la ejecución. " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
-            }
+            OpenConecction();
+            cmd.Connection = DBConnection;
+            int obtenido = this.cmd.ExecuteNonQuery();
+            CloseConnection();
+            return obtenido;
         }
-        protected void AddParameter(string nombre, object valor)
+        protected void AddParameter(string nombre, object valor, OleDbType tipo)
         {
             OleDbParameter param = new OleDbParameter();
             param.ParameterName = nombre;
             param.Value = valor;
+            param.OleDbType = tipo;
             this.cmd.Parameters.Add(param);
         }
         protected void AddParameterWithReturnValue(string name)
         {
-            OleDbParameter param = new OleDbParameter(name, SqlDbType.Int);
+            OleDbParameter param = new OleDbParameter(name, OleDbType.Numeric);
             param.Direction = ParameterDirection.Output;
             this.cmd.Parameters.Add(param);
         }

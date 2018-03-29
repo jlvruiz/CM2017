@@ -1,10 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmEventosDesactivados.aspx.cs" Inherits="CM2017.Admin.frmEventosDesactivados" %>
-<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmEventosDesactivados.aspx.cs" Inherits="CM2017.Admin.frmEventosDesactivados" ErrorPage="~/Error.aspx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <uc1:Menu ID="Menu1" runat="server" />
-    &nbsp;<h2>Eventos Desactivados</h2>
+    <h2><%= eventosdesactivados._title %></h2>
 
         <asp:GridView ID="GridView1" runat="server" AllowPaging="true" PageIndex="10" DataKeyNames="Id" 
             CssClass="mydatagrid" HeaderStyle-CssClass="header" SelectedRowStyle-CssClass="selectedrow">

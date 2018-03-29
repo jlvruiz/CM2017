@@ -11,13 +11,16 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objUsuarios._title;
+
             if (!IsPostBack)
                 CargarUsuarios();
         }
 
         protected void CargarUsuarios()
         {
-            LlenarGridView(GridView1, objUsuarios.UsuariosSelect());
+            //LlenarGridView(GridView1, objUsuarios.UsuariosSelect());
+            LlenarGridView<Propiedades.Usuarios>(GridView1, objUsuarios.UsuariosSeleccion());
         }
 
         protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
@@ -28,9 +31,9 @@ namespace CM2017.Admin
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int Id = System.Int32.Parse(GridView1.DataKeys[e.RowIndex].Value.ToString());
-            int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[6].Text);
+            int activo = GridView1.Rows[e.RowIndex].Cells[6].Text == "Activo" ? 1 : 0;
             string estatus = string.Empty;
-            UsuariosEntity.Id = Id;
+            UsuariosEntity.IdResCM = Id;
             if (activo == 1)
             {
                 activo = 0;
@@ -41,7 +44,7 @@ namespace CM2017.Admin
                 activo = 1;
                 estatus = "activo";
             }
-            UsuariosEntity.Activo = activo;
+            UsuariosEntity.Visible = activo;
             int obt = objUsuarios.UsuarioDesactivar(UsuariosEntity);
             ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />Cambió el estatus del registro a " + estatus + "');", true);
             CargarUsuarios();
@@ -69,7 +72,7 @@ namespace CM2017.Admin
             {
                 if (currentCommand == "Select")
                 {
-                    UsuariosEntity.Id = val;
+                    UsuariosEntity.IdResCM = val;
                     foreach (System.Data.DataRow row in objUsuarios.UsuariosSelectById(UsuariosEntity).Rows)
                     {
                         IdUsuario = val;
@@ -77,7 +80,7 @@ namespace CM2017.Admin
                         txtCorreo.Text = row["Correo"] == DBNull.Value ? "" : row["Correo"].ToString();
                         txtClave.Text = row["Clave"] == DBNull.Value ? "" : row["Clave"].ToString();
                         txtContra.Text = row["Contra"] == DBNull.Value ? "" : row["Contra"].ToString();
-                        chkActivo.Checked = row["Activo"] == DBNull.Value ? row["Activo"].ToString() == "False" ? false : true : row["Activo"].ToString() == "True" ? true: false;
+                        chkActivo.Checked = activoInactivo(row["Visible"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
@@ -108,15 +111,15 @@ namespace CM2017.Admin
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            UsuariosEntity.Id = IdUsuario;
+            UsuariosEntity.IdResCM = IdUsuario;
             UsuariosEntity.Nombre = txtNombre.Text == string.Empty ? "" : txtNombre.Text;
             UsuariosEntity.Correo = txtCorreo.Text == string.Empty ? "" : txtCorreo.Text;
             UsuariosEntity.Clave = txtClave.Text == string.Empty ? "" : txtClave.Text;
-            UsuariosEntity.Contrasena = txtContra.Text == string.Empty ? "" : txtContra.Text;
+            UsuariosEntity.Contra = txtContra.Text == string.Empty ? "" : txtContra.Text;
             if (chkActivo.Checked == true)
-                UsuariosEntity.Activo = 1;
+                UsuariosEntity.Visible = 1;
             else
-                UsuariosEntity.Activo = 0;
+                UsuariosEntity.Visible = 0;
             if (editar == 0)
             {
                 objUsuarios.UsuarioInsert(UsuariosEntity);

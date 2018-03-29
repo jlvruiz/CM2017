@@ -4,65 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Web.UI.WebControls;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class GerentesEntity
+    public class Gerentes : Comun
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public int Activo { get; set; }
-    }
-    public class Gerentes
-    {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Gerentes de Producto";
 
         public DataTable GerentesSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Gerentes order by Nombre");
-            return db.Select();
+            return gr.GerentesSelect();
         }
+
         public DataTable GerentesActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Gerentes where Activo=1");
-            return db.Select();
+            return gr.GerentesActivoSelect();
         }
-        public DataTable GerentesSelectById(GerentesEntity item)
+
+        public DataTable GerentesSelectById(prop.Gerentes item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Gerentes where IdGerente=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return gr.GerentesSelectById(item);
         }
-        public int GerenteDesactivar(GerentesEntity item)
+
+        public int GerenteDesactivar(prop.Gerentes item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Gerentes set Activo=? where IdGerente=?");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return gr.GerenteDesactivar(item);
         }
-        public string GerenteInsert(GerentesEntity item)
+
+        public string GerenteInsert(prop.Gerentes item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("insert into Gerentes (Nombre, Correo, Activo) values (?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            return gr.GerenteInsert(item);
         }
-        public int GerenteUpdate(GerentesEntity item)
+
+        public int GerenteUpdate(prop.Gerentes item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Gerentes set Nombre=?, Correo=?, Activo=? where IdGerente=?");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Correo);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return gr.GerenteUpdate(item);
+        }
+
+        public void cargarGerentes_DropDownList(ref DropDownList dropdownlist)
+        {
+            Controles.LlenarDropDownList(ref dropdownlist, gr.GerentesActivoSelect(), "Nombre", "IdGerente");
         }
 
 

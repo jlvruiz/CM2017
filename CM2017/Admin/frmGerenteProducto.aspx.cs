@@ -14,6 +14,8 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objGerentes._title;
+
             if (!IsPostBack)
                 CargarGerentes();
         }
@@ -55,7 +57,7 @@ namespace CM2017.Admin
                         IdGerente = val;
                         txtNombre.Text = row["Nombre"] == DBNull.Value ? "" : row["Nombre"].ToString();
                         txtCorreo.Text = row["Correo"] == DBNull.Value ? "" : row["Correo"].ToString();
-                        chkActivo.Checked = row["Activo"] == DBNull.Value ? int.Parse(row["Activo"].ToString()) == 0 ? false : true : int.Parse(row["Activo"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = activoInactivo(row["Activo"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
@@ -63,7 +65,7 @@ namespace CM2017.Admin
                 }
                 if (currentCommand == "Delete")
                 {
-                    int activo = int.Parse(GridView1.Rows[rowIndex].Cells[4].Text);
+                    int activo = GridView1.Rows[rowIndex].Cells[4].Text == "Activo" ? 1 : 0;
                     GerentesEntity.Id = val;
                     if (activo == 1)
                         activo = 0;

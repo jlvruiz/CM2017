@@ -4,54 +4,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class TipoEventoEntity
+    public class TipoEvento : Comun
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-    public class TipoEvento
-    {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Tipo de Evento";
 
         public DataTable TipoEventoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TipoEvento order by descripcion");
-            return db.Select();
+            return te.TipoEventoSelect();
         }
+
         public DataTable TipoEventoActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TipoEvento where Visible=1 order by descripcion");
-            return db.Select();
+            return te.TipoEventoActivoSelect();
         }
-        public DataTable TipoEventoSelectById(TipoEventoEntity item)
+
+        public DataTable TipoEventoSelectById(prop.TipoEvento item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from TipoEvento where IdTipEve=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return te.TipoEventoSelectById(item);
         }
-        public int TipoEventoDesactivar(TipoEventoEntity item)
+
+        public string TipoEventoInsert(prop.TipoEvento item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update TipoEvento set Visible=? where IdTipEve=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return te.TipoEventoInsert(item);
         }
-        public int TipoEventoUpdate(TipoEventoEntity item)
+
+        public int TipoEventoUpdate(prop.TipoEvento item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update TipoEvento set Descripcion=?, Visible=? where IdTipEve=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return te.TipoEventoUpdate(item);
         }
+
+        public int TipoEventoDesactivar(prop.TipoEvento item)
+        {
+            if (!validarTipoEvento(item.Id))
+                return te.TipoEventoDesactivar(item);
+            else
+                return 0;
+        }
+
+        public bool validarTipoEvento(object idtipoevento)
+        {
+            return ev.validarTipoEvento(idtipoevento);
+        }
+
+        public bool TipoEventoEstatus(object id)
+        {
+            string obtenido = te.TipoEventoEstatus(id);
+            if (obtenido == "0")
+                return false;
+            else
+                return true;
+        }
+
+        public void cargarTipoEvento_DropDownList(ref System.Web.UI.WebControls.DropDownList dropdownlist)
+        {
+            Controles.LlenarDropDownList(ref dropdownlist, te.TipoEventoActivoSelect(), "Descripcion", "IdTipEve");
+        }
+
     }
 }

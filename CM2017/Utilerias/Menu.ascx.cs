@@ -13,5 +13,11 @@ namespace CM2017.Utilerias
         {
 
         }
+
+        protected void lnkCerrarSesion_Click(object sender, EventArgs e)
+        {
+            //Cierre de sesión
+            Response.Redirect("~/Default.aspx");
+        }
     }
 }

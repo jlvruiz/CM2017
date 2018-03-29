@@ -1,11 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmAreaTerapeutica.aspx.cs" Inherits="CM2017.Admin.frmAreaTerapeutica" %>
-<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmAreaTerapeutica.aspx.cs" Inherits="CM2017.Admin.frmAreaTerapeutica" ErrorPage="~/Error.aspx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <uc1:Menu ID="Menu1" runat="server" />
-    &nbsp;<h2>Area Terapéutica</h2>
+    <h2><%= objAreaTerapeutica._title %></h2>
 
     <h4><asp:LinkButton ID="lnbAgregar" runat="server" Text="Agregar Nuevo" OnClick="lnbAgregar_Click"></asp:LinkButton></h4>
     <div>
@@ -20,7 +18,7 @@
 
         <div id="divEncima" style="position: fixed; z-index: 151; top: 0; width: 100%; height: 100%; display: none">
 
-            <div style="background-color: white; width: 25%; height:34%; position: relative; top: 15%; left: 30%; border:1px solid orange;">
+            <div style="background-color: white; width: 25%; height:27%; position: relative; top: 15%; left: 30%; border:1px solid orange;">
             
                 <div style="background-color: #161665; color: white; width: 100%; height: 30px;">
                     <span style="float:left; line-height: 30px; padding-left: 3px"><asp:Label ID="lblTitulo" runat="server" Text="Detalle de Evento Seleccionado" ForeColor="White" Font-Bold="true"></asp:Label></span>
@@ -45,7 +43,7 @@
                                 <asp:CheckBox ID="chkActivo" runat="server" /></td>
                         </tr>
                         <tr><td colspan="2">&nbsp;</td></tr>
-                        <tr><td colspan="2" align="center"><asp:Button ID="btnAceptar" runat="server" Text="Aceptar" OnClick="btnAceptar_Click" CssClass="btn btn-primary" /></td></tr>
+                        <tr><td colspan="2" align="center"><asp:Button ID="btnAceptar" runat="server" Text="Aceptar" OnClick="btnAceptar_Click" CssClass="btn btn-primary btnAbajo3" /></td></tr>
                     </table>
 
                 </div>

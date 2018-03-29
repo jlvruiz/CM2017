@@ -10,29 +10,34 @@ namespace CM2017.Admin
     public partial class frmTipoAudiencia : Comun
     {
         Negocio.TipoAudiencia tipoaudiencia;
-        Negocio.TipoAudienciaEntity tipoaudienciaEntity;
+        Propiedades.TipoAudiencia tipoaudienciaEntity;
 
         public static int IdTipoAudiencia = 0;
         public static int editar = 0;
+        int cont = 0;
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objTipoAudiencia._title;
+
             if (!IsPostBack)
+            {
+                GridView1.PageIndex = 0;
                 CargarTipoAudiencia();
+            }
+                
         }
+
         protected void CargarTipoAudiencia()
         {
             LlenarGridView(GridView1, objTipoAudiencia.TipoAudienciaSelect());
-        }
-        protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
-        {
-            e.Row.Cells[2].Visible = false;
         }
 
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
-            int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);
+            int activo = GridView1.Rows[e.RowIndex].Cells[4].Text == "Activo" ? 1 : 0;
             TipoAudienciaEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
@@ -40,16 +45,18 @@ namespace CM2017.Admin
                 activo = 1;
             TipoAudienciaEntity.Activo = activo;
             int obt = objTipoAudiencia.TipoAudienciaDesactivar(TipoAudienciaEntity);
-            CargarTipoAudiencia();
+            if (obt == 0)
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede desactivar " + GridView1.Rows[e.RowIndex].Cells[3].Text + " porque esta asignado a un evento que se desarrollará proximamente');", true);
+            else
+                CargarTipoAudiencia();
         }
 
+        int indexOfColumn = 2; //Posicion del Id
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Row.Cells.Count > indexOfColumn)
             {
-                //e.Row.Attributes["onmouseover"] = "javascript:setMouseOverColor(this);";
-                //e.Row.Attributes["onmouseout"] = "javascript:setMouseOutColor(this);";
-                //e.Row.Attributes["onclick"] = ClientScript.GetPostBackClientHyperlink(this.GridView1, "Select$" + e.Row.RowIndex);
+                e.Row.Cells[indexOfColumn].Visible = false; //IdTipoAudiencia
             }
         }
 
@@ -69,7 +76,8 @@ namespace CM2017.Admin
                     {
                         IdTipoAudiencia = val;
                         txtDescripcion.Text = row["Descripcion"] == DBNull.Value ? "" : row["Descripcion"].ToString();
-                        chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = row["Visible"] == DBNull.Value ? row["Visible"].ToString() == "Inactivo" ? false : true : row["Visible"].ToString() == "Activo" ? true : false;
+                        chkBloqueo.Checked = (row["Bloqueado"] == DBNull.Value || row["Bloqueado"].ToString() == "0") ? chkBloqueo.Checked = false : chkBloqueo.Checked = true;
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
@@ -98,9 +106,13 @@ namespace CM2017.Admin
                 TipoAudienciaEntity.Activo = 1;
             else
                 TipoAudienciaEntity.Activo = 0;
+            if (chkBloqueo.Checked == true)
+                TipoAudienciaEntity.Bloqueado = 2;
+            else
+                TipoAudienciaEntity.Bloqueado = 0;
             if (editar == 0)
             {
-                //usuarios.UsuarioInsert(usuariosEntity);
+                //Agregar nuevo
             }
             else if (editar == 1)
             {
@@ -112,5 +124,20 @@ namespace CM2017.Admin
             CargarTipoAudiencia();
             ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide(); $('#divEncima').hide();", true);
         }
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GridView dg = (GridView)sender;
+            if (dg.SelectedRow.Cells[0].Text == string.Empty)
+                cont++;
+        }
+
+        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            CargarTipoAudiencia();
+        }
+
+
     }
 }

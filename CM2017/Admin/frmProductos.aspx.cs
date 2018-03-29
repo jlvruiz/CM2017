@@ -15,31 +15,26 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objProductos._title;
+
             if (!IsPostBack)
             {
                 GridView1.PageIndex = 0;
                 CargarProductos();
             }
         }
+
         protected void CargarProductos()
         {
             LlenarGridView(GridView1, objProductos.ProductosSelect());
         }
 
-        int indexOfColumn = 1;
+        int indexOfColumn = 1; //Posición del Id
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            
             if (e.Row.Cells.Count > indexOfColumn)
             {
                 e.Row.Cells[indexOfColumn].Visible = false; //IdProducto
-            }
-
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //e.Row.Attributes["onmouseover"] = "javascript:setMouseOverColor(this);";
-                //e.Row.Attributes["onmouseout"] = "javascript:setMouseOutColor(this);";
-                //e.Row.Attributes["onclick"] = ClientScript.GetPostBackClientHyperlink(this.GridView1, "Select$" + e.Row.RowIndex);
             }
         }
 
@@ -96,7 +91,7 @@ namespace CM2017.Admin
             {
                 IdProducto = int.Parse(val);
                 txtDescripcion.Text = fila["Descripcion"] == DBNull.Value ? "" : fila["Descripcion"].ToString();
-                chkActivo.Checked = fila["Visible"] == DBNull.Value ? int.Parse(fila["Visible"].ToString()) == 0 ? false : true : int.Parse(fila["Visible"].ToString()) == 1 ? true : false;
+                chkActivo.Checked = activoInactivo(fila["Visible"]);
                 editar = 1;
                 lblTitulo.Text = "Editar";
             }
@@ -108,7 +103,7 @@ namespace CM2017.Admin
             LinkButton btn = sender as LinkButton;
             GridViewRow row = btn.NamingContainer as GridViewRow;
             string val = GridView1.DataKeys[row.RowIndex].Values[0].ToString();
-            int activo = int.Parse(GridView1.DataKeys[row.RowIndex].Values[1].ToString());
+            int activo = GridView1.DataKeys[row.RowIndex].Values[1].ToString() == "Activo" ? 1 : 0;
             ProductosEntity.Id = int.Parse(val);
             if (activo == 1)
                 activo = 0;

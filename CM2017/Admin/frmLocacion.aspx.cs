@@ -9,11 +9,14 @@ namespace CM2017.Admin
 {
     public partial class frmLocacion : Comun
     {
+
         public static int IdLoc = 0;
         public static int editar = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objLocalizacion._title;
+
             if (!IsPostBack)
                 CargarLocalizaciones();
 
@@ -32,7 +35,7 @@ namespace CM2017.Admin
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
-            int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[6].Text);
+            int activo = GridView1.Rows[e.RowIndex].Cells[6].Text == "Activo" ? 1 : 0;
             LocalizacionEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
@@ -71,7 +74,7 @@ namespace CM2017.Admin
                         txtNombre.Text = row["Nombre"] == DBNull.Value ? "" : row["Nombre"].ToString();
                         rblTipo.SelectedValue = row["Tipo"].ToString();
                         txtMotivo.Text = row["Motivo"] == DBNull.Value ? "" : row["Motivo"].ToString();
-                        chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = activoInactivo(row["Visible"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }

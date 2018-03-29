@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmCaptura.aspx.cs" Inherits="CM2017.Sistema.frmCaptura" %>
-<%@ Register src="../Utilerias/Menu.ascx" tagname="Menu" tagprefix="uc1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="frmCaptura.aspx.cs" Inherits="CM2017.Sistema.frmCaptura" ErrorPage="~/Error.aspx" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -7,8 +6,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <uc1:Menu ID="Menu1" runat="server" />
-    &nbsp;<h2>Captura para Eventos</h2>
+    <h2><%= captura._title %></h2>
     <script src="../js/Sistema/frmCaptura.js"></script>
 
     <table class="table">
@@ -36,7 +34,7 @@
             <asp:CheckBoxList ID="chkProducto" runat="server" RepeatColumns="7" CssClass="radio-inline"  style="margin: 0 -75px 0 0;" CellPadding="0" CellSpacing="0"></asp:CheckBoxList>&nbsp;
         </td>
     </tr>
-    <tr><td align="right">Tipo de Audiencia:</td><td><asp:DropDownList ID="ddlAudiencia" runat="server" CssClass="form-control" Width="200px">
+    <tr><td align="right">Tipo de Audiencia:</td><td><asp:DropDownList ID="ddlAudiencia" runat="server" AutoPostBack="true" CssClass="form-control" Width="200px" OnSelectedIndexChanged="ddlAudiencia_SelectedIndexChanged">
         </asp:DropDownList></td></tr>
     <tr><td align="right">Número de Invitados:</td><td>
         <asp:TextBox ID="TextBox5" runat="server" Width="50px" CssClass="form-control"></asp:TextBox></td></tr>

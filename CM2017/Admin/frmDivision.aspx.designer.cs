@@ -13,13 +13,13 @@ namespace CM2017.Admin {
     public partial class frmDivision {
         
         /// <summary>
-        /// Control Menu1.
+        /// Control upPrincipal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::CM2017.Utilerias.Menu Menu1;
+        protected global::System.Web.UI.UpdatePanel upPrincipal;
         
         /// <summary>
         /// Control lnbAgregar.

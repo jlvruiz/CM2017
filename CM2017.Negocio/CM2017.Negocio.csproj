@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +42,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaTerapeutica.cs" />
-    <Compile Include="AreaTerapeuticaNegocio.cs" />
+    <Compile Include="Captura.cs" />
     <Compile Include="ClienteInterno.cs" />
+    <Compile Include="Comun.cs" />
+    <Compile Include="Controles.cs" />
     <Compile Include="Divisiones.cs" />
+    <Compile Include="Estadisticas.cs" />
     <Compile Include="Eventos.cs" />
+    <Compile Include="EventosDesactivados.cs" />
+    <Compile Include="EventosTerminados.cs" />
     <Compile Include="Gerentes.cs" />
+    <Compile Include="Inicio.cs" />
     <Compile Include="Localizacion.cs" />
     <Compile Include="Productos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +67,13 @@
       <Project>{1e664276-4176-4cea-8bb5-052e701b490d}</Project>
       <Name>BaseDeDatos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CM2017.Propiedades\CM2017.Propiedades.csproj">
+      <Project>{fbc09ce7-a816-4941-b5cc-70102283c3af}</Project>
+      <Name>CM2017.Propiedades</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

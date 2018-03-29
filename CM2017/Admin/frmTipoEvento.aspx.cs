@@ -14,6 +14,8 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objTipoEvento._title;
+
             if (!IsPostBack)
                 CargarTipoEvento();
         }
@@ -29,7 +31,7 @@ namespace CM2017.Admin
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
-            int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);
+            int activo = GridView1.Rows[e.RowIndex].Cells[4].Text == "Activo" ? 1 : 0;
             TipoEventoEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
@@ -37,7 +39,10 @@ namespace CM2017.Admin
                 activo = 1;
             TipoEventoEntity.Activo = activo;
             int obt = objTipoEvento.TipoEventoDesactivar(TipoEventoEntity);
-            CargarTipoEvento();
+            if (obt == 0)
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede desactivar este tipo de Evento porque esta asignado a un evento que se desarrollará proximamente');", true);
+            else
+                CargarTipoEvento();
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -66,7 +71,7 @@ namespace CM2017.Admin
                     {
                         IdTipoEvento = val;
                         txtDescripcion.Text = row["Descripcion"] == DBNull.Value ? "" : row["Descripcion"].ToString();
-                        chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = activoInactivo(row["Visible"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
@@ -78,6 +83,8 @@ namespace CM2017.Admin
 
             }
         }
+
+        
 
         protected void lnbAgregar_Click(object sender, EventArgs e)
         {
@@ -98,6 +105,7 @@ namespace CM2017.Admin
             if (editar == 0)
             {
                 //usuarios.UsuarioInsert(usuariosEntity);
+                objTipoEvento.TipoEventoInsert(TipoEventoEntity);
             }
             else if (editar == 1)
             {

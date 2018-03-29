@@ -4,71 +4,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class LocalizacionEntity
+    public class Localizacion : Comun
     {
-        public int Id { get; set; }
-        public string Nombre{ get; set; }
-        public int Tipo { get; set; }
-        public string Motivo { get; set; }
-        public int Activo { get; set; }
-    }
-    public class Localizacion
-    {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Localización";
 
         public DataTable LocalizacionesSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Localizacion order by Nombre");
-            return db.Select();
+            return lo.LocalizacionesSelect();
         }
+
         public DataTable LocalizacionesActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Localizacion where Visible=1");
-            return db.Select();
-        }
-        public DataTable LocalizacionSelectById(LocalizacionEntity item)
-        {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Localizacion where IdLoc=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return lo.LocalizacionesActivoSelect();
         }
 
-        public int LocalizacionDesactivar(LocalizacionEntity item)
+        public DataTable LocalizacionSelectById(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Localizacion set Visible=? where IdLoc=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return lo.LocalizacionSelectById(item);
         }
 
-        public string LocalizacionInsert(LocalizacionEntity item)
+        public int LocalizacionDesactivar(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("insert into Localizacion (Nombre,Tipo,Motivo,Visible) values (?,?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Tipo.ToString());
-            db.AddParameter("?", item.Motivo);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            return lo.LocalizacionDesactivar(item);
         }
 
-        public int LocalizacionUpdate(LocalizacionEntity item)
+        public string LocalizacionInsert(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Localizacion set Nombre=?, Tipo=?, Motivo=?, Visible=? where IdLoc=? ");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Tipo.ToString());
-            db.AddParameter("?", item.Motivo);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return lo.LocalizacionInsert(item);
         }
+
+        public int LocalizacionUpdate(prop.Localizacion item)
+        {
+            return lo.LocalizacionUpdate(item);
+        }
+
+        public void cargarLocalizacion_DropDownList(ref System.Web.UI.WebControls.DropDownList dropdownlist)
+        {
+            Controles.LlenarDropDownList(ref dropdownlist, lo.LocalizacionesActivoSelect(), "Nombre", "IdLoc");
+        }
+
+
     }
 }

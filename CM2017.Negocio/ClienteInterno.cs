@@ -4,53 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using prop = CM2017.Propiedades;
 
 namespace CM2017.Negocio
 {
-    public class ClienteInternoEntity
+    public class ClienteInterno : Comun
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-
-    public class ClienteInterno
-    {
-        BaseDeDatos.BaseDeDatos db;
+        public string _title = "Cliente Interno";
 
         public DataTable ClienteInternoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from ClienteInterno order by Descripcion");
-            return db.Select();
+            return ci.ClienteInternoSelect();
         }
 
-        public DataTable ClienteInternoSelectById(ClienteInternoEntity item)
+        public DataTable ClienteInternoSelectById(prop.ClienteInterno item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from ClienteInterno where IdCteInt=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            return ci.ClienteInternoSelectById(item);
         }
 
-        public int ClienteInternoDesactivar(ClienteInternoEntity item)
+        public int ClienteInternoDesactivar(prop.ClienteInterno item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update ClienteInterno set Visible=? where IdCteInt=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return ci.ClienteInternoDesactivar(item);
         }
 
-        public int ClienteInternoUpdate(ClienteInternoEntity item)
+        public int ClienteInternoUpdate(prop.ClienteInterno item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update ClienteInterno set Descripcion=?, Visible=? where IdCteInt=? ");
-            db.AddParameter("?", item.Descripcion);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            return ci.ClienteInternoUpdate(item);
         }
+
+
 
 
     }

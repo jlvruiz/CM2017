@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Base_de_Datos_SQL</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{3bb342af-892d-4d37-805d-1f843ffea359}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>CM2017.BaseDeDatosSQL</RootNamespace>
+    <AssemblyName>CM2017.BaseDeDatosSQL</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tablas" />
+    <Folder Include="Procedimientos" />
+    <Folder Include="InsercionInicial" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tablas\AreaTerapeutica.sql" />
+    <Build Include="Tablas\Divisiones.sql" />
+    <Build Include="Procedimientos\AreaTerapeutica_Actualizar.sql" />
+    <Build Include="Procedimientos\Eventos_Seleccionar_Estatus.sql" />
+    <Build Include="Procedimientos\Eventos_Seleccionar_PorId.sql" />
+    <Build Include="Procedimientos\Eventos_Seleccionar_Detalle.sql" />
+    <Build Include="Procedimientos\Eventos_Seleccionar_ValidarAreaTerapeutica.sql" />
+    <Build Include="Procedimientos\Eventos_Seleccionar_ValidarTipoEvento.sql" />
+    <Build Include="Procedimientos\Eventos_Seleccionar_ValidarTipoAudiencia.sql" />
+    <Build Include="Procedimientos\Eventos_Agregar.sql" />
+    <Build Include="Procedimientos\Eventos_Actualizar.sql" />
+    <Build Include="Procedimientos\Eventos_Actualizar_Estatus.sql" />
+    <Build Include="Procedimientos\Eventos_Actualizar_Terminar.sql" />
+    <None Include="InsercionInicial\AreaTerapeutica_InsercionInicial.sql" />
+    <Build Include="Procedimientos\AreaTerapeutica_Seleccionar.sql" />
+    <Build Include="Procedimientos\AreaTerapeutica_Seleccionar_Activo.sql" />
+    <Build Include="Procedimientos\AreaTerapeutica_Seleccionar_PorId.sql" />
+    <Build Include="Procedimientos\AreaTerapeutica_Seleccionar_Estado.sql" />
+    <Build Include="Procedimientos\AreaTerapeutica_Actualizar_Estatus.sql" />
+    <Build Include="Procedimientos\ClienteInterno_Seleccionar.sql" />
+    <Build Include="Procedimientos\ClienteInterno_Seleccionar_PorId.sql" />
+    <Build Include="Procedimientos\ClienteInterno_Actualizar_Estatus.sql" />
+    <Build Include="Procedimientos\ClienteInterno_Actualizar.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="CM2017.BaseDeDatosSQL.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tablas\Audiencia.sql" />
+    <Build Include="Tablas\ClienteInterno.sql" />
+    <Build Include="Tablas\Eventos.sql" />
+    <Build Include="Tablas\Gerentes.sql" />
+    <Build Include="Tablas\Localizacion.sql" />
+    <Build Include="Tablas\Menu.sql" />
+    <Build Include="Tablas\Productos.sql" />
+    <Build Include="Tablas\ResponsableCM.sql" />
+    <Build Include="Tablas\TeamLeaders.sql" />
+    <Build Include="Tablas\TipoEvento.sql" />
+    <Build Include="Tablas\UDN.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InsercionInicial\Audiencia_InsercionInicial.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Script.PreDeployment1.sql" />
+  </ItemGroup>
+</Project>

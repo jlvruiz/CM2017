@@ -1,51 +1,45 @@
 ﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+
+using prop = CM2017.Propiedades;
 
 namespace BaseDeDatos.Tablas
 {
-    public class ClienteInternoEntity
-    {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public int Activo { get; set; }
-    }
-
     public class ClienteInterno : BaseDeDatos
     {
         public DataTable ClienteInternoSelect()
         {
-            CreateTextCommand("select * from ClienteInterno order by Descripcion");
+            CreateTextCommand("SELECT IdCteInt, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM ClienteInterno ORDER BY Descripcion");
             return Select();
         }
 
-        public DataTable ClienteInternoSelectById(ClienteInternoEntity item)
+        public DataTable ClienteInternoSelectById(prop.ClienteInterno item)
         {
-            CreateTextCommand("select * from ClienteInterno where IdCteInt=?");
-            AddParameter("?", item.Id.ToString());
+            CreateTextCommand("SELECT IdCteInt, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM ClienteInterno WHERE IdCteInt=?");
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Select();
         }
 
-        public int ClienteInternoDesactivar(ClienteInternoEntity item)
+        public int ClienteInternoDesactivar(prop.ClienteInterno item)
         {
-            CreateTextCommand("update ClienteInterno set Visible=? where IdCteInt=? ");
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
+            CreateTextCommand("UPDATE ClienteInterno SET Visible=? WHERE IdCteInt=?");
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();
         }
 
-        public int ClienteInternoUpdate(ClienteInternoEntity item)
+        public int ClienteInternoUpdate(prop.ClienteInterno item)
         {
-            CreateTextCommand("update ClienteInterno set Descripcion=?, Visible=? where IdCteInt=? ");
-            AddParameter("?", item.Descripcion);
-            AddParameter("?", item.Activo.ToString());
-            AddParameter("?", item.Id.ToString());
+            CreateTextCommand("UPDATE ClienteInterno SET Descripcion=?, Visible=? WHERE IdCteInt=?");
+            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();
         }
-
-
     }
 }

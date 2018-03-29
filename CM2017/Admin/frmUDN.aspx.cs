@@ -14,6 +14,8 @@ namespace CM2017.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = objUDN._title;
+
             if (!IsPostBack)
                 CargarUDN();
         }
@@ -29,7 +31,7 @@ namespace CM2017.Admin
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int Id = System.Int32.Parse(GridView1.Rows[e.RowIndex].Cells[2].Text);
-            int activo = int.Parse(GridView1.Rows[e.RowIndex].Cells[4].Text);
+            int activo = GridView1.Rows[e.RowIndex].Cells[4].Text == "Activo" ? 1 : 0;
             UDNEntity.Id = Id;
             if (activo == 1)
                 activo = 0;
@@ -66,7 +68,7 @@ namespace CM2017.Admin
                     {
                         IdUDN = val;
                         txtDescripcion.Text = row["Descripcion"] == DBNull.Value ? "" : row["Descripcion"].ToString();
-                        chkActivo.Checked = row["Visible"] == DBNull.Value ? int.Parse(row["Visible"].ToString()) == 0 ? false : true : int.Parse(row["Visible"].ToString()) == 1 ? true : false;
+                        chkActivo.Checked = activoInactivo(row["Visible"]);
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }

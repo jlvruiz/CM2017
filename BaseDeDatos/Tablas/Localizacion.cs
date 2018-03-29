@@ -1,74 +1,60 @@
 ﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+using prop = CM2017.Propiedades;
 
-namespace CM2017.Negocio
+namespace BaseDeDatos.Tablas
 {
-    public class LocalizacionEntity
+    public class Localizacion : BaseDeDatos
     {
-        public int Id { get; set; }
-        public string Nombre{ get; set; }
-        public int Tipo { get; set; }
-        public string Motivo { get; set; }
-        public int Activo { get; set; }
-    }
-    public class Localizacion
-    {
-        BaseDeDatos.BaseDeDatos db;
-
         public DataTable LocalizacionesSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Localizacion order by Nombre");
-            return db.Select();
+            CreateTextCommand("SELECT IdLoc, Nombre, Tipo, Motivo, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Localizacion ORDER BY Nombre");
+            return Select();
         }
         public DataTable LocalizacionesActivoSelect()
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Localizacion where Visible=1");
-            return db.Select();
+            CreateTextCommand("SELECT IdLoc, Nombre, Tipo, Motivo, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Localizacion WHERE Visible=1");
+            return Select();
         }
-        public DataTable LocalizacionSelectById(LocalizacionEntity item)
+        public DataTable LocalizacionSelectById(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("select * from Localizacion where IdLoc=?");
-            db.AddParameter("?", item.Id.ToString());
-            return db.Select();
+            CreateTextCommand("SELECT IdLoc, Nombre, Tipo, Motivo, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM Localizacion WHERE IdLoc=?");
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Select();
         }
 
-        public int LocalizacionDesactivar(LocalizacionEntity item)
+        public string LocalizacionInsert(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Localizacion set Visible=? where IdLoc=? ");
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("INSERT INTO Localizacion (Nombre,Tipo,Motivo,Visible) VALUES (?,?,?,?)");
+            AddParameter("?", item.Nombre, OleDbType.VarChar);
+            AddParameter("?", item.Tipo, OleDbType.Numeric);
+            AddParameter("?", item.Motivo, OleDbType.VarChar);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            return Insert();
         }
 
-        public string LocalizacionInsert(LocalizacionEntity item)
+        public int LocalizacionDesactivar(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("insert into Localizacion (Nombre,Tipo,Motivo,Visible) values (?,?,?,?)");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Tipo.ToString());
-            db.AddParameter("?", item.Motivo);
-            db.AddParameter("?", item.Activo.ToString());
-            return db.Insert();
+            CreateTextCommand("UPDATE Localizacion SET Visible=? WHERE IdLoc=? ");
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Update();
         }
 
-        public int LocalizacionUpdate(LocalizacionEntity item)
+        public int LocalizacionUpdate(prop.Localizacion item)
         {
-            db = new BaseDeDatos.BaseDeDatos();
-            db.CreateTextCommand("update Localizacion set Nombre=?, Tipo=?, Motivo=?, Visible=? where IdLoc=? ");
-            db.AddParameter("?", item.Nombre);
-            db.AddParameter("?", item.Tipo.ToString());
-            db.AddParameter("?", item.Motivo);
-            db.AddParameter("?", item.Activo.ToString());
-            db.AddParameter("?", item.Id.ToString());
-            return db.Update();
+            CreateTextCommand("UPDATE Localizacion SET Nombre=?, Tipo=?, Motivo=?, Visible=? WHERE IdLoc=? ");
+            AddParameter("?", item.Nombre, OleDbType.VarChar);
+            AddParameter("?", item.Tipo, OleDbType.Numeric);
+            AddParameter("?", item.Motivo, OleDbType.VarChar);
+            AddParameter("?", item.Activo, OleDbType.Numeric);
+            AddParameter("?", item.Id, OleDbType.Numeric);
+            return Update();
         }
     }
 }
