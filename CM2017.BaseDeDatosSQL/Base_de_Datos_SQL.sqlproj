@@ -108,4 +108,7 @@
   <ItemGroup>
     <PreDeploy Include="Script.PreDeployment1.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="InsercionInicial\Script.PostDeployment1.sql" />
+  </ItemGroup>
 </Project>

@@ -12,6 +12,13 @@ namespace CM2017.Negocio
     {
         public string _title = "Usuarios";
 
+        public int Responsable { get; set; }
+        public string Nombre { get; set; }
+        public string Correo { get; set; }
+        public string Clave { get; set; }
+        public string Contra { get; set; }
+        public bool Activo { get; set; }
+
         public DataTable UsuariosSelect()
         {
             return us.UsuariosSelect();
@@ -24,6 +31,12 @@ namespace CM2017.Negocio
         public DataTable UsuariosSelectById(prop.Usuarios item)
         {
             return us.UsuariosSelectById(item);
+        }
+
+        public DataRow UsuarioSeleccionarPorId()
+        {
+            us.Idusuario = Responsable;
+            return us.UsuarioSeleccionarPorId().Rows[0];
         }
 
         public DataTable UsuariosBuscar(prop.Usuarios item)
@@ -44,6 +57,17 @@ namespace CM2017.Negocio
         public int UsuarioUpdate(prop.Usuarios item)
         {
             return us.UsuarioUpdate(item);
+        }
+
+        public string UsuarioAgregar()
+        {
+            us.Nombre = Nombre;
+            us.Correo = Correo;
+            us.Clave = Clave;
+            us.Contra = Contra;
+            us.Visible = Activo;
+            us.usuarioAgregar();
+            return "Listo";
         }
 
     }

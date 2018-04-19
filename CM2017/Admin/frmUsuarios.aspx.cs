@@ -73,17 +73,31 @@ namespace CM2017.Admin
                 if (currentCommand == "Select")
                 {
                     UsuariosEntity.IdResCM = val;
-                    foreach (System.Data.DataRow row in objUsuarios.UsuariosSelectById(UsuariosEntity).Rows)
-                    {
-                        IdUsuario = val;
-                        txtNombre.Text = row["Nombre"] == DBNull.Value ? "" : row["Nombre"].ToString();
-                        txtCorreo.Text = row["Correo"] == DBNull.Value ? "" : row["Correo"].ToString();
-                        txtClave.Text = row["Clave"] == DBNull.Value ? "" : row["Clave"].ToString();
-                        txtContra.Text = row["Contra"] == DBNull.Value ? "" : row["Contra"].ToString();
-                        chkActivo.Checked = activoInactivo(row["Visible"]);
-                        editar = 1;
-                        lblTitulo.Text = "Editar";
-                    }
+
+                    //***************************************************
+                    IdUsuario = val;
+                    objUsuarios.Responsable = val;
+                    var usuario = objUsuarios.UsuarioSeleccionarPorId();
+                    txtNombre.Text = usuario["Nombre"] == DBNull.Value ? "" : usuario["Nombre"].ToString();
+                    txtCorreo.Text = usuario["Correo"] == DBNull.Value ? "" : usuario["Correo"].ToString();
+                    txtClave.Text = usuario["Clave"] == DBNull.Value ? "" : usuario["Clave"].ToString();
+                    txtContra.Text = usuario["Contra"] == DBNull.Value ? "" : usuario["Contra"].ToString();
+                    chkActivo.Checked = activoInactivo(usuario["Visible"]);
+                    editar = 1;
+                    lblTitulo.Text = "Editar";
+                    //***************************************************
+
+                    //foreach (System.Data.DataRow row in objUsuarios.UsuariosSelectById(UsuariosEntity).Rows)
+                    //{
+                    //    IdUsuario = val;
+                    //    txtNombre.Text = row["Nombre"] == DBNull.Value ? "" : row["Nombre"].ToString();
+                    //    txtCorreo.Text = row["Correo"] == DBNull.Value ? "" : row["Correo"].ToString();
+                    //    txtClave.Text = row["Clave"] == DBNull.Value ? "" : row["Clave"].ToString();
+                    //    txtContra.Text = row["Contra"] == DBNull.Value ? "" : row["Contra"].ToString();
+                    //    chkActivo.Checked = activoInactivo(row["Visible"]);
+                    //    editar = 1;
+                    //    lblTitulo.Text = "Editar";
+                    //}
                     ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
                 }
                 if (e.CommandName == "Increase")
@@ -122,7 +136,15 @@ namespace CM2017.Admin
                 UsuariosEntity.Visible = 0;
             if (editar == 0)
             {
-                objUsuarios.UsuarioInsert(UsuariosEntity);
+                //***********************
+                objUsuarios.Nombre = txtNombre.Text;
+                objUsuarios.Correo = txtCorreo.Text == string.Empty ? "" : txtCorreo.Text;
+                objUsuarios.Clave = txtClave.Text == string.Empty ? "" : txtClave.Text;
+                objUsuarios.Contra = txtContra.Text == string.Empty ? "" : txtContra.Text;
+                objUsuarios.Activo = true;
+                objUsuarios.UsuarioAgregar();
+                //***********************
+                //objUsuarios.UsuarioInsert(UsuariosEntity);
                 ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', '<br />Se agregó el registro exitosamente.');", true);
                 CargarUsuarios();
             }

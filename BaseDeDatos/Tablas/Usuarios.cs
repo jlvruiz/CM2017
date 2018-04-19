@@ -11,6 +11,20 @@ namespace BaseDeDatos.Tablas
 {
     public class Usuarios : BaseDeDatos
     {
+        private int _idusuario;
+        private string _nombre;
+        private string _correo;
+        private string _clave;
+        private string _contra;
+        private bool _visible;
+
+        public int Idusuario { get => _idusuario; set => _idusuario = value; }
+        public string Nombre { get => _nombre; set => _nombre = value; }
+        public string Correo { get => _correo; set => _correo = value; }
+        public string Clave { get => _clave; set => _clave = value; }
+        public string Contra { get => _contra; set => _contra = value; }
+        public bool Visible { get => _visible; set => _visible = value; }
+
         public DataTable UsuariosSelect()
         {
             string consulta = "SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM ORDER BY Nombre";
@@ -45,11 +59,29 @@ namespace BaseDeDatos.Tablas
             return Select();
         }
 
+        public DataTable UsuarioSeleccionarPorId()
+        {
+            CreateTextCommand("SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM WHERE IdResCM=?");
+            AddParameter("?", _idusuario, OleDbType.Numeric);
+            return Select();
+        }
+
         public DataTable UsuariosBuscar(prop.Usuarios item)
         {
             CreateTextCommand("SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM WHERE Nombre LIKE ? ");
             AddParameter("?", "%" + item.Nombre + "%", OleDbType.VarChar);
             return Select();
+        }
+
+        public string usuarioAgregar()
+        {
+            CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
+            AddParameter("?", _nombre, OleDbType.VarChar);
+            AddParameter("?", _correo, OleDbType.VarChar);
+            AddParameter("?", _clave, OleDbType.VarChar);
+            AddParameter("?", _contra, OleDbType.VarChar);
+            AddParameter("?", _visible, OleDbType.Numeric);
+            return Insert();
         }
 
         public string UsuarioInsert(prop.Usuarios item)
