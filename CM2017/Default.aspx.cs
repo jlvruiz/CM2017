@@ -23,7 +23,19 @@ namespace CM2017
             Negocio.TipoAudiencia ta = new Negocio.TipoAudiencia();
             ev.TerminarEvento();
             ta.TipoAudienciaBajaUltimoEvento();
-            Response.Redirect("/Sistema/Inicio.aspx");
+            if (LoginValidacion())
+                Response.Redirect("/Sistema/Inicio.aspx");
         }
+
+        protected bool LoginValidacion()
+        {
+            //validar el usuario que ha entrado
+            if (txtClave.Text == "" && txtContra.Text == "")
+                return true;
+            else
+                return false;
+        }
+
+
     }
 }
