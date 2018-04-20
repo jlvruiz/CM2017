@@ -36,11 +36,7 @@ namespace CM2017
                 return false;
         }
 
-        protected void Ejemplo()
-        {
-            //Método de ejemplo
-        }
-
+        string prueba = "";
 
     }
 }
