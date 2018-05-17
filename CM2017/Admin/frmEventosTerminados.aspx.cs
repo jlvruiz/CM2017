@@ -13,6 +13,9 @@ namespace CM2017.Admin
         {
             if (!IsPostBack)
             {
+                if (Session["sesion"] == null)
+                    Response.Redirect("../Default.aspx");
+
                 Page.Title = eventosterminados._title;
 
                 //GridView1.PageIndex = 0;

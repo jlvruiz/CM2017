@@ -35,7 +35,7 @@ namespace BaseDeDatos.Tablas
         public int UDNUpdate(prop.UDN item)
         {
             CreateTextCommand("UPDATE UDN SET Descripcion=?, Visible=? WHERE IdUDN=? ");
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();

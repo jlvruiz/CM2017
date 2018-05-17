@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using CM2017.IU;
 
 namespace CM2017.Sistema
 {
     public partial class frmCaptura : Comun
     {
+        Concentrador Manejador_Sesion = new Concentrador();
 
         #region Eventos ********************************************************************************************************
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["sesion"] == null)
+                Response.Redirect("Default.aspx");
+
+            Manejador_Sesion = (Concentrador)Session["sesion"];
+
             Page.Title = captura._title;
+            lblSubtitulo.Text = Manejador_Sesion.Usuarios.Nombre;
+            Manejador_Sesion.Usuarios.Nombre = "Juan";
 
             if (!IsPostBack)
             {
@@ -28,46 +37,57 @@ namespace CM2017.Sistema
 
         protected void Button4_Click(object sender, EventArgs e)
         {
-            //Modificar ó Guardar
-            Propiedades.Eventos eventosentity = new Propiedades.Eventos();
-            eventosentity.NombreEvento = TextBox1.Text == string.Empty ? "" : TextBox1.Text;
-            eventosentity.FechaSolicitud = TextBox2.Text == string.Empty ? DateTime.Parse(DateTime.Now + " " + DateTime.Now.ToLongTimeString()) : DateTime.Parse(DateTime.Parse(TextBox2.Text) + "" + DateTime.Now.ToLongTimeString());
-            eventosentity.FechaInicioEvento = TextBox3.Text == string.Empty ? DateTime.Now : DateTime.Parse(TextBox3.Text);
-            eventosentity.FechaFinEvento = TextBox4.Text == string.Empty ? DateTime.Now : DateTime.Parse(TextBox4.Text);
-            eventosentity.TipoEvento = ddlTipoEvento.SelectedValue == string.Empty ? 0 : int.Parse(ddlTipoEvento.SelectedValue);
-            eventosentity.FlujoAutorizacion = RadioButtonList2.SelectedValue == string.Empty ? 0 : int.Parse(RadioButtonList2.SelectedValue);
-            eventosentity.GteProducto = ddlGteProd.SelectedValue == string.Empty ? 0 : int.Parse(ddlGteProd.SelectedValue);
-            string seleccionados = "";
-            foreach (ListItem item in chkProducto.Items)
+            try
             {
-                if (item.Selected)
+                //Modificar ó Guardar
+                Propiedades.Eventos eventosentity = new Propiedades.Eventos();
+                eventosentity.NombreEvento = TextBox1.Text == string.Empty ? "" : TextBox1.Text;
+                DateTime fecha1 = DateTime.Parse(DateTime.Parse(TextBox2.Text).ToString("dd/MM/yyyy") + " " + DateTime.Now.ToString("hh:mm:ss"));
+                eventosentity.FechaSolicitud = TextBox2.Text == string.Empty ? DateTime.Parse(DateTime.Now + " " + DateTime.Now.ToLongTimeString()) : fecha1;
+                DateTime fecha2 = DateTime.Parse(DateTime.Parse(TextBox3.Text).ToString("dd/MM/yyyy") + " " + DateTime.Now.ToString("hh:mm:ss"));
+                eventosentity.FechaInicioEvento = TextBox3.Text == string.Empty ? DateTime.Now : fecha2;
+                DateTime fecha3 = DateTime.Parse(DateTime.Parse(TextBox4.Text).ToString("dd/MM/yyyy") + " " + DateTime.Now.ToString("hh:mm:ss"));
+                eventosentity.FechaFinEvento = TextBox4.Text == string.Empty ? DateTime.Now : fecha3;
+                eventosentity.TipoEvento = ddlTipoEvento.SelectedValue == string.Empty ? 0 : int.Parse(ddlTipoEvento.SelectedValue);
+                eventosentity.FlujoAutorizacion = RadioButtonList2.SelectedValue == string.Empty ? 0 : int.Parse(RadioButtonList2.SelectedValue);
+                eventosentity.GteProducto = ddlGteProd.SelectedValue == string.Empty ? 0 : int.Parse(ddlGteProd.SelectedValue);
+                string seleccionados = "";
+                foreach (ListItem item in chkProducto.Items)
                 {
-                    seleccionados += item.Text + ", ";
+                    if (item.Selected)
+
+                    {
+                        seleccionados += item.Text + ", ";
+                    }
+                }
+                eventosentity.Producto = seleccionados.Substring(0, seleccionados.Length - 1);
+                eventosentity.TipoAudiencia = ddlAudiencia.SelectedValue == string.Empty ? 0 : int.Parse(ddlAudiencia.SelectedValue);
+                eventosentity.Invitados = TextBox5.Text == string.Empty ? 0 : int.Parse(TextBox5.Text);
+                eventosentity.Objetivo = TextBox6.Text == string.Empty ? "" : TextBox6.Text;
+                eventosentity.Locacion1 = RadioButtonList1.SelectedValue == string.Empty ? 0 : int.Parse(RadioButtonList1.SelectedValue);
+                eventosentity.Locacion2 = ddlLocalizacion.SelectedValue == string.Empty ? 0 : int.Parse(ddlLocalizacion.SelectedValue);
+                eventosentity.Agenda = TextBox7.Text == string.Empty ? "" : TextBox7.Text;
+                eventosentity.Division = rblDivision.SelectedValue == string.Empty ? 0 : int.Parse(rblDivision.SelectedValue);
+                eventosentity.AreaTerapeutica = rblAT.SelectedValue == string.Empty ? 0 : int.Parse(rblAT.SelectedValue);
+                eventosentity.TeamLeader = ddlTeamLeader.SelectedValue == string.Empty ? 0 : int.Parse(ddlTeamLeader.SelectedValue);
+                if (Request.QueryString["Id"] != null)
+                    eventosentity.Id = int.Parse(Request.QueryString["Id"]);
+
+                //Guardar el evento modificado
+                if (Request.QueryString["e"] == "1")
+                {
+                    string procesado = objEventos.EventoUpdate(eventosentity).ToString();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el evento modificado.');", true);
+                }
+                else //Guardar la captura del evento nuevo
+                {
+                    string procesado = objEventos.EventoInsert(eventosentity);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el nuevo evento.');", true);
                 }
             }
-            eventosentity.Producto = seleccionados.Substring(0, seleccionados.Length - 1);
-            eventosentity.TipoAudiencia = ddlAudiencia.SelectedValue == string.Empty ? 0 : int.Parse(ddlAudiencia.SelectedValue);
-            eventosentity.Invitados = TextBox5.Text == string.Empty ? 0 : int.Parse(TextBox5.Text);
-            eventosentity.Objetivo = TextBox6.Text == string.Empty ? "" : TextBox6.Text;
-            eventosentity.Locacion1 = RadioButtonList1.SelectedValue == string.Empty ? 0 : int.Parse(RadioButtonList1.SelectedValue);
-            eventosentity.Locacion2 = ddlLocalizacion.SelectedValue == string.Empty ? 0 : int.Parse(ddlLocalizacion.SelectedValue);
-            eventosentity.Agenda = TextBox7.Text == string.Empty ? "" : TextBox7.Text;
-            eventosentity.Division = rblDivision.SelectedValue == string.Empty ? 0 : int.Parse(rblDivision.SelectedValue);
-            eventosentity.AreaTerapeutica = rblAT.SelectedValue == string.Empty ? 0 : int.Parse(rblAT.SelectedValue);
-            eventosentity.TeamLeader = ddlTeamLeader.SelectedValue == string.Empty ? 0 : int.Parse(ddlTeamLeader.SelectedValue);
-            if (Request.QueryString["Id"] != null)
-                eventosentity.Id = int.Parse(Request.QueryString["Id"]);
-
-            //Guardar el evento modificado
-            if (Request.QueryString["e"] == "1")
+            catch (Exception ex)
             {
-                string procesado = objEventos.EventoUpdate(eventosentity).ToString();
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el evento modificado.');", true);
-            }
-            else //Guardar la captura del evento nuevo
-            {
-                string procesado = objEventos.EventoInsert(eventosentity);
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el nuevo evento.');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', 'Ocurrió un error al intentar guardar: " + ex.Message +"');", true);
             }
         }
 
@@ -88,7 +108,7 @@ namespace CM2017.Sistema
             CargarGerenteProducto();
             CargarProducto();
             CargarTipoAudiencia();
-            CargarLocacion();
+            //CargarLocacion();
             CargarDivision();
             CargarAreaTerapeutica();
             CargarTeamLeader();
@@ -187,6 +207,13 @@ namespace CM2017.Sistema
             }
         }
 
+
         #endregion
+
+        protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //upFechas.Update();
+            ddlLocalizacion.Visible = true;
+        }
     }
 }

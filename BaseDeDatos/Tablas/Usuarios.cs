@@ -35,21 +35,23 @@ namespace BaseDeDatos.Tablas
         {
             string consulta = "SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM ORDER BY Nombre";
             CreateTextCommand(consulta);
-            List<prop.Usuarios> usuarios = new List<prop.Usuarios>();
-            for (int i = 0; i<Select().Rows.Count; i++)
+            List<prop.Usuarios> resultado = new List<prop.Usuarios>();
+            var reader = ExecuteReader();
+            while(reader.Read())
             {
                 prop.Usuarios usuario = new prop.Usuarios();
-                {
-                    usuario.IdResCM = int.Parse(Select().Rows[i]["IdResCM"].ToString());
-                    usuario.Nombre = Select().Rows[i]["Nombre"].ToString();
-                    usuario.Correo = Select().Rows[i]["Correo"].ToString();
-                    usuario.Visible = int.Parse(Select().Rows[i]["Visible"].ToString() == "Activo" ? "1" : "0");
-                    usuario.Clave = Select().Rows[i]["Clave"].ToString();
-                    usuario.Contra = Select().Rows[i]["Contra"].ToString();
-                }
-                usuarios.Add(usuario);
+                usuario.IdResCM =   int.Parse(reader["IdResCM"].ToString());
+                usuario.Nombre =    reader["Nombre"].ToString();
+                usuario.Correo =    reader["Correo"].ToString();
+                usuario.Visible =   int.Parse(reader["Visible"].ToString() == "Activo" ? "1" : "0");
+                usuario.Clave =     reader["Clave"].ToString();
+                usuario.Contra =    reader["Contra"].ToString();
+                resultado.Add(usuario);
             }
-            return usuarios;
+            reader = null;
+            ExecuteReader().Close();
+            ConnectionClose();
+            return resultado;
         }
 
         public DataTable UsuariosSelectById(prop.Usuarios item)
@@ -69,17 +71,17 @@ namespace BaseDeDatos.Tablas
         public DataTable UsuariosBuscar(prop.Usuarios item)
         {
             CreateTextCommand("SELECT IdResCM, Nombre, Correo, SWITCH (Activo = 1, 'Activo', Activo = 0, 'Inactivo') AS Visible, Clave, Contra FROM ResponsableCM WHERE Nombre LIKE ? ");
-            AddParameter("?", "%" + item.Nombre + "%", OleDbType.VarChar);
+            AddParameter("?", "%" + item.Nombre + "%", OleDbType.VarChar, 255);
             return Select();
         }
 
         public string usuarioAgregar()
         {
             CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
-            AddParameter("?", _nombre, OleDbType.VarChar);
-            AddParameter("?", _correo, OleDbType.VarChar);
-            AddParameter("?", _clave, OleDbType.VarChar);
-            AddParameter("?", _contra, OleDbType.VarChar);
+            AddParameter("?", _nombre, OleDbType.VarChar, 255);
+            AddParameter("?", _correo, OleDbType.VarChar, 255);
+            AddParameter("?", _clave, OleDbType.VarChar, 255);
+            AddParameter("?", _contra, OleDbType.VarChar, 255);
             AddParameter("?", _visible, OleDbType.Numeric);
             return Insert();
         }
@@ -87,10 +89,10 @@ namespace BaseDeDatos.Tablas
         public string UsuarioInsert(prop.Usuarios item)
         {
             CreateTextCommand("INSERT INTO ResponsableCM (Nombre, Correo, Clave, Contra, Activo) VALUES (?,?,?,?,?)");
-            AddParameter("?", item.Nombre, OleDbType.VarChar);
-            AddParameter("?", item.Correo, OleDbType.VarChar);
-            AddParameter("?", item.Clave, OleDbType.VarChar);
-            AddParameter("?", item.Contra, OleDbType.VarChar);
+            AddParameter("?", item.Nombre, OleDbType.VarChar, 255);
+            AddParameter("?", item.Correo, OleDbType.VarChar, 255);
+            AddParameter("?", item.Clave, OleDbType.VarChar, 255);
+            AddParameter("?", item.Contra, OleDbType.VarChar, 255);
             AddParameter("?", item.Visible, OleDbType.Numeric);
             return Insert();
         }
@@ -106,14 +108,13 @@ namespace BaseDeDatos.Tablas
         public int UsuarioUpdate(prop.Usuarios item)
         {
             CreateTextCommand("UPDATE ResponsableCM SET Nombre=?, Correo=?, clave=?, contra=?, Activo=? WHERE IdResCM=? ");
-            AddParameter("?", item.Nombre, OleDbType.VarChar);
-            AddParameter("?", item.Correo, OleDbType.VarChar);
-            AddParameter("?", item.Clave, OleDbType.VarChar);
-            AddParameter("?", item.Contra, OleDbType.VarChar);
+            AddParameter("?", item.Nombre, OleDbType.VarChar, 255);
+            AddParameter("?", item.Correo, OleDbType.VarChar, 255);
+            AddParameter("?", item.Clave, OleDbType.VarChar, 255);
+            AddParameter("?", item.Contra, OleDbType.VarChar, 255);
             AddParameter("?", item.Visible, OleDbType.Numeric);
             AddParameter("?", item.IdResCM, OleDbType.Numeric);
             return Update();
         }
-
     }
 }

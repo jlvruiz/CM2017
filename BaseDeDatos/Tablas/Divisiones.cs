@@ -37,7 +37,7 @@ namespace BaseDeDatos.Tablas
         public int DivisionUpdate(prop.Divisiones item)
         {
             CreateTextCommand("UPDATE Divisiones SET Descripcion=?, Visible=? WHERE IdDivision=? ");
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();

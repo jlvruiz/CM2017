@@ -40,7 +40,7 @@ namespace BaseDeDatos.Tablas
         public string TipoEventoInsert(prop.TipoEvento item)
         {
             CreateTextCommand("INSERT INTO tipoevento (Descripcion, Visible) VALUES (?,?)");
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             return Insert();
         }
@@ -48,7 +48,7 @@ namespace BaseDeDatos.Tablas
         public int TipoEventoUpdate(prop.TipoEvento item)
         {
             CreateTextCommand("UPDATE TipoEvento SET Descripcion=?, Visible=? WHERE IdTipEve=? ");
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();

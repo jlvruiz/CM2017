@@ -35,7 +35,7 @@ namespace BaseDeDatos.Tablas
         public DataTable AreaTerapeuticaSelectById(prop.AreaTerapeutica entidad)
         {
             CreateTextCommand("SELECT IdAT, Descripcion, SWITCH (Visible = 1, 'Activo', Visible = 0, 'Inactivo') AS Visible FROM AreaTerapeutica WHERE IdAT=?");
-            AddParameter("?", entidad.Id, OleDbType.VarChar);
+            AddParameter("?", entidad.Id, OleDbType.VarChar, 255);
             return Select();
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace BaseDeDatos.Tablas
         public int AreaTerapeuticaUpdateDesactivar(prop.AreaTerapeutica entidad)
         {
             CreateTextCommand("UPDATE AreaTerapeutica SET Visible=? WHERE IdAT=? ");
-            AddParameter("?", entidad.Activo, OleDbType.VarChar);
+            AddParameter("?", entidad.Activo, OleDbType.Numeric);
             AddParameter("?", entidad.Id, OleDbType.Numeric);
             return Update();
         }
@@ -69,7 +69,7 @@ namespace BaseDeDatos.Tablas
         public int AreaTerapeuticaUpdate(prop.AreaTerapeutica entidad)
         {
             CreateTextCommand("UPDATE AreaTerapeutica SET Descripcion=?, Visible=? WHERE IdAT=? ");
-            AddParameter("?", entidad.Descripcion, OleDbType.VarChar);
+            AddParameter("?", entidad.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", entidad.Activo, OleDbType.Numeric);
             AddParameter("?", entidad.Id, OleDbType.Numeric);
             return Update();

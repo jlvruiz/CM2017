@@ -17,6 +17,9 @@ namespace CM2017.Sistema
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["sesion"] == null)
+                Response.Redirect("Default.aspx");
+
             Page.Title = objEstadisticas._title;
             terminados = objEventos.EventosEstadisticasTerminados();
             desactivados = objEventos.EventosEstadisticasCancelados();

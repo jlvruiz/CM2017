@@ -2,6 +2,8 @@
 using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace BaseDeDatos
 {
@@ -79,6 +81,15 @@ namespace BaseDeDatos
             param.OleDbType = tipo;
             this.cmd.Parameters.Add(param);
         }
+        protected void AddParameter(string nombre, object valor, OleDbType tipo, int tamaño)
+        {
+            OleDbParameter param = new OleDbParameter();
+            param.ParameterName = nombre;
+            param.Value = valor;
+            param.OleDbType = tipo;
+            param.Size = tamaño;
+            this.cmd.Parameters.Add(param);
+        }
         protected void AddParameterWithReturnValue(string name)
         {
             OleDbParameter param = new OleDbParameter(name, OleDbType.Numeric);
@@ -96,6 +107,19 @@ namespace BaseDeDatos
             {
                 DBConnection.Close();
             }
+        }
+
+        protected void ConnectionClose()
+        {
+            CloseConnection();
+        }
+
+        protected OleDbDataReader ExecuteReader()
+        {
+            OpenConecction();
+            cmd.Connection = DBConnection;
+            var reader = cmd.ExecuteReader();
+            return reader;
         }
     }
 }

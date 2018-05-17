@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CM2017.IU;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,13 +12,20 @@ namespace CM2017.Sistema
     {
         int indexOfColumn = 1;
 
+        Concentrador Manejador_Sesion = new Concentrador();
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["sesion"] == null)
+                Response.Redirect("Default.aspx");
+
+            Manejador_Sesion = (Concentrador)Session["sesion"];
+
             if (!IsPostBack)
             {
                 Page.Title = inicio._title;
 
-                lblFechaYHora.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString();
+                lblFechaYHora.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + " " + Manejador_Sesion.Usuarios.Nombre;
 
                 GridView1.PageIndex = 0;
                 CargarEventos();

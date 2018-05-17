@@ -31,9 +31,9 @@ namespace BaseDeDatos.Tablas
         public string LocalizacionInsert(prop.Localizacion item)
         {
             CreateTextCommand("INSERT INTO Localizacion (Nombre,Tipo,Motivo,Visible) VALUES (?,?,?,?)");
-            AddParameter("?", item.Nombre, OleDbType.VarChar);
+            AddParameter("?", item.Nombre, OleDbType.VarChar, 255);
             AddParameter("?", item.Tipo, OleDbType.Numeric);
-            AddParameter("?", item.Motivo, OleDbType.VarChar);
+            AddParameter("?", item.Motivo, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             return Insert();
         }
@@ -49,9 +49,9 @@ namespace BaseDeDatos.Tablas
         public int LocalizacionUpdate(prop.Localizacion item)
         {
             CreateTextCommand("UPDATE Localizacion SET Nombre=?, Tipo=?, Motivo=?, Visible=? WHERE IdLoc=? ");
-            AddParameter("?", item.Nombre, OleDbType.VarChar);
+            AddParameter("?", item.Nombre, OleDbType.VarChar, 255);
             AddParameter("?", item.Tipo, OleDbType.Numeric);
-            AddParameter("?", item.Motivo, OleDbType.VarChar);
+            AddParameter("?", item.Motivo, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();

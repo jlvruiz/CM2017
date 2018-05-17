@@ -68,7 +68,7 @@ namespace BaseDeDatos.Tablas
         {
             string consulta = "UPDATE Audiencia SET Descripcion=?, Visible=?, Bloqueado=? WHERE IdAudiencia=?";
             CreateTextCommand(consulta);
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             AddParameter("?", item.Bloqueado, OleDbType.Numeric);
             AddParameter("?", item.Id, OleDbType.Numeric);

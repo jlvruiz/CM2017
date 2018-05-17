@@ -51,7 +51,7 @@ namespace BaseDeDatos.Tablas
         public string ProductoInsert(prop.Productos item)
         {
             CreateTextCommand("INSERT INTO Productos (Descripcion, Visible) VALUES (?,?)");
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             return Insert();
         }
@@ -77,7 +77,7 @@ namespace BaseDeDatos.Tablas
         public int ProductoUpdate(prop.Productos item)
         {
             CreateTextCommand("UPDATE Productos SET Descripcion=?, Visible=? WHERE IdProducto=? ");
-            AddParameter("?", item.Descripcion, OleDbType.VarChar);
+            AddParameter("?", item.Descripcion, OleDbType.VarChar, 255);
             AddParameter("?", item.Activo, OleDbType.Numeric);
             AddParameter("?", item.Id, OleDbType.Numeric);
             return Update();
