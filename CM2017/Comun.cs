@@ -41,6 +41,8 @@ namespace CM2017
         public CM2017.Propiedades.ClienteInterno ClienteInternoEntity;
         public CM2017.Negocio.UDN objUDN;
         public CM2017.Propiedades.UDN UDNEntity;
+
+        public MensajesLocales ml;
    
 
         public Comun()
@@ -74,6 +76,8 @@ namespace CM2017
             UDNEntity = new Propiedades.UDN();
             objLocalizacion = new Negocio.Localizacion();
             LocalizacionEntity = new Propiedades.Localizacion();
+
+            ml = new MensajesLocales();
         }
 
         public void LlenarGridView(GridView gridview, DataTable datatable)

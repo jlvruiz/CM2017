@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CM.Master" AutoEventWireup="true" CodeBehind="Inicio.aspx.cs" Inherits="CM2017.Sistema.Inicio" ErrorPage="~/Error.aspx" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
         function ShowPopup() {

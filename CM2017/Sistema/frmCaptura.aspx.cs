@@ -77,17 +77,20 @@ namespace CM2017.Sistema
                 if (Request.QueryString["e"] == "1")
                 {
                     string procesado = objEventos.EventoUpdate(eventosentity).ToString();
-                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el evento modificado.');", true);
+                    //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el evento modificado.');", true);
+                    ml.MensajeSimple(this, "Se guardó el evento modificado");
                 }
                 else //Guardar la captura del evento nuevo
                 {
                     string procesado = objEventos.EventoInsert(eventosentity);
-                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el nuevo evento.');", true);
+                    //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', 'Se guardó el nuevo evento.');", true);
+                    ml.MensajeSimple(this, "Se guardó el nuevo evento.");
                 }
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', 'Ocurrió un error al intentar guardar: " + ex.Message +"');", true);
+                //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', 'Ocurrió un error al intentar guardar: " + ex.Message +"');", true);
+                ml.MensajePeligroSM(this, "Ocurrió un error al intentar guardar: " + ex.Message);
             }
         }
 
@@ -194,7 +197,8 @@ namespace CM2017.Sistema
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', 'Error en CargarEventos: " + ex.Message + "');", true);
+                //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', 'Error en CargarEventos: " + ex.Message + "');", true);
+                //ml.MensajePeligroSM(this, "Error en CargarEventos: " + ex.Message);
             }
         }
 
@@ -202,7 +206,8 @@ namespace CM2017.Sistema
         {
             if (objTipoAudiencia.TipoAudienciaValidarSiBajaUltimoEvento(ddlAudiencia.SelectedValue))
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', 'No puede usar " + ddlAudiencia.SelectedItem.Text + " porque será  dado de baja.');", true);
+                //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', 'No puede usar " + ddlAudiencia.SelectedItem.Text + " porque será  dado de baja.');", true);
+                //ml.MensajeAdvertenciaSM(this, "No se puede usar " + ddlAudiencia.SelectedItem.Text + " porque será dado de baja.");
                 return;
             }
         }

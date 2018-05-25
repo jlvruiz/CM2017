@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace CM2017.Sistema
 {
-    public partial class frmEstadisticas : Comun
+    public partial class frmEstadisticas :  Comun
     {
         public int terminados = 0;
         public int desactivados = 0;

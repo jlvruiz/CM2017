@@ -30,7 +30,7 @@ namespace BaseDeDatos.Tablas
             string consulta = "SELECT a.Id, a.NombreEvento as [Nombre Evento], a.FechaSolicitud as [Solicitado], " +
             "a.FechaInicioEvento as [Inicia], a.FechaFinEvento as [Termina], " +
             " b.Descripcion as [Tipo de Evento], c.Nombre as [Nombre Gerente], " +
-            " SWITCH (a.Estatus = 1, 'Activo', a.Estatus = 0, 'Inactivo', a.Estatu s=2, 'Terminado') AS Estatus " +
+            " SWITCH (a.Estatus=1, 'Activo', a.Estatus=0, 'Inactivo', a.Estatus=2, 'Terminado') AS Estatus " +
             " FROM Eventos a, TipoEvento b, Gerentes c " +
             " WHERE b.IdTipEve = a.TipoEvento " +
             " AND c.IdGerente = a.GteProducto " +

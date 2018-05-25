@@ -7,8 +7,16 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <script>
+        //$(document).ready(function(){
+        //    alert('Success');
+        //});
+    </script>
+
 
     <div class="container" style="margin-top: 10%">
+
+
 
         <div class="row">
             <div class="col-sm-3 col-sm-offset-4 col-md-3 col-md-offset-4 col-lg-3  col-lg-offset-4">

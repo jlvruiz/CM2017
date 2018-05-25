@@ -2,12 +2,12 @@
     $('#ContentPlaceHolder1_TextBox1').focus();
     
     Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestLocal);
-    cargaDatePicker();
+    //cargaDatePicker();
 
 });
 
 function EndRequestLocal(sender, args) {
-    cargaDatePicker();
+    //cargaDatePicker();
 }
 
 
@@ -50,16 +50,17 @@ function cargaDatePicker() {
 function muestraoculta() {
     var $radBtn = $("table.tbl input:radio");
     var $radChecked = $(':radio:checked');
+
     $('#divLocalizacion').css('display', 'block');
     $("#ddlLocalizacion").html('');
     $("#ddlLocalizacion").append("<option value='0'>Seleccione...</option>");
-    if ($radChecked.val() == "1") {
+    if ($radChecked.val() === "1") {
         $("#ddlLocalizacion").append("<option value='200'>Hotel Balmis</option>");
     }
-    else if ($radChecked.val() == "2") {
+    else if ($radChecked.val() === "2") {
         $("#ddlLocalizacion").append("<option value='500'>Acapulco</option>");
     }
-    else if ($radChecked.val() == "3") {
+    else if ($radChecked.val() === "3") {
         $("#ddlLocalizacion").append("<option value='600'>Canada</option>");
         $("#ddlLocalizacion").append("<option value='601'>Atlanta</option>");
         $("#ddlLocalizacion").append("<option value='602'>Nueva york</option>");

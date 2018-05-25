@@ -16,19 +16,27 @@
     <tr><td align="right">Fecha de Solicitud:</td>
         <td class="form-inline">
 
-            <asp:TextBox ID="TextBox2" runat="server" Width="100px" CssClass="form-control"></asp:TextBox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Fecha del Evento:<asp:TextBox ID="TextBox3" runat="server" Width="100px" CssClass="form-control"></asp:TextBox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Fecha de Fin del Evento:<asp:TextBox ID="TextBox4" runat="server" Width="100px" CssClass="form-control"></asp:TextBox>
+            <asp:TextBox ID="TextBox2" runat="server" Width="138px" CssClass="form-control" TextMode="Date"></asp:TextBox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Fecha del Evento:<asp:TextBox ID="TextBox3" runat="server" Width="138px" CssClass="form-control" TextMode="Date"></asp:TextBox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Fecha de Fin del Evento:<asp:TextBox ID="TextBox4" runat="server" Width="138px" CssClass="form-control" TextMode="Date"></asp:TextBox>
 
         </td>
     </tr>
     <tr><td align="right">Tipo de Evento:</td><td><asp:DropDownList ID="ddlTipoEvento" runat="server" CssClass="form-control" width="50%">
         </asp:DropDownList></td></tr>
-    <tr><td align="right">Flujo de Autorización:</td><td>
-        <asp:RadioButtonList ID="RadioButtonList2" runat="server" RepeatDirection="Horizontal">
-            <asp:ListItem Value="0">Incluye a Ventas</asp:ListItem>
-            <asp:ListItem Value="1">No incluye a Ventas</asp:ListItem>
-        </asp:RadioButtonList></td></tr>
+    <tr>
+        <td align="right">Flujo de Autorización:</td>
+        <td>
+
+
+                    <asp:RadioButtonList ID="RadioButtonList2" runat="server" RepeatDirection="Horizontal" AutoPostBack="false" ClientIDMode="Predictable">
+                        <asp:ListItem Value="0">Incluye a Ventas</asp:ListItem>
+                        <asp:ListItem Value="1">No incluye a Ventas</asp:ListItem>
+                    </asp:RadioButtonList>
+
+
+        </td>
+    </tr>
     <tr><td align="right">Gerente de Producto:</td><td><asp:DropDownList ID="ddlGteProd" runat="server" CssClass="form-control" Width="200px">
         </asp:DropDownList></td></tr>
     <tr><td align="right"><asp:Label ID="lblProducto" runat="server" Text="Producto:"></asp:Label></td>
@@ -57,15 +65,21 @@
         <td align="right">Locación:</td>
         <td>
 
-            <asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="false" RepeatDirection="Horizontal" onclick="muestraoculta();">
-                <asp:ListItem Value="1">Local</asp:ListItem>
-                <asp:ListItem Value="2">Nacional</asp:ListItem>
-                <asp:ListItem Value="3">Internacional</asp:ListItem>
-            </asp:RadioButtonList>       
+            <asp:UpdatePanel ID="uplLocacion" runat="server">
+                <ContentTemplate>
 
-            <div id="divLocalizacion" style="display: none">
-                <asp:DropDownList ID="ddlLocalizacion" runat="server" CssClass="form-control" Width="200px" ClientIDMode="Static"></asp:DropDownList>
-            </div>
+                    <asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="false" RepeatDirection="Horizontal" onclick="muestraoculta();">
+                        <asp:ListItem Value="1">Local</asp:ListItem>
+                        <asp:ListItem Value="2">Nacional</asp:ListItem>
+                        <asp:ListItem Value="3">Internacional</asp:ListItem>
+                    </asp:RadioButtonList>       
+
+                    <div id="divLocalizacion" style="display: none">
+                        <asp:DropDownList ID="ddlLocalizacion" runat="server" CssClass="form-control" Width="200px" ClientIDMode="Static"></asp:DropDownList>
+                    </div>
+
+                </ContentTemplate>
+            </asp:UpdatePanel>
 
         </td>
     </tr>

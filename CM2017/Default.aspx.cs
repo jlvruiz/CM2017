@@ -11,11 +11,12 @@ namespace CM2017
     public partial class Default : System.Web.UI.Page
     {
         Concentrador Manejador_Sesion = new Concentrador();
+        MensajesLocales ml = new MensajesLocales();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             Form.FindControl("Menu").Visible = false;
-
+            //ml.MensajeSimple(this, "Hola");
         }
 
         protected void btnAceptar_Click1(object sender, EventArgs e)

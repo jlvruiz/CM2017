@@ -16,6 +16,14 @@ namespace CM2017.Sistema
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "toasMessage", "$().toastmessage('showSuccessToast', 'Pruebas Exitosas');", true);
+            //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showDangerToast', '<br />Error del sistema:');", true);
+            //ml.MensajeExitosoSM(this, "Hey");
+            //ScriptManager.RegisterStartupScript(this, GetType(), "Mensajes", "bootbox.alert({ message: 'Probando acceso', size: 'small'} );", true);
+            //Page.ClientScript.RegisterStartupScript(Page.GetType(), "Mensajes", "bootbox.alert({ message: 'Probando acceso', size: 'small'} );", true);
+            ml.MensajeSimple2(this, "Bienvenido al sistema, elija la opción deseada.");
+
+
             if (Session["sesion"] == null)
                 Response.Redirect("Default.aspx");
 
@@ -99,7 +107,8 @@ namespace CM2017.Sistema
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showDangerToast', '<br />Error del sistema: " + ex.Message + "');", true);
+                //ScriptManager.RegisterStartupScript(this, GetType(), "Message", "alert('Error del sistema: '" + ex.Message + "');", true);
+                ml.MensajeSimple2(this, "Error del sistema: " + ex.Message);
             }
         }
 

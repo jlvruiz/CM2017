@@ -49,7 +49,7 @@ namespace CM2017.Admin
             }
             UsuariosEntity.Visible = activo;
             int obt = objUsuarios.UsuarioDesactivar(UsuariosEntity);
-            ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />Cambió el estatus del registro a " + estatus + "');", true);
+            ml.MensajeAdvertenciaSM(this, "Cambió el estatus del registro a " + estatus);
             CargarUsuarios();
         }
 
@@ -101,7 +101,8 @@ namespace CM2017.Admin
                     //    editar = 1;
                     //    lblTitulo.Text = "Editar";
                     //}
-                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+                    //ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+                    ml.AbrirPantallaBloqueoSM(this);
                 }
                 if (e.CommandName == "Increase")
                 {
@@ -111,7 +112,7 @@ namespace CM2017.Admin
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showErrorToast', '<br />Ha habido un problema en la aplicación: " + ex.Message +"');", true);
+                ml.MensajePeligroSM(this, "Ha habido un problema en la aplicación: " + ex.Message);
             }
         }
 
@@ -123,11 +124,13 @@ namespace CM2017.Admin
             txtContra.Text = "";
             txtCorreo.Text = "";
             chkActivo.Checked = false;
-            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+            //ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+            ml.AbrirPantallaBloqueoSM(this);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
+            ml.OcultarPantallaBloqueoSM(this);
             UsuariosEntity.IdResCM = IdUsuario;
             UsuariosEntity.Nombre = txtNombre.Text == string.Empty ? "" : txtNombre.Text;
             UsuariosEntity.Correo = txtCorreo.Text == string.Empty ? "" : txtCorreo.Text;
@@ -148,13 +151,15 @@ namespace CM2017.Admin
                 objUsuarios.UsuarioAgregar();
                 //***********************
                 //objUsuarios.UsuarioInsert(UsuariosEntity);
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', '<br />Se agregó el registro exitosamente.');", true);
+                ml.MensajeExitosoSM(this, "Se agregó el registro exitosamente.");
                 CargarUsuarios();
             }
             else if (editar == 1)
             {
                 objUsuarios.UsuarioUpdate(UsuariosEntity);
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showSuccessToast', '<br />Se actualizó el registro exitosamente.');", true);
+
+                ml.MensajeExitosoSM(this, "Se actualizó el registro exitosamente.");
+                
                 editar = 0;
                 CargarUsuarios();
             }
@@ -164,11 +169,14 @@ namespace CM2017.Admin
                 dt = objUsuarios.UsuariosBuscar(UsuariosEntity);
                 if (dt.Rows.Count > 0)
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", "$('#divPantallaBloqueo').hide('slow');", true);
+                    //ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", "$('#divPantallaBloqueo').hide('slow');", true);
+                    ml.OcultarPantallaBloqueoSM(this);
                     LlenarGridView(GridView1, objUsuarios.UsuariosBuscar(UsuariosEntity));
                 }
                 else
-                    ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No hay registros que coincidan con su búsqueda.');", true);
+                {
+                    ml.MensajeAdvertenciaSM(this, "No hay registros que coincidan con su búsqueda.");
+                }
 
                 editar = 0;
             }
@@ -182,7 +190,8 @@ namespace CM2017.Admin
         {
             lblTitulo.Text = "Buscar";
             editar = 2;
-            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+            //ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+            ml.AbrirPantallaBloqueoSM(this);
         }
     }
 }

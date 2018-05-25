@@ -44,7 +44,7 @@ namespace CM2017.Admin
             string nombreEvento = "";
             int obt = objAreaTerapeutica.AreaTerapeuticaDesactivar(AreaTerapeuticaEntity, ref nombreEvento);
             if (obt == 0)
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastMessage", " $().toastmessage('showWarningToast', '<br />No se puede desactivar <strong>"+ GridView1.Rows[e.RowIndex].Cells[3].Text + "</strong> porque esta asignada al evento <strong>" + nombreEvento + "</strong> que se desarrollará proximamente');", true);
+                ml.MensajeAdvertenciaSM(this, "No se puede desactivar <strong>" + GridView1.Rows[e.RowIndex].Cells[3].Text + "</strong> porque esta asignada al evento <strong>" + nombreEvento + "</strong> que se desarrollará proximamente");
             else
                 CargarAreaTerapeutica();
         }
@@ -75,7 +75,7 @@ namespace CM2017.Admin
                         editar = 1;
                         lblTitulo.Text = "Editar";
                     }
-                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+                    ml.AbrirPantallaBloqueoSM(this);
                 }
             }
             catch (Exception ex)
@@ -89,7 +89,7 @@ namespace CM2017.Admin
             lblTitulo.Text = "Agregar";
             txtDescripcion.Text = "";
             chkActivo.Checked = false;
-            ScriptManager.RegisterStartupScript(this, GetType(), "abrirPantallaBloqueo", "javascript: $('#divPantallaBloqueo').show(); $('#divEncima').show();", true);
+            ml.AbrirPantallaBloqueoSM(this);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
@@ -113,7 +113,7 @@ namespace CM2017.Admin
             txtDescripcion.Text = "";
             chkActivo.Checked = false;
             CargarAreaTerapeutica();
-            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarPantallaBloqueo", "javascript: $('#divPantallaBloqueo').hide(); $('#divEncima').hide();", true);
+            ml.OcultarPantallaBloqueoSM(this);
         }
 
 
